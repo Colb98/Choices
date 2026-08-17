@@ -263,6 +263,34 @@
       "variants": [
         {
           "conditions": {
+            "all": [
+              { "type": "stat", "stat": "power", "op": ">=", "value": 60 },
+              { "type": "flag", "flag": "flag_invested_protected_company", "exists": true }
+            ]
+          },
+          "text": "card.act3_protected_contract.left.powerful_invested",
+          "preview": { "money": -3, "standing": 1, "power": -2, "publicTrust": "strong_up_uncertain" },
+          "effects": [
+            { "type": "stat", "stat": "money", "add": -80000 },
+            { "type": "stat", "stat": "standing", "add": 2 },
+            { "type": "stat", "stat": "power", "add": -6 },
+            { "type": "stat", "stat": "publicTrustActual", "add": 5 },
+            { "type": "flag", "flag": "flag_recused_from_contract", "action": "add" }
+          ]
+        },
+        {
+          "conditions": { "type": "stat", "stat": "power", "op": ">=", "value": 60 },
+          "text": "card.act3_protected_contract.left.powerful",
+          "preview": { "standing": 1, "power": -2, "publicTrust": "strong_up_uncertain" },
+          "effects": [
+            { "type": "stat", "stat": "standing", "add": 2 },
+            { "type": "stat", "stat": "power", "add": -6 },
+            { "type": "stat", "stat": "publicTrustActual", "add": 5 },
+            { "type": "flag", "flag": "flag_recused_from_contract", "action": "add" }
+          ]
+        },
+        {
+          "conditions": {
             "type": "flag",
             "flag": "flag_invested_protected_company",
             "exists": true
@@ -1261,6 +1289,20 @@
           "type": "flag",
           "flag": "flag_investigation_independent",
           "action": "add"
+        }
+      ],
+      "variants": [
+        {
+          "conditions": { "type": "stat", "stat": "power", "op": ">=", "value": 60 },
+          "text": "card.act3_authority_vote.left.powerful",
+          "preview": { "standing": 2, "power": -3, "publicTrust": "strong_up" },
+          "effects": [
+            { "type": "stat", "stat": "standing", "add": 5 },
+            { "type": "stat", "stat": "power", "add": -20 },
+            { "type": "stat", "stat": "publicTrustActual", "add": 7 },
+            { "type": "stat", "stat": "publicTrustPerceived", "add": 4 },
+            { "type": "flag", "flag": "flag_investigation_independent", "action": "add" }
+          ]
         }
       ]
     },

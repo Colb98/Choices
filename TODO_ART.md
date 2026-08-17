@@ -1,6 +1,6 @@
 # ART TODO — image-generation brief
 
-Card art = **the man the player is talking to** (one neutral portrait per character, reused everywhere).
+Card art = **the person the player is talking to** (one neutral portrait per character, reused everywhere).
 Scene illustrations exist only for a handful of key moments. Everything else (phone calls, letters, reports, budgets…) gets **no art** — text carries it.
 
 ---
@@ -17,8 +17,8 @@ Scene illustrations exist only for a handful of key moments. Everything else (ph
 
 **Rules:**
 1. No faces, ever. One **neutral** pose per character — no expression variants.
-2. The player is never depicted. The portrait is the other man, chest-up, facing the viewer.
-3. Characters are told apart by silhouette and props only — keep each man's clothing/props identical across regenerations.
+2. The player is never depicted. The portrait is the other person, chest-up, facing the viewer.
+3. Characters are told apart by silhouette and props only — keep each character's clothing/props identical across regenerations.
 4. Portraits: **512 × 512**, plain single-color background → `public/art/portraits/<id>.webp`
    Scenes: **1024 × 1024** (square source; displayed cover-cropped into a near-square card ~440×470, so keep the key subject inside the central ~90%) → `public/art/scenes/<id>.webp`
 
@@ -42,6 +42,8 @@ Prompt: `STYLE PREFIX + "Chest-up neutral portrait: <description>, plain backgro
 | `doctor` | Hospital doctor — 40s | White coat over scrubs, stethoscope around neck, ID clip, paper mask pulled down under the chin, arms at sides. Tired, upright |
 | `investigator` | State investigator — 40s | Plain trench coat, flat briefcase, ID card held out in one hand, perfectly vertical stance. Institutional, unreadable. **Keep the silhouette androgynous** — one portrait serves both routes, and the independent-route investigator is written as a woman |
 | `press_officer` | Press officer — 30s | Shirt and lanyard, earpiece, two phones held in one hand, clipboard in the other. Waiting for a decision |
+| `coalition_whip` | Coalition Whip — political organizer, mid-40s | Compact male silhouette, neat dark side-parted hair, charcoal suit, muted rust tie, blank vote-tally folder under one arm and a plain dark phone in the other hand. **Complete** |
+| `foundation_director` | Civic Foundation Director — early 40s | Poised female silhouette, chin-length dark brown bob, deep-teal blazer over a cream blouse, slim gold watch, blank warm-paper grant folder held with both hands. **Complete** |
 
 Usage rule: a card shows the portrait of its `speaker`. Cards with no speaker show no portrait (text only), except the key scenes below.
 `journalist`, `family_rep`, `lawyer`, `doctor`, `investigator`, `press_officer` are narration-card figures — wire them as speakers or scene art where they appear (`act0_first_interview`, `act3_constituent_return_*`, `aftermath_compensation`, `incident_emergency_b`, `aftermath_investigator_*`, `aftermath_media_*`).
@@ -64,7 +66,7 @@ Usage rule: a card shows the portrait of its `speaker`. Cards with no speaker sh
 Scene → card wiring (update `illustration.scene` in card JSON when art lands):
 `villa_evening` → `gathering_arrival` · `villa_toast` → `gathering_editor_toast_*` · `villa_glass` → `gathering_drink` · `villa_driveway` → `gathering_transport_*` · `night_road` → `incident_road_a` · `headlights` → `incident_collision` · `black_road` → `incident_immediate_choice` · `newspaper` → `aftermath_first_article` + ending article view background.
 
-**Total: 12 portraits + 8 scenes = 20 images.**
+**Total: 14 portraits + 8 scenes = 22 images.**
 
 ---
 

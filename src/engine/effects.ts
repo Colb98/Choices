@@ -52,6 +52,26 @@ export function applyEffects(
         app.records.push({ type: 'stat', target: effect.stat, before, after, sourceEffectIndex: index });
         break;
       }
+      case 'money_pressure': {
+        const before = state.stats.money;
+        const requestedLoss = clamp(
+          Math.round(before * effect.percent),
+          effect.minLoss,
+          effect.maxLoss,
+        );
+        const after = before <= balance.economy.statusPressureFloor
+          ? before
+          : Math.max(balance.economy.statusPressureFloor, before - requestedLoss);
+        state.stats.money = after;
+        app.records.push({
+          type: 'money_pressure',
+          target: 'money',
+          before,
+          after,
+          sourceEffectIndex: index,
+        });
+        break;
+      }
       case 'flag': {
         const has = state.flags.includes(effect.flag);
         if (effect.action === 'add' && !has) {

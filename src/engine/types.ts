@@ -128,6 +128,7 @@ export interface SeenCardCondition {
 
 export type Effect =
   | StatEffect
+  | MoneyPressureEffect
   | FlagEffect
   | RelationshipEffect
   | PrecedentEffect
@@ -140,6 +141,18 @@ export interface StatEffect {
   stat: StatName;
   add?: number;
   set?: number;
+}
+
+/**
+ * A visible, balance-scaled cash loss used by low Standing/Power stories.
+ * Unlike an ordinary money stat effect, it cannot reduce the player below the
+ * configured status-pressure floor and therefore cannot directly end a run.
+ */
+export interface MoneyPressureEffect {
+  type: 'money_pressure';
+  percent: number;
+  minLoss: number;
+  maxLoss: number;
 }
 
 export interface FlagEffect {
@@ -570,6 +583,8 @@ export interface BalanceConfig {
     safeReserve: number;
     lowThreshold: number;
     criticalThreshold: number;
+    /** Money-pressure effects cannot reduce an otherwise-solvent run below this amount. */
+    statusPressureFloor: number;
     /** Automatic operating cost paid after each non-exempt decision in the current act. */
     baseTurnCosts: Record<ActId, number>;
     /** Recurring fundraising/access income produced by visible political capital. */

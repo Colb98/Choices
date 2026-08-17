@@ -1,0 +1,26 @@
+{
+  "characters": [
+    { "id": "coalition_whip", "nameKey": "char.coalition_whip.name", "role": "Coalition Whip", "tags": ["political", "institutional"] },
+    { "id": "foundation_director", "nameKey": "char.foundation_director.name", "role": "Civic Foundation Director", "tags": ["civic", "fundraising"] }
+  ],
+  "flags": [
+    { "id": "flag_joined_regional_coalition", "description": "Player joined the regional coalition and accepted its voting expectations." },
+    { "id": "flag_transparent_foundation_partner", "description": "Player accepted a transparent civic-foundation partnership." },
+    { "id": "flag_endorsed_family_successor", "description": "Player endorsed the Minister's family successor." },
+    { "id": "flag_joined_capital_council", "description": "Player joined the Businessman's private capital council." },
+    { "id": "flag_brokered_open_coalition", "description": "Player spent institutional power to broker an open coalition agreement." },
+    { "id": "flag_sold_coalition_endorsement", "description": "Player sold coalition access and endorsements to private interests." },
+    { "id": "flag_coerced_civic_donors", "description": "Player used institutional pressure to compel private donations." },
+    { "id": "flag_rebuilt_from_local_cases", "description": "Player rebuilt relevance through constituent casework." },
+    { "id": "flag_sold_minor_office_access", "description": "Player sold minor acts of office access while politically marginal." }
+  ],
+  "events": [
+    {
+      "id": "event_feared_technocrat_callback",
+      "cardId": "sp_feared_technocrat",
+      "once": true,
+      "conditions": { "type": "flag", "flag": "flag_sold_minor_office_access", "exists": true },
+      "metadata": { "description": "The marginal-office enforcement route returns in the Power act as the Feared Technocrat story." }
+    }
+  ]
+}

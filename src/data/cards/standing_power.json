@@ -1,0 +1,400 @@
+[
+  {
+    "id": "sp_sponsor_withdrawal",
+    "act": "rise",
+    "type": "contextual",
+    "speaker": "foundation_director",
+    "text": "card.sp_sponsor_withdrawal.text",
+    "conditions": { "type": "stat", "stat": "standing", "op": "<", "value": 25 },
+    "left": {
+      "text": "card.sp_sponsor_withdrawal.left",
+      "preview": { "money": -1, "standing": 1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "money_pressure", "percent": 0.1, "minLoss": 7000, "maxLoss": 50000 },
+        { "type": "stat", "stat": "standing", "add": 3 },
+        { "type": "relationship", "character": "foundation_director", "add": 2 },
+        { "type": "obligation_add", "id": "obligation_foundation_visibility_01", "creditor": "foundation_director", "weight": 1, "tags": ["fundraising", "visibility"] }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.sp_sponsor_withdrawal.right",
+      "preview": { "money": -2, "standing": -1, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "money_pressure", "percent": 0.18, "minLoss": 12000, "maxLoss": 80000 },
+        { "type": "stat", "stat": "standing", "add": -2 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 3 },
+        { "type": "relationship", "character": "foundation_director", "add": -1 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 18,
+    "once": true,
+    "minActTurn": 3,
+    "metadata": { "designIntent": "Low Standing becomes a visible fundraising penalty. Both branches lose money, but one buys elite rehabilitation with an obligation while the other pays more to remain independent." }
+  },
+  {
+    "id": "sp_empty_press_room",
+    "act": "network",
+    "type": "contextual",
+    "speaker": "press_officer",
+    "text": "card.sp_empty_press_room.text",
+    "conditions": { "type": "stat", "stat": "standing", "op": "<", "value": 25 },
+    "left": {
+      "text": "card.sp_empty_press_room.left",
+      "preview": { "money": -2, "standing": 2, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "money_pressure", "percent": 0.2, "minLoss": 15000, "maxLoss": 100000 },
+        { "type": "stat", "stat": "standing", "add": 6 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 4 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.sp_empty_press_room.right",
+      "preview": { "money": -1, "standing": -1, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "money_pressure", "percent": 0.1, "minLoss": 9000, "maxLoss": 60000 },
+        { "type": "stat", "stat": "standing", "add": -3 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 2 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 18,
+    "once": true,
+    "minActTurn": 4,
+    "metadata": { "designIntent": "A second-act low-Standing bill: attention now has a cash price, and refusing to manufacture it leaves the player less relevant." }
+  },
+  {
+    "id": "sp_regional_coalition_invitation",
+    "act": "rise",
+    "type": "contextual",
+    "speaker": "coalition_whip",
+    "text": "card.sp_regional_coalition_invitation.text",
+    "conditions": {
+      "all": [
+        { "type": "stat", "stat": "standing", "op": ">=", "value": 25 },
+        { "type": "stat", "stat": "standing", "op": "<", "value": 60 }
+      ]
+    },
+    "left": {
+      "text": "card.sp_regional_coalition_invitation.left",
+      "preview": { "standing": 2, "power": 2, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 5 },
+        { "type": "stat", "stat": "power", "add": 4 },
+        { "type": "relationship", "character": "coalition_whip", "add": 2 },
+        { "type": "obligation_add", "id": "obligation_coalition_votes_01", "creditor": "coalition_whip", "weight": 1, "tags": ["coalition", "votes"] },
+        { "type": "flag", "flag": "flag_joined_regional_coalition", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.sp_regional_coalition_invitation.right",
+      "preview": { "standing": -1, "power": -1, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": -2 },
+        { "type": "stat", "stat": "power", "add": -1 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 3 },
+        { "type": "relationship", "character": "coalition_whip", "add": -1 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 16,
+    "once": true,
+    "minActTurn": 4,
+    "metadata": { "designIntent": "Established Standing changes who calls: a coalition now sees the player as worth recruiting, converting reputation into Power at the price of a future vote." }
+  },
+  {
+    "id": "sp_civic_foundation_partnership",
+    "act": "network",
+    "type": "contextual",
+    "speaker": "foundation_director",
+    "text": "card.sp_civic_foundation_partnership.text",
+    "conditions": {
+      "all": [
+        { "type": "stat", "stat": "standing", "op": ">=", "value": 25 },
+        { "type": "stat", "stat": "standing", "op": "<", "value": 60 }
+      ]
+    },
+    "left": {
+      "text": "card.sp_civic_foundation_partnership.left",
+      "preview": { "money": 1, "standing": 1, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 25000 },
+        { "type": "stat", "stat": "standing", "add": 4 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 3 },
+        { "type": "relationship", "character": "foundation_director", "add": 2 },
+        { "type": "flag", "flag": "flag_transparent_foundation_partner", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.sp_civic_foundation_partnership.right",
+      "preview": { "money": 3, "standing": 2, "power": 1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 100000 },
+        { "type": "stat", "stat": "standing", "add": 6 },
+        { "type": "stat", "stat": "power", "add": 2 },
+        { "type": "relationship", "character": "foundation_director", "add": 3 },
+        { "type": "precedent", "precedent": "precedent_special_treatment", "add": 1 },
+        { "type": "obligation_add", "id": "obligation_foundation_donors_01", "creditor": "foundation_director", "weight": 2, "tags": ["fundraising", "donors", "inner_circle"] }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 16,
+    "once": true,
+    "minActTurn": 5,
+    "metadata": { "designIntent": "Mid-tier Standing opens legitimate money and a much richer bundled-donor shortcut, making reputation materially valuable without making corruption the only usable route." }
+  },
+  {
+    "id": "sp_political_succession_request",
+    "act": "power",
+    "type": "contextual",
+    "speaker": "minister",
+    "text": "card.sp_political_succession_request.text",
+    "conditions": { "type": "stat", "stat": "standing", "op": ">=", "value": 60 },
+    "left": {
+      "text": "card.sp_political_succession_request.left",
+      "preview": { "standing": -2, "power": -1, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": -4 },
+        { "type": "stat", "stat": "power", "add": -3 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 3 },
+        { "type": "relationship", "character": "minister", "add": -2 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.sp_political_succession_request.right",
+      "preview": { "standing": 2, "power": 2, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 7 },
+        { "type": "stat", "stat": "power", "add": 5 },
+        { "type": "relationship", "character": "minister", "add": 2 },
+        { "type": "precedent", "precedent": "precedent_nepotism", "add": 1 },
+        { "type": "obligation_add", "id": "obligation_minister_successor_01", "creditor": "minister", "weight": 2, "tags": ["succession", "nepotism", "inner_circle"] },
+        { "type": "flag", "flag": "flag_endorsed_family_successor", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 17,
+    "once": true,
+    "minActTurn": 4,
+    "metadata": { "designIntent": "High Standing attracts dynastic requests. The player is no longer merely receiving favors; their endorsement can manufacture a successor." }
+  },
+  {
+    "id": "sp_private_capital_council",
+    "act": "power",
+    "type": "contextual",
+    "speaker": "businessman",
+    "text": "card.sp_private_capital_council.text",
+    "conditions": { "type": "stat", "stat": "standing", "op": ">=", "value": 60 },
+    "left": {
+      "text": "card.sp_private_capital_council.left",
+      "preview": { "standing": -1, "power": -1, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": -3 },
+        { "type": "stat", "stat": "power", "add": -2 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 3 },
+        { "type": "relationship", "character": "businessman", "add": -2 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.sp_private_capital_council.right",
+      "preview": { "money": 3, "standing": 2, "power": 2, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 1000000 },
+        { "type": "stat", "stat": "standing", "add": 5 },
+        { "type": "stat", "stat": "power", "add": 4 },
+        { "type": "relationship", "character": "businessman", "add": 2 },
+        { "type": "precedent", "precedent": "precedent_conflict_of_interest", "add": 1 },
+        { "type": "obligation_add", "id": "obligation_capital_council_01", "creditor": "businessman", "weight": 2, "tags": ["capital", "access", "inner_circle"] },
+        { "type": "flag", "flag": "flag_joined_capital_council", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 17,
+    "once": true,
+    "minActTurn": 6,
+    "metadata": { "designIntent": "High Standing is directly monetizable. The clean refusal is still viable, but the invitation makes the corrupt path feel immediately and visibly transformative." }
+  },
+  {
+    "id": "sp_kingmaker",
+    "act": "power",
+    "type": "contextual",
+    "speaker": "coalition_whip",
+    "text": "card.sp_kingmaker.text",
+    "conditions": {
+      "all": [
+        { "type": "stat", "stat": "standing", "op": ">=", "value": 60 },
+        { "type": "stat", "stat": "power", "op": ">=", "value": 60 }
+      ]
+    },
+    "left": {
+      "text": "card.sp_kingmaker.left",
+      "preview": { "standing": 2, "power": -3, "publicTrust": "strong_up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "power", "add": -20 },
+        { "type": "stat", "stat": "standing", "add": 7 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 6 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 3 },
+        { "type": "relationship", "character": "coalition_whip", "add": 2 },
+        { "type": "flag", "flag": "flag_brokered_open_coalition", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.sp_kingmaker.right",
+      "preview": { "money": 3, "standing": 3, "power": 2, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 2000000 },
+        { "type": "stat", "stat": "standing", "add": 8 },
+        { "type": "stat", "stat": "power", "add": 6 },
+        { "type": "relationship", "character": "coalition_whip", "add": 3 },
+        { "type": "relationship", "character": "businessman", "add": 1 },
+        { "type": "precedent", "precedent": "precedent_coercive_bargaining", "add": 1 },
+        { "type": "flag", "flag": "flag_sold_coalition_endorsement", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 20,
+    "once": true,
+    "minActTurn": 7,
+    "metadata": { "designIntent": "High Standing plus high Power creates the kingmaker fantasy. Power can be spent to build an open institution or converted into cash and still more control." }
+  },
+  {
+    "id": "sp_figurehead",
+    "act": "power",
+    "type": "contextual",
+    "speaker": "coalition_whip",
+    "text": "card.sp_figurehead.text",
+    "conditions": {
+      "all": [
+        { "type": "stat", "stat": "standing", "op": ">=", "value": 60 },
+        { "type": "stat", "stat": "power", "op": "<", "value": 25 }
+      ]
+    },
+    "left": {
+      "text": "card.sp_figurehead.left",
+      "preview": { "money": -2, "standing": -1, "power": 3, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "money_pressure", "percent": 0.15, "minLoss": 15000, "maxLoss": 120000 },
+        { "type": "stat", "stat": "standing", "add": -4 },
+        { "type": "stat", "stat": "power", "add": 12 },
+        { "type": "relationship", "character": "coalition_whip", "add": 2 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.sp_figurehead.right",
+      "preview": { "money": -1, "standing": 1, "power": -1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "money_pressure", "percent": 0.08, "minLoss": 8000, "maxLoss": 60000 },
+        { "type": "stat", "stat": "standing", "add": 3 },
+        { "type": "stat", "stat": "power", "add": -2 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 20,
+    "once": true,
+    "minActTurn": 5,
+    "metadata": { "designIntent": "High Standing without Power is exposed as celebrity without machinery. Rebuilding capacity costs money and some shine; staying symbolic is cheaper but deepens dependence." }
+  },
+  {
+    "id": "sp_feared_technocrat",
+    "act": "power",
+    "type": "contextual",
+    "speaker": "foundation_director",
+    "text": "card.sp_feared_technocrat.text",
+    "conditions": {
+      "any": [
+        {
+          "all": [
+            { "type": "stat", "stat": "standing", "op": "<", "value": 25 },
+            { "type": "stat", "stat": "power", "op": ">=", "value": 60 }
+          ]
+        },
+        { "type": "flag", "flag": "flag_sold_minor_office_access", "exists": true }
+      ]
+    },
+    "left": {
+      "text": "card.sp_feared_technocrat.left",
+      "preview": { "standing": 3, "power": -3, "publicTrust": "strong_up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "power", "add": -20 },
+        { "type": "stat", "stat": "standing", "add": 12 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 5 },
+        { "type": "relationship", "character": "foundation_director", "add": 2 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.sp_feared_technocrat.right",
+      "preview": { "money": 3, "standing": -2, "power": 2, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 500000 },
+        { "type": "stat", "stat": "standing", "add": -5 },
+        { "type": "stat", "stat": "power", "add": 5 },
+        { "type": "relationship", "character": "businessman", "add": 2 },
+        { "type": "precedent", "precedent": "precedent_coercive_bargaining", "add": 1 },
+        { "type": "flag", "flag": "flag_coerced_civic_donors", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 20,
+    "once": true,
+    "minActTurn": 5,
+    "metadata": { "designIntent": "Low Standing plus high Power creates a feared operator. The marginal-office enforcement route guarantees this callback even if later choices partially recover Standing. Institutional capacity can be spent to earn legitimacy or used as leverage over donors." }
+  },
+  {
+    "id": "sp_marginal_officeholder",
+    "act": "network",
+    "type": "contextual",
+    "speaker": "aide",
+    "text": "card.sp_marginal_officeholder.text",
+    "conditions": {
+      "all": [
+        { "type": "stat", "stat": "standing", "op": "<", "value": 25 },
+        { "type": "stat", "stat": "power", "op": "<", "value": 25 }
+      ]
+    },
+    "left": {
+      "text": "card.sp_marginal_officeholder.left",
+      "preview": { "standing": 3, "power": 2, "publicTrust": "strong_up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 8 },
+        { "type": "stat", "stat": "power", "add": 4 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 4 },
+        { "type": "flag", "flag": "flag_rebuilt_from_local_cases", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.sp_marginal_officeholder.right",
+      "preview": { "money": 3, "standing": -1, "power": 3, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 250000 },
+        { "type": "stat", "stat": "standing", "add": -5 },
+        { "type": "stat", "stat": "power", "set": 60 },
+        { "type": "relationship", "character": "businessman", "add": 2 },
+        { "type": "precedent", "precedent": "precedent_special_treatment", "add": 1 },
+        { "type": "precedent", "precedent": "precedent_loyalty_appointments", "add": 1 },
+        { "type": "flag", "flag": "flag_sold_minor_office_access", "action": "add" }
+      ],
+      "delayedEffects": [
+        {
+          "delay": { "type": "act", "act": "power", "minActTurn": 2 },
+          "eventId": "event_feared_technocrat_callback",
+          "priority": 85
+        }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 19,
+    "once": true,
+    "minActTurn": 7,
+    "metadata": { "designIntent": "The low-low state provides a recovery story rather than another cash punishment: patient constituency work rebuilds legitimacy, while selling the office as an enforcement network creates the otherwise-rare low-Standing/high-Power route." }
+  }
+]

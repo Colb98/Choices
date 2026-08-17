@@ -3645,3 +3645,24 @@ It is:
 > **Now that power can protect you or someone close to you from accountability, what will you do with it?**
 
 The game should allow the player's answer to emerge entirely from their actions.
+
+---
+
+# Standing / Power Side-Story Pack
+
+These cards are conditional contextual stories, not a fixed linear chapter.
+
+| ID | Act | Gate | Story | Gameplay purpose |
+|---|---|---|---|---|
+| `sp_sponsor_withdrawal` | Rise | Standing `< 25` | Sponsor Withdrawal | Nonlethal proportional cash loss; choose obligation-backed rehabilitation or a larger independent loss. |
+| `sp_empty_press_room` | Network | Standing `< 25` | Empty Press Room | Pay to manufacture visibility or accept a smaller loss and further Standing decline. |
+| `sp_regional_coalition_invitation` | Rise | Standing `25–59` | Regional Coalition Invitation | Convert Standing into Power and organization at the price of a future vote. |
+| `sp_civic_foundation_partnership` | Network | Standing `25–59` | Civic Foundation Partnership | Choose transparent legitimate funding or a larger bundled-donor shortcut. |
+| `sp_political_succession_request` | Power | Standing `>= 60` | Political Succession Request | High reputation attracts a dynastic endorsement request. |
+| `sp_private_capital_council` | Power | Standing `>= 60` | Private Capital Council | High reputation becomes immediately monetizable private access. |
+| `sp_kingmaker` | Power | Standing `>= 60`, Power `>= 60` | Kingmaker | Spend 20 Power on an open coalition or sell decisive endorsements. |
+| `sp_figurehead` | Power | Standing `>= 60`, Power `< 25` | Figurehead | Cash-funded institutional rebuild versus remaining a symbolic front. |
+| `sp_feared_technocrat` | Power | Standing `< 25`, Power `>= 60`, or the marginal-office enforcement route | Feared Technocrat | Spend Power to earn legitimacy or coerce civic donors. |
+| `sp_marginal_officeholder` | Network | Standing `< 25`, Power `< 25` | Marginal Officeholder | Slow constituent recovery versus turning the office into a loyal enforcement network. |
+
+Power-sensitive variants also exist on the constituent-case disclosure, business audit, hospital opening, protected contract, investigation-authority vote, and aftermath-records decisions. Their high-Power branches spend `6`, `12`, or `20` points to make outcomes possible that the base choices cannot cleanly deliver.

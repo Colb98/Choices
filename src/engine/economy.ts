@@ -130,11 +130,27 @@ export function leverageScore(state: GameState, balance: BalanceConfig): number 
   );
 }
 
-function applyMoneyEffects(money: number, effects: Effect[] | undefined): number {
+function applyMoneyEffects(
+  money: number,
+  effects: Effect[] | undefined,
+  balance: BalanceConfig,
+): number {
   let next = money;
   for (const effect of effects ?? []) {
-    if (effect.type !== 'stat' || effect.stat !== 'money') continue;
-    next = effect.set !== undefined ? effect.set : next + (effect.add ?? 0);
+    if (effect.type === 'stat' && effect.stat === 'money') {
+      next = Math.max(
+        balance.money.min,
+        effect.set !== undefined ? effect.set : next + (effect.add ?? 0),
+      );
+    } else if (effect.type === 'money_pressure') {
+      const requestedLoss = Math.max(
+        effect.minLoss,
+        Math.min(effect.maxLoss, Math.round(next * effect.percent)),
+      );
+      if (next > balance.economy.statusPressureFloor) {
+        next = Math.max(balance.economy.statusPressureFloor, next - requestedLoss);
+      }
+    }
   }
   return next;
 }
@@ -146,8 +162,16 @@ export function projectedMoneyDelta(
   effects: Effect[] | undefined,
   extraEffects: Effect[] = [],
 ): number {
-  const afterAuthored = applyMoneyEffects(state.stats.money, [...(effects ?? []), ...extraEffects]);
-  return afterAuthored - state.stats.money + economyBreakdown(state, balance, card).total;
+  const afterAuthored = applyMoneyEffects(
+    state.stats.money,
+    [...(effects ?? []), ...extraEffects],
+    balance,
+  );
+  const afterRecurring = Math.max(
+    balance.money.min,
+    afterAuthored + economyBreakdown(state, balance, card).total,
+  );
+  return afterRecurring - state.stats.money;
 }
 
 export function moneyTrend(delta: number, safeReserve: number): Trend {

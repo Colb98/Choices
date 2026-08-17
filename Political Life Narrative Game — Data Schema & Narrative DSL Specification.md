@@ -901,6 +901,7 @@ All state mutation should go through `EffectResolver`.
 ```ts
 type Effect =
     | StatEffect
+    | MoneyPressureEffect
     | FlagEffect
     | RelationshipEffect
     | PrecedentEffect
@@ -946,6 +947,36 @@ Example:
   "add": 120000
 }
 ```
+
+---
+
+# 25.1 Nonlethal Money Pressure Effect
+
+Low Standing or low Power may create a proportional cash loss without directly ending the run:
+
+```ts
+interface MoneyPressureEffect {
+    type: "money_pressure";
+    percent: number;
+    minLoss: number;
+    maxLoss: number;
+}
+```
+
+The resolver calculates `clamp(round(currentMoney * percent), minLoss, maxLoss)`, then prevents this effect from reducing an otherwise-solvent balance below `economy.statusPressureFloor`. If the balance is already at or below that floor, the effect does not increase or further reduce it. Ordinary money stat effects and recurring operating costs remain lethal.
+
+Example:
+
+```json
+{
+  "type": "money_pressure",
+  "percent": 0.18,
+  "minLoss": 12000,
+  "maxLoss": 80000
+}
+```
+
+Choice preview must calculate the exact dynamic loss from the current balance. The committed effect produces a normal money delta animation and a `ResolvedEffectRecord` with `target: "money"`.
 
 ---
 

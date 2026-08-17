@@ -652,6 +652,18 @@
           "stat": "power",
           "add": -3
         }
+      ],
+      "variants": [
+        {
+          "conditions": { "type": "stat", "stat": "power", "op": ">=", "value": 60 },
+          "text": "card.aftermath_records.left.powerful",
+          "effects": [
+            { "type": "flag", "flag": "flag_records_preserved", "action": "add" },
+            { "type": "flag", "flag": "flag_cooperated_with_investigation", "action": "add" },
+            { "type": "stat", "stat": "standing", "add": 2 },
+            { "type": "stat", "stat": "power", "add": -12 }
+          ]
+        }
       ]
     },
     "right": {

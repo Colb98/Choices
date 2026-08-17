@@ -56,6 +56,35 @@ for (const card of Object.values(content.cards)) {
 }
 
 {
+  const state = engine.newRun('status-pressure');
+  const pressureCard = {
+    ...engine.currentCard(state),
+    id: 'test_status_pressure',
+    tags: ['economy_exempt'],
+    left: {
+      text: 'test.left',
+      effects: [{ type: 'money_pressure' as const, percent: 0.25, minLoss: 15_000, maxLoss: 1_000_000 }],
+    },
+    right: { text: 'test.right' },
+  };
+  state.run.currentCardId = pressureCard.id;
+  content.cards[pressureCard.id] = pressureCard;
+  state.stats.money = 200_000;
+  assert.equal(engine.projectMoneyDelta(state, pressureCard, 'left'), -50_000);
+  engine.commitChoice(state, 'left');
+  assert.equal(state.stats.money, 150_000);
+
+  state.run.currentCardId = pressureCard.id;
+  state.run.completed = false;
+  state.stats.money = 45_000;
+  assert.equal(engine.projectMoneyDelta(state, pressureCard, 'left'), -5_000);
+  engine.commitChoice(state, 'left');
+  assert.equal(state.stats.money, economy.statusPressureFloor);
+  assert.equal(state.run.endingId, undefined, 'status pressure cannot directly bankrupt the player');
+  delete content.cards[pressureCard.id];
+}
+
+{
   const state = engine.newRun('obligation-pressure');
   state.run.currentAct = 'rise';
   state.obligations.push({

@@ -189,6 +189,20 @@
         { "type": "relationship", "character": "businessman", "add": -3 },
         { "type": "flag", "flag": "flag_audit_allowed", "action": "add" }
       ],
+      "variants": [
+        {
+          "conditions": { "type": "stat", "stat": "power", "op": ">=", "value": 60 },
+          "text": "card.act2_business_audit.left.powerful",
+          "preview": { "standing": 1, "power": -3, "publicTrust": "strong_up_uncertain" },
+          "effects": [
+            { "type": "stat", "stat": "standing", "add": 2 },
+            { "type": "stat", "stat": "power", "add": -12 },
+            { "type": "stat", "stat": "publicTrustActual", "add": 5 },
+            { "type": "relationship", "character": "businessman", "add": -3 },
+            { "type": "flag", "flag": "flag_audit_allowed", "action": "add" }
+          ]
+        }
+      ],
       "delayedEffects": [
         { "delay": { "type": "turn_range", "min": 3, "max": 5 }, "eventId": "event_audit_result_full" }
       ],
@@ -499,6 +513,20 @@
         { "type": "stat", "stat": "publicTrustPerceived", "add": 3 },
         { "type": "precedent", "precedent": "precedent_administrative_override", "add": 1 },
         { "type": "flag", "flag": "flag_hospital_opened_early", "action": "add" }
+      ],
+      "variants": [
+        {
+          "conditions": { "type": "stat", "stat": "power", "op": ">=", "value": 60 },
+          "text": "card.act2_hospital_funding.right.powerful",
+          "preview": { "standing": 1, "power": -3, "publicTrust": "strong_up" },
+          "effects": [
+            { "type": "stat", "stat": "standing", "add": 3 },
+            { "type": "stat", "stat": "power", "add": -12 },
+            { "type": "stat", "stat": "publicTrustActual", "add": 7 },
+            { "type": "stat", "stat": "publicTrustPerceived", "add": 5 },
+            { "type": "flag", "flag": "flag_hospital_opened_early", "action": "add" }
+          ]
+        }
       ],
       "next": { "type": "scheduler" }
     },

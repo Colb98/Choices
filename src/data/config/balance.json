@@ -10,6 +10,7 @@
     "safeReserve": 100000,
     "lowThreshold": 0.25,
     "criticalThreshold": 0.1,
+    "statusPressureFloor": 40000,
     "baseTurnCosts": {
       "entry": 500,
       "rise": 500,

@@ -77,6 +77,32 @@ const strategies: Record<string, Strategy> = {
     const side = score('right') >= score('left') ? 'right' : 'left';
     return { side, payCost: e.getLockState(s, card, side).kind === 'cost' };
   },
+  fearedTechnocrat: (e, s, r) => {
+    const card = e.currentCard(s);
+    const eligible = (['left', 'right'] as const)
+      .filter((side) => e.getLockState(s, card, side).kind !== 'hard');
+    if (eligible.length === 0) throw new Error(`Both choices hard-locked on card ${card.id}`);
+    const score = (side: 'left' | 'right') => {
+      const lock = e.getLockState(s, card, side);
+      if (lock.kind === 'hard') return -Infinity;
+      const projected = structuredClone(s);
+      const result = e.commitChoice(projected, side, { payCost: lock.kind === 'cost' });
+      if (result.endingId === 'ending_bankrupt') return -Infinity;
+      // Intentionally construct the low-Standing/high-Power quadrant so its
+      // conditional story and recovery choices receive simulation coverage.
+      return (
+        -Math.abs(projected.stats.power - 70) * 10_000_000 -
+        projected.stats.standing * 2_000_000 +
+        projected.stats.money
+      );
+    };
+    const ranked = eligible.map((side) => ({ side, score: score(side) }))
+      .sort((a, b) => b.score - a.score);
+    const side = ranked.length > 1 && ranked[0].score === ranked[1].score && r.next() < 0.5
+      ? ranked[1].side
+      : ranked[0].side;
+    return { side, payCost: e.getLockState(s, card, side).kind === 'cost' };
+  },
   maximizeMoney: (e, s, r) => {
     const card = e.currentCard(s);
     const score = (side: 'left' | 'right') => {
@@ -171,6 +197,11 @@ const turnCounts: number[] = [];
 let incidentMisses = 0;
 let bankruptBeforeIncident = 0;
 const lockObservations = { hard: 0, cost: 0 };
+const statusStoryVisits: Record<string, number> = Object.fromEntries(
+  Object.keys(content.cards)
+    .filter((id) => id.startsWith('sp_'))
+    .map((id) => [id, 0]),
+);
 const strategyStats: Record<string, {
   completed: number;
   bankrupt: number;
@@ -180,12 +211,15 @@ const strategyStats: Record<string, {
   betrayedWeight: number[];
   precedentFootprint: number[];
   actualTrust: number[];
+  standing: number[];
+  power: number[];
 }> = {};
 
 for (const [name, strategy] of Object.entries(strategies)) {
   strategyStats[name] = {
     completed: 0, bankrupt: 0, turns: [], finalMoney: [], finalLeverage: [], betrayedWeight: [],
     precedentFootprint: [], actualTrust: [],
+    standing: [], power: [],
   };
   for (let i = 0; i < RUNS_PER_STRATEGY; i++) {
     const seed = `${name}-${i}`;
@@ -221,6 +255,11 @@ for (const [name, strategy] of Object.entries(strategies)) {
       strategyStats[name].finalLeverage.push(leverageScore(state, content.balance));
       strategyStats[name].precedentFootprint.push(precedentFootprint(state));
       strategyStats[name].actualTrust.push(state.stats.publicTrustActual);
+      strategyStats[name].standing.push(state.stats.standing);
+      strategyStats[name].power.push(state.stats.power);
+      for (const id of Object.keys(statusStoryVisits)) {
+        statusStoryVisits[id] += state.seenCards[id] ?? 0;
+      }
       strategyStats[name].betrayedWeight.push(
         state.obligations
           .filter((obligation) => obligation.status === 'betrayed')
@@ -257,14 +296,20 @@ for (const [name, stat] of Object.entries(strategyStats)) {
   const sortedTrust = [...stat.actualTrust].sort((a, b) => a - b);
   const medianPrecedents = sortedPrecedents[Math.floor(sortedPrecedents.length / 2)] ?? 0;
   const medianTrust = sortedTrust[Math.floor(sortedTrust.length / 2)] ?? 0;
+  const sortedStanding = [...stat.standing].sort((a, b) => a - b);
+  const sortedPower = [...stat.power].sort((a, b) => a - b);
+  const medianStanding = sortedStanding[Math.floor(sortedStanding.length / 2)] ?? 0;
+  const medianPower = sortedPower[Math.floor(sortedPower.length / 2)] ?? 0;
   console.log(
     `  ${name}: ${(bankruptcyRate * 100).toFixed(1)}% bankrupt, ` +
     `median ${strategyMedian} turns, median $${Math.round(medianMoney).toLocaleString('en-US')}, ` +
     `max $${Math.round(maxMoney).toLocaleString('en-US')}, ` +
     `leverage ${medianLeverage.toFixed(1)}, precedents ${medianPrecedents}, ` +
-    `actual trust ${medianTrust}, betrayed ${medianBetrayal}`,
+    `standing ${medianStanding}, power ${medianPower}, actual trust ${medianTrust}, betrayed ${medianBetrayal}`,
   );
 }
+console.log('Standing/Power story visits:');
+for (const [id, visits] of Object.entries(statusStoryVisits)) console.log(`  ${id}: ${visits}`);
 console.log('Ending distribution:');
 for (const [id, n] of Object.entries(endingCounts).sort((a, b) => b[1] - a[1])) {
   console.log(`  ${id}: ${n}`);

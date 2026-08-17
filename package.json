@@ -12,6 +12,7 @@
     "test:economy": "tsx scripts/test-economy.ts",
     "test:gathering": "tsx scripts/test-gathering.ts",
     "test:timeline": "tsx scripts/test-timeline.ts",
+    "test:standing-power": "tsx scripts/test-standing-power.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

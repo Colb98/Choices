@@ -2677,3 +2677,34 @@ Oh.
 The final realization should not come from a narrator.
 
 It should come from the game remembering the player's own decisions.
+
+---
+
+# 81. Standing and Power Gameplay Layer
+
+Money remains the survival metric. Standing and Power decide which financial and narrative situations the player is allowed to enter.
+
+Standing represents access and social legitimacy:
+
+- `0–24`: sponsors withdraw, press attention must be purchased, and recovery begins with unglamorous local work;
+- `25–59`: coalitions and civic foundations begin recruiting the player;
+- `60–79`: succession networks and private-capital councils seek the player's endorsement;
+- `80–100`: dominant reputation uses the same high-tier stories with stronger economic leverage from the surrounding network.
+
+Power represents executable institutional capacity:
+
+- low Power makes a famous player a figurehead and can impose nonlethal cash pressure;
+- high Power changes existing choices, permitting independent audits, protected disclosure, procurement firewalls, and record preservation;
+- consequential institutional acts spend Power in authored amounts of approximately `6`, `12`, or `20` rather than treating it as a passive score;
+- coercive choices may convert Power into private money, relationships, obligations, and precedents.
+
+The two stats combine into four distinct states:
+
+```text
+high Standing + high Power = kingmaker
+high Standing + low Power  = figurehead
+low Standing  + high Power = feared technocrat
+low Standing  + low Power  = marginal officeholder
+```
+
+Low-status money pressure uses the dedicated `money_pressure` effect and may never directly trigger rescue or bankruptcy. Only one money-pressure story should be forced or strongly weighted per act. Public Trust remains outside this layer and retains its existing collapse-ending role.

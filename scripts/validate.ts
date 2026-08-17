@@ -1,4 +1,6 @@
 // Narrative content validator. Fails the build loudly on broken data.
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { loadContentNode, loadI18nNode } from './load';
 import { collectConditions } from '../src/engine/conditions';
 import type {
@@ -34,6 +36,7 @@ const en = i18n['en'] ?? {};
 
 const actIds = new Set(content.acts.map((a) => a.id));
 const cardIds = new Set(Object.keys(content.cards));
+const portraitDir = join(import.meta.dirname, '../public/art/portraits');
 
 // ---------------------------------------------------------------- helpers
 
@@ -77,6 +80,17 @@ function checkEffects(effects: Effect[] | undefined, where: string) {
       case 'stat':
         if ((e.add === undefined) === (e.set === undefined)) {
           err(`${where}: stat effect must have exactly one of add/set`);
+        }
+        break;
+      case 'money_pressure':
+        if (!Number.isFinite(e.percent) || e.percent <= 0 || e.percent > 1) {
+          err(`${where}: money_pressure percent must satisfy 0 < percent <= 1`);
+        }
+        if (!Number.isFinite(e.minLoss) || e.minLoss < 0) {
+          err(`${where}: money_pressure minLoss must be non-negative`);
+        }
+        if (!Number.isFinite(e.maxLoss) || e.maxLoss < e.minLoss) {
+          err(`${where}: money_pressure maxLoss must be at least minLoss`);
         }
         break;
       case 'flag':
@@ -158,6 +172,12 @@ function checkChoice(c: ChoiceDefinition, where: string) {
 }
 
 // ---------------------------------------------------------------- cards
+
+for (const character of Object.values(content.characters)) {
+  checkKey(character.nameKey, `character ${character.id}`);
+  const portrait = join(portraitDir, `${character.id}.webp`);
+  if (!existsSync(portrait)) err(`character ${character.id}: missing portrait ${portrait}`);
+}
 
 for (const card of Object.values(content.cards)) {
   const where = `card ${card.id}`;
@@ -286,6 +306,12 @@ for (const act of [...content.acts].sort((a, b) => a.order - b.order)) {
 
 const economy = content.balance.economy;
 if (!(economy.safeReserve > 0)) err('economy.safeReserve must be greater than zero');
+if (!(economy.statusPressureFloor > content.balance.money.min)) {
+  err('economy.statusPressureFloor must be greater than money.min');
+}
+if (economy.statusPressureFloor >= economy.safeReserve) {
+  err('economy.statusPressureFloor must be less than safeReserve');
+}
 if (!(economy.criticalThreshold > 0 && economy.criticalThreshold < economy.lowThreshold)) {
   err('economy thresholds must satisfy 0 < criticalThreshold < lowThreshold');
 }
