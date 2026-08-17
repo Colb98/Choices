@@ -6,6 +6,44 @@
     "publicTrustPerceived": { "min": 0, "max": 100 }
   },
   "money": { "min": 0 },
+  "economy": {
+    "safeReserve": 100000,
+    "lowThreshold": 0.25,
+    "criticalThreshold": 0.1,
+    "baseTurnCosts": {
+      "entry": 500,
+      "rise": 500,
+      "network": 1500,
+      "power": 3500,
+      "gathering": 8000,
+      "incident": 0,
+      "aftermath": 0
+    },
+    "activeObligationCostPerWeight": {
+      "entry": 0,
+      "rise": 100,
+      "network": 400,
+      "power": 1000,
+      "gathering": 2500,
+      "incident": 0,
+      "aftermath": 0
+    },
+    "betrayedObligationCostPerWeight": {
+      "entry": 0,
+      "rise": 500,
+      "network": 1500,
+      "power": 5000,
+      "gathering": 10000,
+      "incident": 0,
+      "aftermath": 0
+    },
+    "pressureActs": ["entry", "rise", "network", "power", "gathering"],
+    "rescue": {
+      "cardId": "financial_crisis_lifeline",
+      "rescueFlag": "flag_financial_rescue_taken",
+      "bankruptcyFlag": "flag_bankrupt"
+    }
+  },
   "relationships": { "min": -5, "max": 5 },
   "scheduler": {
     "recentCardWindow": 6,

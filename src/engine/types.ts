@@ -489,6 +489,8 @@ export interface NarrativeRuntimeState {
   activeThreads: NarrativeThreadId[];
   recentCards: CardId[];
   forcedNextCardId?: CardId;
+  /** Explicit route temporarily displaced by the forced financial-rescue card. */
+  financialResumeCardId?: CardId;
   pendingEndingId?: EndingId;
 }
 
@@ -559,6 +561,25 @@ export interface RegistryFragment {
 export interface BalanceConfig {
   stats: Record<Exclude<StatName, 'money'>, { min: number; max: number }>;
   money: { min: number };
+  economy: {
+    /** Dollar balance at which the danger/runway bar reads full. Wealth remains uncapped. */
+    safeReserve: number;
+    lowThreshold: number;
+    criticalThreshold: number;
+    /** Automatic operating cost paid after each non-exempt decision in the current act. */
+    baseTurnCosts: Record<ActId, number>;
+    /** Additional per-turn cost for each point of unresolved obligation weight. */
+    activeObligationCostPerWeight: Record<ActId, number>;
+    /** Additional per-turn cost for each point of betrayed obligation weight. */
+    betrayedObligationCostPerWeight: Record<ActId, number>;
+    /** Acts in which reaching zero can force rescue or bankruptcy. */
+    pressureActs: ActId[];
+    rescue: {
+      cardId: CardId;
+      rescueFlag: FlagId;
+      bankruptcyFlag: FlagId;
+    };
+  };
   relationships: { min: number; max: number };
   scheduler: {
     recentCardWindow: number;
