@@ -4,9 +4,20 @@ export const FONT =
   "system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif";
 
 export function formatMoney(v: number): string {
+  return `$${Math.round(v).toLocaleString('en-US')}`;
+}
+
+export function formatCompactMoney(v: number): string {
+  if (v >= 10_000_000_000) return `$${(v / 1_000_000_000).toFixed(1)}B`;
+  if (v >= 1_000_000_000) return `$${(v / 1_000_000_000).toFixed(2)}B`;
   if (v >= 10_000_000) return `$${(v / 1_000_000).toFixed(1)}M`;
   if (v >= 1_000_000) return `$${(v / 1_000_000).toFixed(2)}M`;
   return `$${Math.round(v).toLocaleString('en-US')}`;
+}
+
+export function formatSignedMoney(v: number): string {
+  if (v === 0) return '$0';
+  return `${v > 0 ? '+' : '−'}${formatCompactMoney(Math.abs(v))}`;
 }
 
 export function trendArrows(n: number): string {
@@ -46,16 +57,16 @@ export function previewLines(p: ChoicePreview | undefined): PreviewLine[] {
 }
 
 export const COLORS = {
-  bg: 0x14141a,
-  bgPanel: 0x1e1e26,
-  card: 0x262630,
-  cardBorder: 0x3a3a48,
-  text: '#e8e6df',
-  textDim: '#8a8896',
-  accent: '#c9a227',
-  danger: '#b23a3a',
-  standing: 0x7a86b8,
-  power: 0xb88a3c,
-  trust: 0xb85c6e,
-  barBg: 0x2a2a34,
+  bg: 0x0f0c10,
+  bgPanel: 0x191419,
+  card: 0x591923,
+  cardBorder: 0x493640,
+  text: '#fff5e8',
+  textDim: '#b9aab2',
+  accent: '#f0b84b',
+  danger: '#d95362',
+  standing: 0x87a6d8,
+  power: 0xdda548,
+  trust: 0xd66d84,
+  barBg: 0x312730,
 };

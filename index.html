@@ -9,19 +9,35 @@
       html, body {
         margin: 0;
         padding: 0;
-        background: #101014;
+        background-color: #24171d;
+        background-image:
+          linear-gradient(rgba(24, 13, 18, 0.12), rgba(15, 9, 13, 0.3)),
+          url('/art/backgrounds/political-city-desktop.png');
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
         height: 100%;
+        width: 100%;
         overflow: hidden;
+        box-sizing: border-box;
       }
       #game {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
       }
       #game canvas {
+        display: block !important;
+        margin: 0 !important;
+        box-shadow: 0 0 70px rgba(9, 4, 7, 0.65);
         touch-action: none;
+      }
+      @media (orientation: portrait) {
+        html, body {
+          background-color: #0f0c10;
+          background-image: none;
+        }
       }
     </style>
   </head>

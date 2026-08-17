@@ -27,5 +27,8 @@
   "card.gathering_transport_sober.right": "坐公务车。",
   "card.gathering_transport_drunk.text": "台阶晃动的幅度，比台阶应有的略多了一点。屋外夜色凛冽，而你自己的车钥匙不知怎么已经在你手里了——出门时有人出于礼貌把它递给了你。市区在二十分钟车程外。",
   "card.gathering_transport_drunk.left": "叫司机来。",
+  "card.gathering_transport_drunk.left.locked": "叫外面的司机来这个秘密地址。",
+  "card.gathering_transport_drunk.left.costly": "另叫一名司机，在门外等四十分钟。",
+  "card.gathering_transport_drunk.lock_caption": "你先让早已等候、最隐秘的退路离开，又喝下了满桌人递来的那杯酒。叫外人来一栋地图上不存在的房子，会留下你的姓名、地址和时间。你欠这个房间太多，不能留下这份记录。",
   "card.gathering_transport_drunk.right": "开吧。反正不远。"
 }

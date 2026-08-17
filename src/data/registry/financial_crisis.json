@@ -1,0 +1,12 @@
+{
+  "flags": [
+    {
+      "id": "flag_financial_rescue_taken",
+      "description": "Player accepted the Mentor's one-time emergency financial lifeline."
+    },
+    {
+      "id": "flag_bankrupt",
+      "description": "Player's political operation became insolvent and closed."
+    }
+  ]
+}

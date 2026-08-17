@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { GAME_WIDTH, GAME_HEIGHT } from '../ui/dimensions';
 import { hasKey, t } from '../engine/i18n';
 import { COLORS, FONT } from '../ui/format';
+import { enableHighResolutionText } from '../ui/textQuality';
 
 export class CreditsScene extends Phaser.Scene {
   private fromEnding = false;
@@ -15,6 +16,7 @@ export class CreditsScene extends Phaser.Scene {
   }
 
   create() {
+    enableHighResolutionText(this);
     this.cameras.main.setBackgroundColor(0x0a0a0e);
     const cx = GAME_WIDTH / 2;
 

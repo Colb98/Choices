@@ -1,5 +1,22 @@
 [
   {
+    "id": "ending_bankrupt",
+    "priority": 1100,
+    "conditions": {
+      "all": [
+        { "type": "flag", "flag": "flag_bankrupt", "exists": true }
+      ]
+    },
+    "titleKey": "ending.ending_bankrupt.title",
+    "presentation": {
+      "sequence": [
+        { "type": "text", "textKey": "ending.ending_bankrupt.text" },
+        { "type": "credits" }
+      ]
+    },
+    "meta": { "category": "negative" }
+  },
+  {
     "id": "ending_break_the_chain",
     "priority": 1000,
     "conditions": {

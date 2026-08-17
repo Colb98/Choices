@@ -330,9 +330,11 @@ Both: speaker: `editor` · illustration: `{ "scene": "villa_dinner_table", "expr
   { "type": "flag", "flag": "flag_dismissed_driver", "exists": true },
   { "type": "obligation", "tag": "inner_circle", "status": "active", "minCount": 3 } ] }
 ```
+  text override: `card.gathering_transport_drunk.left.locked`
   lock override: `{ "mode": "hard", "condition": <same>, "reason": { "source": "explicit", "explicitSources": [ { "cardId": "gathering_arrival", "choice": "right" }, { "cardId": "gathering_drink", "choice": "right" } ] } }`
-  - Flashback shows exactly two memories: *"Send the driver home. Everything is arranged." — YOU DID.* and *"Just one." — YOU DRANK.*
+  - Flashback shows exactly two memories: *"Send the driver home. Everything is arranged." — YOU DID.* and *"Just one." — YOU DRANK.* It then explains the combined consequence: the discreet exit was dismissed, an outside driver would create a record of the secret address and time, and the captured player cannot expose the room that owns their obligations.
 - **ChoiceVariant v2 (COSTLY)** — condition: `{ "type": "flag", "flag": "flag_dismissed_driver", "exists": true }`
+  text override: `card.gathering_transport_drunk.left.costly`
   lock override: `{ "mode": "cost", "condition": <same>, "unlockEffects": [ { "type": "stat", "stat": "standing", "add": -4 } ], "reason": { "source": "explicit", "explicitSources": [ { "cardId": "gathering_arrival", "choice": "right" } ] } }`
   - Costly presentation: waiting forty minutes on the driveway, alone, visibly drunk, while the table watches through the window. The −4 Standing *is* that image.
 
@@ -340,7 +342,7 @@ Both: speaker: `editor` · illustration: `{ "scene": "villa_dinner_table", "expr
 - preview: `publicTrust "unknown"`
 - effects: `FLG add flag_self_driving`
 
-**designIntent:** The spec's hardest constraint — "avoid arbitrary lock without traceable cause" — honored to the letter: both lock variants cite **explicit sources the player enacted tonight**, in this room, within the last six cards. No dice, no fate; a dismissed driver and a raised glass. The hard-locked flashback is two memories long and needs no caption. This is also the last card in the game where the stat HUD is fully visible; whatever happens next happens without numbers.
+**designIntent:** The spec's hardest constraint — "avoid arbitrary lock without traceable cause" — honored to the letter: both lock variants cite **explicit sources the player enacted tonight**, in this room, within the last six cards. No dice, no fate; a dismissed driver and a raised glass. The hard-locked flashback is two memories long, followed by a short causal caption tying the secret address, the documentary trace of calling an outsider, and the player's accumulated obligations into one loss of agency. This is also the last card in the game where the stat HUD is fully visible; whatever happens next happens without numbers.
 
 **Strings**
 - `card.gathering_transport_drunk.text`
@@ -350,6 +352,13 @@ Both: speaker: `editor` · illustration: `{ "scene": "villa_dinner_table", "expr
   - ZH: 台阶晃动的幅度，比台阶应有的略多了一点。屋外夜色凛冽，而你自己的车钥匙不知怎么已经在你手里了——出门时有人出于礼貌把它递给了你。市区在二十分钟车程外。
 - `card.gathering_transport_drunk.left`
   - EN: Call for a driver. · VI: Gọi tài xế. · ES: Llamar a un chofer. · ZH: 叫司机来。
+- `card.gathering_transport_drunk.left.locked`
+  - EN: Call an outside driver to this private address. · VI: Gọi tài xế bên ngoài đến địa chỉ bí mật này. · ES: Llamar a un chofer externo a esta dirección privada. · ZH: 叫外面的司机来这个秘密地址。
+- `card.gathering_transport_drunk.left.costly`
+  - EN: Call another driver; wait forty minutes outside the gate. · VI: Gọi tài xế khác; chờ ngoài cổng bốn mươi phút. · ES: Llamar a otro chofer; esperar cuarenta minutos fuera de la entrada. · ZH: 另叫一名司机，在门外等四十分钟。
+- `card.gathering_transport_drunk.lock_caption`
+  - EN: You sent away the discreet way out that was already waiting, then drank the glass the table poured. Calling an outsider to a house absent from every map would leave your name, the address, and the time. You owe this room too much to create that record.
+  - VI: Bạn đã cho tài xế riêng — lối ra kín đáo duy nhất — về trước, rồi nhận ly rượu cả bàn mời. Gọi người ngoài đến căn nhà không có trên bản đồ sẽ lưu lại tên bạn, địa chỉ và thời gian. Bạn mang ơn quá nhiều người trong căn phòng này để dám tạo ra dấu vết ấy.
 - `card.gathering_transport_drunk.right`
   - EN: Drive. It isn't far. · VI: Lái thôi. Cũng đâu có xa. · ES: Manejar. No está lejos. · ZH: 开吧。反正不远。
 

@@ -169,6 +169,12 @@ for (const card of Object.values(content.cards)) {
   checkCondition(card.conditions, where);
   checkChoice(card.left, `${where} left`);
   checkChoice(card.right, `${where} right`);
+  if (
+    card.metadata?.storyTimeAdvanceDays !== undefined &&
+    (!Number.isFinite(card.metadata.storyTimeAdvanceDays) || card.metadata.storyTimeAdvanceDays < 0)
+  ) {
+    err(`${where}: metadata.storyTimeAdvanceDays must be a non-negative number`);
+  }
 }
 
 // ---------------------------------------------------------------- events/beats
@@ -226,7 +232,10 @@ for (const a of Object.values(content.articles)) {
 
 // ---------------------------------------------------------------- reachability
 
-const referenced = new Set<string>([content.balance.start.firstCardId]);
+const referenced = new Set<string>([
+  content.balance.start.firstCardId,
+  content.balance.economy.rescue.cardId,
+]);
 for (const card of Object.values(content.cards)) {
   for (const side of [card.left, card.right]) {
     const nexts = [side.next, ...(side.variants ?? []).map((v) => v.next)];
@@ -248,6 +257,91 @@ if (!cardIds.has(content.balance.start.firstCardId)) {
   err(`start.firstCardId unknown: ${content.balance.start.firstCardId}`);
 }
 if (!actIds.has(content.balance.start.act)) err(`start.act unknown: ${content.balance.start.act}`);
+
+// ---------------------------------------------------------------- timeline
+
+const timeline = content.balance.timeline;
+if (!Number.isFinite(timeline.initialDay) || timeline.initialDay < 1) {
+  err('timeline.initialDay must be a positive number');
+}
+let previousActStart = -Infinity;
+for (const act of [...content.acts].sort((a, b) => a.order - b.order)) {
+  const start = timeline.actStartDays[act.id];
+  const advance = timeline.defaultCardAdvanceDays[act.id];
+  if (start === undefined) err(`timeline.actStartDays missing act: ${act.id}`);
+  else {
+    if (!Number.isFinite(start) || start < timeline.initialDay) {
+      err(`timeline.actStartDays.${act.id} must be at least initialDay`);
+    }
+    if (start < previousActStart) err(`timeline act starts are not chronological at: ${act.id}`);
+    previousActStart = start;
+  }
+  if (advance === undefined) err(`timeline.defaultCardAdvanceDays missing act: ${act.id}`);
+  else if (!Number.isFinite(advance) || advance < 0) {
+    err(`timeline.defaultCardAdvanceDays.${act.id} must be a non-negative number`);
+  }
+}
+
+// ---------------------------------------------------------------- economy
+
+const economy = content.balance.economy;
+if (!(economy.safeReserve > 0)) err('economy.safeReserve must be greater than zero');
+if (!(economy.criticalThreshold > 0 && economy.criticalThreshold < economy.lowThreshold)) {
+  err('economy thresholds must satisfy 0 < criticalThreshold < lowThreshold');
+}
+if (!(economy.lowThreshold < 1)) err('economy.lowThreshold must be less than 1');
+for (const stat of ['standing', 'power', 'publicTrustPerceived'] as const) {
+  const value = economy.incomePerPoint[stat];
+  if (value === undefined) err(`economy.incomePerPoint missing stat: ${stat}`);
+  else if (!Number.isFinite(value) || value < 0) {
+    err(`economy.incomePerPoint.${stat} must be a non-negative number`);
+  }
+}
+if (!Number.isFinite(economy.civicIncomePerActualTrust) || economy.civicIncomePerActualTrust < 0) {
+  err('economy.civicIncomePerActualTrust must be a non-negative number');
+}
+if (!Number.isFinite(economy.leverageCompoundingThreshold) || economy.leverageCompoundingThreshold < 0) {
+  err('economy.leverageCompoundingThreshold must be a non-negative number');
+}
+for (const character of economy.leverageCapitalCharacters) {
+  if (!content.characters[character]) {
+    err(`economy.leverageCapitalCharacters contains unknown character: ${character}`);
+  }
+}
+if (new Set(economy.leverageCapitalCharacters).size !== economy.leverageCapitalCharacters.length) {
+  err('economy.leverageCapitalCharacters must not contain duplicates');
+}
+for (const [name, value] of Object.entries(economy.leverageWeights)) {
+  if (!Number.isFinite(value) || value < 0) {
+    err(`economy.leverageWeights.${name} must be a non-negative number`);
+  }
+}
+for (const act of actIds) {
+  for (const [name, table] of [
+    ['baseTurnCosts', economy.baseTurnCosts],
+    ['activeObligationCostPerWeight', economy.activeObligationCostPerWeight],
+    ['betrayedObligationCostPerWeight', economy.betrayedObligationCostPerWeight],
+    ['leverageIncomePerScore', economy.leverageIncomePerScore],
+    ['leverageIncomePerScoreCubed', economy.leverageIncomePerScoreCubed],
+    ['precedentExposureCostPerPoint', economy.precedentExposureCostPerPoint],
+  ] as const) {
+    const value = table[act];
+    if (value === undefined) err(`economy.${name} missing act: ${act}`);
+    else if (value < 0) err(`economy.${name}.${act} must not be negative`);
+  }
+}
+for (const act of economy.pressureActs) {
+  if (!actIds.has(act)) err(`economy.pressureActs contains unknown act: ${act}`);
+}
+if (!cardIds.has(economy.rescue.cardId)) {
+  err(`economy.rescue.cardId unknown: ${economy.rescue.cardId}`);
+}
+if (!content.flags[economy.rescue.rescueFlag]) {
+  err(`economy.rescue.rescueFlag unknown: ${economy.rescue.rescueFlag}`);
+}
+if (!content.flags[economy.rescue.bankruptcyFlag]) {
+  err(`economy.rescue.bankruptcyFlag unknown: ${economy.rescue.bankruptcyFlag}`);
+}
 
 // ---------------------------------------------------------------- report
 

@@ -728,6 +728,7 @@
               }
             ]
           },
+          "text": "card.gathering_transport_drunk.left.locked",
           "lock": {
             "mode": "hard",
             "condition": {
@@ -766,6 +767,7 @@
             "flag": "flag_dismissed_driver",
             "exists": true
           },
+          "text": "card.gathering_transport_drunk.left.costly",
           "lock": {
             "mode": "cost",
             "condition": {

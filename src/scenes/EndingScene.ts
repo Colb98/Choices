@@ -4,6 +4,7 @@ import { content, session } from '../services';
 import { hasKey, t } from '../engine/i18n';
 import type { ArticleDefinition, EndingDefinition, EndingSequenceStep } from '../engine/types';
 import { COLORS, FONT } from '../ui/format';
+import { enableHighResolutionText } from '../ui/textQuality';
 
 /** Plays an ending's presentation sequence: articles, removals, memorial, credits. */
 export class EndingScene extends Phaser.Scene {
@@ -25,6 +26,7 @@ export class EndingScene extends Phaser.Scene {
   }
 
   create() {
+    enableHighResolutionText(this);
     this.cameras.main.setBackgroundColor(COLORS.bg);
     this.runStep();
   }

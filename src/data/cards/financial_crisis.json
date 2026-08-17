@@ -1,0 +1,38 @@
+[
+  {
+    "id": "financial_crisis_lifeline",
+    "act": "entry",
+    "type": "consequence",
+    "speaker": "mentor",
+    "text": "card.financial_crisis_lifeline.text",
+    "left": {
+      "text": "card.financial_crisis_lifeline.left",
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 60000 },
+        { "type": "relationship", "character": "mentor", "add": 2 },
+        {
+          "type": "obligation_add",
+          "id": "obligation_emergency_lifeline_01",
+          "creditor": "mentor",
+          "weight": 3,
+          "tags": ["financial", "lifeline", "inner_circle"]
+        },
+        { "type": "flag", "flag": "flag_financial_rescue_taken", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.financial_crisis_lifeline.right",
+      "effects": [
+        { "type": "flag", "flag": "flag_bankrupt", "action": "add" }
+      ],
+      "next": { "type": "ending_check" }
+    },
+    "once": true,
+    "tags": ["economy_exempt", "financial_crisis"],
+    "metadata": {
+      "storyTimeAdvanceDays": 1,
+      "designIntent": "The first insolvency is a thematic choice, not a silent reset: survival is available, but only by converting money pressure into a heavy personal obligation. A second insolvency ends the run."
+    }
+  }
+]

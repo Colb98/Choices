@@ -151,6 +151,21 @@ Desktop browsers should display the portrait game centered inside the page.
 
 Mobile should scale to use the available screen.
 
+Render Phaser text from 2× internal text textures. The logical layout remains `540 × 960`, but glyphs must stay sharp when the canvas is fitted to high-DPI or non-integer browser dimensions.
+
+## 5.1 Story-Time Display
+
+Show fictional elapsed time directly beneath the card:
+
+```text
+YEAR 3
+DAY 842 IN OFFICE
+```
+
+This is authored story chronology, not wall-clock play time and not a cosmetic animation counter. Each act defines a minimum start day and a default number of days advanced per card; individual cards may override that value. The Gathering and Incident occur on the same night and therefore advance zero days unless explicitly authored otherwise.
+
+The card should sit immediately below the rendered narrative text. Use a small dynamic vertical adjustment for shorter passages and a capped scroll viewport for long passages, avoiding a large empty block between prose and artwork.
+
 ---
 
 # 6. Recommended Technology
@@ -191,6 +206,8 @@ Save data should use:
 ```text
 localStorage
 ```
+
+Language is an application-level setting stored in the meta save. When continuing an existing run, the currently selected menu language must win over the historical language recorded in the run save. Card IDs and state remain language-neutral, so the same run can be rendered in any supported locale.
 
 ---
 
@@ -312,9 +329,9 @@ The player has four primary visible statistics.
 
 ---
 
-## 10.1 Money
+## 10.1 Money and Financial Runway
 
-Money is displayed as an actual number rather than a progress bar.
+Money is displayed as an actual number together with a compact financial-runway bar. The number is the source of truth; the bar makes danger legible at a glance and is full at the configured safe reserve. Money itself remains uncapped. The main balance always shows every digit, including at million and billion scale; only per-turn cash flow and animated signed changes use compact `M`/`B` notation.
 
 Example progression:
 
@@ -323,11 +340,14 @@ $50,000
 $87,000
 $230,000
 $820,000
-$1.4M
-$6.8M
+$18.6M
+$240M
+$1.34B
 ```
 
-Money should visually communicate escalation.
+Target outcome bands are intentionally extreme: a coherent clean career should usually finish around `$100K–$200K`, while an optimized full-corruption career should reach `$1B+`. The widening gap is thematic, not merely inflation. By late game, refusing the machine must mean walking away from life-changing wealth.
+
+Money should visually communicate both escalation and danger. After every decision, animate the exact signed change beside the balance. While dragging, retain the approximate arrow preview so the player understands direction and magnitude without turning the choice into arithmetic.
 
 Internal representation:
 
@@ -336,6 +356,16 @@ money: number;
 ```
 
 Money does not require a fixed maximum.
+
+Every non-exempt decision before the incident settles automatic cash flow. Political Standing, Power, and perceived Public Trust generate ordinary institutional income. Actual Public Trust generates legitimate civic support; each normalized corrupt precedent dilutes that income.
+
+Corrupt wealth uses a separate leverage economy. Positive relationships with the Mentor, Businessman, Editor, and Minister create capital access. Normalized shortcuts multiply the value of those relationships. Below the configured leverage threshold, each connection produces modest access income. Above it, returns compound cubically and accelerate sharply by act, allowing a coherent corruption route to move from thousands to millions and finally billions. Precedents also carry an escalating exposure cost, so random or contradictory corruption can bankrupt the player while a carefully maintained machine grows rich enough to absorb the same cost.
+
+This economy must never be presented as a visible corruption score. The player sees only the exact cash result and learns that the easier relationship-preserving choices keep paying more. Clean civic relationships such as the Reformist and Aide do not create private leverage.
+
+The HUD also shows the recurring cost of the current position (`−$X / turn`). The final incident and aftermath are exempt: those choices should remain moral and institutional decisions, not financial optimization puzzles.
+
+At zero money, the first insolvency interrupts the story with a one-time lifeline choice. Accepting restores runway but creates a heavy obligation and resumes the interrupted route. Refusing ends the run. Reaching zero again after taking the lifeline produces the bankruptcy ending.
 
 ---
 
@@ -479,7 +509,7 @@ Public Trust predictions should remain less certain than the other statistics.
 
 ---
 
-# 15. No Traditional Stat-Based Game Over
+# 15. Limited Stat-Based Game Over
 
 Do not immediately end the game because:
 
@@ -488,6 +518,8 @@ Power = 0
 Standing = 0
 Trust = 0
 ```
+
+Money is the deliberate exception. A depleted financial runway triggers the one-time lifeline described in Section 10.1; a second insolvency ends in bankruptcy. The warning bar, recurring-cost label, projected arrow, and exact post-choice settlement must make this outcome foreseeable.
 
 Instead, extreme statistics should alter future events.
 
@@ -517,7 +549,7 @@ Power > 90
 
 The player gains access to extremely powerful institutional actions.
 
-Narrative endings should determine game completion.
+All other completion remains narrative-driven. Bankruptcy is itself a narrative ending, not a generic failure screen.
 
 ---
 
@@ -2087,6 +2119,15 @@ Use:
 - original color palette;
 - original portrait style;
 - original transitions.
+
+Current presentation contract:
+
+- use a clean near-black portrait play surface with warm cream text and solid gold, rose, blue, and burgundy accents;
+- show an illustrated fictional capital landscape around the portrait canvas on wide desktop screens;
+- keep the central landscape quiet so it never competes with the game;
+- render card artwork full-bleed with rounded corners and a soft shadow;
+- do not place a visible border or inset frame between artwork and the card edge;
+- use the same rounded solid-burgundy card when no illustration is available.
 
 Illustrations should be:
 

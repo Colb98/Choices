@@ -319,6 +319,8 @@ export interface CardMetadata {
   authorNote?: string;
   designIntent?: string;
   expectedDurationSeconds?: number;
+  /** Authored amount of story time consumed by this card; overrides the act default. */
+  storyTimeAdvanceDays?: number;
   contentWarnings?: string[];
   debugTags?: string[];
 }
@@ -477,6 +479,8 @@ export interface RunState {
   currentAct: ActId;
   actTurn: number;
   startedAt: number;
+  /** Fictional chronology, independent of wall-clock play time. Optional for v1 save compatibility. */
+  elapsedStoryDays?: number;
   currentCardId?: CardId;
   /** which incident route this run resolved to (set at route split) */
   incidentRoute?: 'player_caused' | 'ally_caused';
@@ -568,6 +572,29 @@ export interface BalanceConfig {
     criticalThreshold: number;
     /** Automatic operating cost paid after each non-exempt decision in the current act. */
     baseTurnCosts: Record<ActId, number>;
+    /** Recurring fundraising/access income produced by visible political capital. */
+    incomePerPoint: {
+      standing: number;
+      power: number;
+      publicTrustPerceived: number;
+    };
+    /** Legitimate grassroots income, diluted as corrupt precedents accumulate. */
+    civicIncomePerActualTrust: number;
+    /** Network actors whose positive relationship points can be monetized as access. */
+    leverageCapitalCharacters: CharacterId[];
+    /** Relationship base and per-precedent accelerator for monetized access. */
+    leverageWeights: {
+      capitalRelationship: number;
+      precedent: number;
+    };
+    /** Every capital relationship produces some access income, even below the compounding tier. */
+    leverageIncomePerScore: Record<ActId, number>;
+    /** Score above which an established network begins producing explosive returns. */
+    leverageCompoundingThreshold: number;
+    /** Act-specific return applied to leverage above the threshold, cubed. */
+    leverageIncomePerScoreCubed: Record<ActId, number>;
+    /** Recurring legal, reputational, and patronage cost of normalized shortcuts. */
+    precedentExposureCostPerPoint: Record<ActId, number>;
     /** Additional per-turn cost for each point of unresolved obligation weight. */
     activeObligationCostPerWeight: Record<ActId, number>;
     /** Additional per-turn cost for each point of betrayed obligation weight. */
@@ -581,6 +608,14 @@ export interface BalanceConfig {
     };
   };
   relationships: { min: number; max: number };
+  timeline: {
+    /** Story day shown on the opening card. */
+    initialDay: number;
+    /** Minimum elapsed day when each act begins. */
+    actStartDays: Record<ActId, number>;
+    /** Authored pacing used unless a card supplies metadata.storyTimeAdvanceDays. */
+    defaultCardAdvanceDays: Record<ActId, number>;
+  };
   scheduler: {
     recentCardWindow: number;
     defaultCardWeight: number;

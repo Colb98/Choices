@@ -3,6 +3,7 @@ import { GAME_WIDTH, GAME_HEIGHT } from '../ui/dimensions';
 import { engine, persistLanguage, saves, session } from '../services';
 import { SUPPORTED_LANGUAGES, getLanguage, setLanguage, t } from '../engine/i18n';
 import { COLORS, FONT } from '../ui/format';
+import { enableHighResolutionText } from '../ui/textQuality';
 
 export class MainMenuScene extends Phaser.Scene {
   constructor() {
@@ -10,6 +11,7 @@ export class MainMenuScene extends Phaser.Scene {
   }
 
   create() {
+    enableHighResolutionText(this);
     this.cameras.main.setBackgroundColor(COLORS.bg);
     this.buildMenu();
   }
@@ -88,7 +90,10 @@ export class MainMenuScene extends Phaser.Scene {
   private continueRun() {
     const save = saves.loadRun();
     if (!save) return this.buildMenu();
-    setLanguage(save.language ?? getLanguage());
+    // Language is an application setting, not immutable run data. Continuing
+    // an English-authored save after switching the menu to Vietnamese must
+    // render the existing state through the currently selected locale.
+    saves.saveRun(save.state, getLanguage());
     session.state = save.state;
     this.scene.start('Game');
   }

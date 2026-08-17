@@ -193,6 +193,8 @@ All bounded values should be clamped by `EffectResolver`.
 
 Narrative data should not manually clamp values.
 
+Money remains numerically uncapped above zero. UI runway is derived from `money / economy.safeReserve`; it does not clamp the stored balance.
+
 ---
 
 # 5. Run State
@@ -203,6 +205,7 @@ interface RunState {
     seed: string;
 
     turn: number;
+    elapsedStoryDays?: number;
 
     currentAct: ActId;
     actTurn: number;
@@ -218,6 +221,8 @@ interface RunState {
 `turn` increments after every committed choice.
 
 `actTurn` increments only within the current act.
+
+`elapsedStoryDays` stores fictional narrative time. It must never be derived from `Date.now()`, animation duration, or time spent with the game open. It remains optional for version-1 save compatibility; missing values are reconstructed from the current act anchor and `actTurn`.
 
 When changing act:
 
@@ -342,7 +347,7 @@ Card type primarily assists:
 
 # 9. Card Metadata
 
-Metadata is ignored by gameplay.
+Metadata is ignored by gameplay except for the explicitly authored story-time override.
 
 ```ts
 interface CardMetadata {
@@ -350,6 +355,7 @@ interface CardMetadata {
     designIntent?: string;
 
     expectedDurationSeconds?: number;
+    storyTimeAdvanceDays?: number;
 
     contentWarnings?: string[];
 
@@ -363,12 +369,13 @@ Example:
 {
   "metadata": {
     "designIntent": "Tempt the player with first meaningful political shortcut.",
-    "expectedDurationSeconds": 20
+    "expectedDurationSeconds": 20,
+    "storyTimeAdvanceDays": 14
   }
 }
 ```
 
-Useful for narrative production without affecting runtime.
+`storyTimeAdvanceDays` affects only fictional chronology; other metadata remains production-only.
 
 ---
 
@@ -2320,6 +2327,110 @@ Do not bury balance constants throughout code.
     "max": 5
   },
 
+  "timeline": {
+    "initialDay": 1,
+    "actStartDays": {
+      "entry": 1,
+      "rise": 181,
+      "network": 731,
+      "power": 1461,
+      "gathering": 2191,
+      "incident": 2191,
+      "aftermath": 2192
+    },
+    "defaultCardAdvanceDays": {
+      "entry": 21,
+      "rise": 30,
+      "network": 35,
+      "power": 35,
+      "gathering": 0,
+      "incident": 0,
+      "aftermath": 3
+    }
+  },
+
+  "money": {
+    "min": 0
+  },
+
+  "economy": {
+    "safeReserve": 100000,
+    "lowThreshold": 0.25,
+    "criticalThreshold": 0.10,
+    "baseTurnCosts": {
+      "entry": 500,
+      "rise": 500,
+      "network": 1200,
+      "power": 2500,
+      "gathering": 6000,
+      "incident": 0,
+      "aftermath": 0
+    },
+    "incomePerPoint": {
+      "standing": 15,
+      "power": 30,
+      "publicTrustPerceived": 4
+    },
+    "civicIncomePerActualTrust": 100,
+    "leverageCapitalCharacters": ["mentor", "businessman", "editor", "minister"],
+    "leverageWeights": {
+      "capitalRelationship": 1,
+      "precedent": 0.25
+    },
+    "leverageIncomePerScore": {
+      "entry": 1,
+      "rise": 5,
+      "network": 20,
+      "power": 100,
+      "gathering": 300,
+      "incident": 0,
+      "aftermath": 0
+    },
+    "leverageCompoundingThreshold": 25,
+    "leverageIncomePerScoreCubed": {
+      "entry": 0.05,
+      "rise": 0.5,
+      "network": 5,
+      "power": 180,
+      "gathering": 900,
+      "incident": 0,
+      "aftermath": 0
+    },
+    "precedentExposureCostPerPoint": {
+      "entry": 0,
+      "rise": 125,
+      "network": 500,
+      "power": 2500,
+      "gathering": 5000,
+      "incident": 0,
+      "aftermath": 0
+    },
+    "activeObligationCostPerWeight": {
+      "entry": 0,
+      "rise": 100,
+      "network": 300,
+      "power": 750,
+      "gathering": 1800,
+      "incident": 0,
+      "aftermath": 0
+    },
+    "betrayedObligationCostPerWeight": {
+      "entry": 0,
+      "rise": 500,
+      "network": 1200,
+      "power": 3500,
+      "gathering": 7000,
+      "incident": 0,
+      "aftermath": 0
+    },
+    "pressureActs": ["entry", "rise", "network", "power", "gathering"],
+    "rescue": {
+      "cardId": "financial_crisis_lifeline",
+      "rescueFlag": "flag_financial_rescue_taken",
+      "bankruptcyFlag": "flag_bankrupt"
+    }
+  },
+
   "scheduler": {
     "recentCardWindow": 6,
     "defaultCardWeight": 10
@@ -2383,6 +2494,14 @@ min <= max
 turns >= 1
 event exists
 ```
+
+### Economy
+
+Validate that the safe reserve is positive, `0 < criticalThreshold < lowThreshold < 1`, all income multipliers, leverage weights, leverage thresholds, and every act cost are non-negative, all leverage capital characters and pressure acts exist, and the rescue card and both rescue flags are registered. Leverage character IDs must be unique. The engine-forced rescue card counts as reachable.
+
+### Story Timeline
+
+Validate that every act has a non-negative default day advance, act start days are chronological, and any `metadata.storyTimeAdvanceDays` override is non-negative. Story time advances when a choice commits and snaps forward to the next act's authored anchor when necessary.
 
 ### Locks
 

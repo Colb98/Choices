@@ -27,5 +27,8 @@
   "card.gathering_transport_sober.right": "Take the official car.",
   "card.gathering_transport_drunk.text": "The stairs move slightly more than stairs should. Outside, the night is sharp, and your own keys are somehow already in your hand — someone passed them to you as a courtesy on the way out. The city is twenty minutes away.",
   "card.gathering_transport_drunk.left": "Call for a driver.",
+  "card.gathering_transport_drunk.left.locked": "Call an outside driver to this private address.",
+  "card.gathering_transport_drunk.left.costly": "Call another driver; wait forty minutes outside the gate.",
+  "card.gathering_transport_drunk.lock_caption": "You sent away the discreet way out that was already waiting, then drank the glass the table poured. Calling an outsider to a house absent from every map would leave your name, the address, and the time. You owe this room too much to create that record.",
   "card.gathering_transport_drunk.right": "Drive. It isn't far."
 }

@@ -26,6 +26,9 @@ export class BootScene extends Phaser.Scene {
     for (const id of KEY_SCENES) {
       this.load.image(`scene:${id}`, `art/scenes/${id}.webp`);
     }
+    for (const id of ['standing', 'power', 'trust'] as const) {
+      this.load.image(`hud:${id}`, `art/ui/${id}.png`);
+    }
   }
 
   create() {

@@ -68,6 +68,19 @@ AIDE
 
 # 3. ACT 0 — ENTRY
 
+## Authored Political Timeline
+
+```text
+Day 1        Entry begins
+Day 181      Rise begins
+Day 731      Network begins
+Day 1461     Power begins
+Day 2191     Final Gathering and Incident
+Day 2192     Aftermath begins
+```
+
+Normal card pacing is 21 / 30 / 35 / 35 days across Entry, Rise, Network, and Power. Gathering and Incident cards consume zero days because they are one continuous night. Aftermath cards advance three days by default. A card may specify `metadata.storyTimeAdvanceDays` when its prose establishes a different interval.
+
 Target:
 
 **6 cards / ~3–5 minutes**
@@ -2899,6 +2912,24 @@ Then selects ending.
 
 # 12. ENDING MATRIX
 
+## Ending 0 — BANKRUPTCY
+
+This ending can occur before the incident and therefore has the highest evaluation priority.
+
+```text
+Money reaches 0
+↓
+One-time lifeline is offered
+↓
+Refuse it, or reach 0 again after accepting it
+↓
+BANKRUPTCY
+```
+
+Accepting the lifeline restores `$60,000`, creates a weight-3 obligation to the Mentor, and resumes the card that the crisis interrupted. The crisis card itself has no operating cost.
+
+The ending should read as the political machine losing interest when the player can no longer finance participation—not as an arcade-style failure screen.
+
 ## Ending 1 — BREAK THE CHAIN
 
 Primary route:
@@ -3157,14 +3188,15 @@ Avoid revenge-fantasy spectacle.
 Recommended initial priority:
 
 ```text
-1. Break the Chain
-2. Accountability
-3. Collapse
-4. Untouchable
-5. Protected
-6. Too Late
-7. Scapegoat
-8. Fallback
+1. Bankruptcy
+2. Break the Chain
+3. Accountability
+4. Collapse
+5. Untouchable
+6. Protected
+7. Too Late
+8. Scapegoat
+9. Fallback
 ```
 
 This should be adjusted during simulation testing.
@@ -3440,6 +3472,14 @@ provided critical institutions have not been destroyed.
 ---
 
 # 27. Ideal Corrupted Run
+
+Target final wealth for an optimized version of this route:
+
+```text
+Money $1B+
+```
+
+The number should become part of the moral pressure: the machine does not only protect the player; it makes leaving feel financially irrational.
 
 A rational optimizer may naturally create:
 

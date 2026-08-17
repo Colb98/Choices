@@ -13,27 +13,66 @@
     "baseTurnCosts": {
       "entry": 500,
       "rise": 500,
-      "network": 1500,
-      "power": 3500,
-      "gathering": 8000,
+      "network": 1200,
+      "power": 2500,
+      "gathering": 6000,
+      "incident": 0,
+      "aftermath": 0
+    },
+    "incomePerPoint": {
+      "standing": 15,
+      "power": 30,
+      "publicTrustPerceived": 4
+    },
+    "civicIncomePerActualTrust": 100,
+    "leverageCapitalCharacters": ["mentor", "businessman", "editor", "minister"],
+    "leverageWeights": {
+      "capitalRelationship": 1,
+      "precedent": 0.25
+    },
+    "leverageIncomePerScore": {
+      "entry": 1,
+      "rise": 5,
+      "network": 20,
+      "power": 100,
+      "gathering": 300,
+      "incident": 0,
+      "aftermath": 0
+    },
+    "leverageCompoundingThreshold": 25,
+    "leverageIncomePerScoreCubed": {
+      "entry": 0.05,
+      "rise": 0.5,
+      "network": 5,
+      "power": 180,
+      "gathering": 900,
+      "incident": 0,
+      "aftermath": 0
+    },
+    "precedentExposureCostPerPoint": {
+      "entry": 0,
+      "rise": 125,
+      "network": 500,
+      "power": 2500,
+      "gathering": 5000,
       "incident": 0,
       "aftermath": 0
     },
     "activeObligationCostPerWeight": {
       "entry": 0,
       "rise": 100,
-      "network": 400,
-      "power": 1000,
-      "gathering": 2500,
+      "network": 300,
+      "power": 750,
+      "gathering": 1800,
       "incident": 0,
       "aftermath": 0
     },
     "betrayedObligationCostPerWeight": {
       "entry": 0,
       "rise": 500,
-      "network": 1500,
-      "power": 5000,
-      "gathering": 10000,
+      "network": 1200,
+      "power": 3500,
+      "gathering": 7000,
       "incident": 0,
       "aftermath": 0
     },
@@ -45,6 +84,27 @@
     }
   },
   "relationships": { "min": -5, "max": 5 },
+  "timeline": {
+    "initialDay": 1,
+    "actStartDays": {
+      "entry": 1,
+      "rise": 181,
+      "network": 731,
+      "power": 1461,
+      "gathering": 2191,
+      "incident": 2191,
+      "aftermath": 2192
+    },
+    "defaultCardAdvanceDays": {
+      "entry": 21,
+      "rise": 30,
+      "network": 35,
+      "power": 35,
+      "gathering": 0,
+      "incident": 0,
+      "aftermath": 3
+    }
+  },
   "scheduler": {
     "recentCardWindow": 6,
     "defaultCardWeight": 10,

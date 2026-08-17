@@ -1,6 +1,13 @@
 import { collectConditions, evaluateCondition, matchingObligations } from './conditions';
+import {
+  economyBreakdown,
+  isFinancialPressureAct,
+  moneyTrend,
+  projectedMoneyDelta as calculateProjectedMoneyDelta,
+} from './economy';
 import { applyEffects } from './effects';
 import { Rng, hashSeed, makeRunSeed } from './rng';
+import { cardStoryAdvanceDays, storyElapsedDays, storyYear } from './timeline';
 import type {
   CardDefinition,
   ChoiceDefinition,
@@ -65,6 +72,7 @@ export class NarrativeEngine {
         currentAct: balance.start.act,
         actTurn: 0,
         startedAt: Date.now(),
+        elapsedStoryDays: balance.timeline.initialDay,
         currentCardId: balance.start.firstCardId,
         completed: false,
       },
@@ -97,6 +105,40 @@ export class NarrativeEngine {
     return this.card(state.run.currentCardId);
   }
 
+  getEconomyBreakdown(state: GameState, card: CardDefinition = this.currentCard(state)) {
+    return economyBreakdown(state, this.content.balance, card);
+  }
+
+  projectMoneyDelta(
+    state: GameState,
+    card: CardDefinition,
+    side: 'left' | 'right',
+    payCost = false,
+  ): number {
+    const choice = this.resolveChoice(state, card, side);
+    const lock = this.getLockState(state, card, side);
+    const extraEffects = payCost && lock.kind === 'cost' ? lock.unlockEffects : [];
+    return calculateProjectedMoneyDelta(
+      state,
+      this.content.balance,
+      card,
+      choice.effects,
+      extraEffects,
+    );
+  }
+
+  moneyTrend(delta: number) {
+    return moneyTrend(delta, this.content.balance.economy.safeReserve);
+  }
+
+  getStoryElapsedDays(state: GameState): number {
+    return storyElapsedDays(state, this.content.balance);
+  }
+
+  getStoryYear(state: GameState): number {
+    return storyYear(this.getStoryElapsedDays(state));
+  }
+
   // -------------------------------------------------------------------------
   // Choice resolution (variants + locks)
 
@@ -106,10 +148,19 @@ export class NarrativeEngine {
     if (base.variants) {
       variant = base.variants.find((v) => evaluateCondition(state, v.conditions));
     }
+    const effects = variant?.effects ?? base.effects;
+    const preview = { ...(variant?.preview ?? base.preview) };
+    const moneyDelta = calculateProjectedMoneyDelta(
+      state,
+      this.content.balance,
+      card,
+      effects,
+    );
+    preview.money = moneyTrend(moneyDelta, this.content.balance.economy.safeReserve);
     return {
       textKey: variant?.text ?? base.text,
-      preview: variant?.preview ?? base.preview,
-      effects: variant?.effects ?? base.effects,
+      preview,
+      effects,
       delayedEffects: variant?.delayedEffects ?? base.delayedEffects,
       lock: variant?.lock ?? base.lock,
       next: variant?.next ?? base.next,
@@ -208,7 +259,43 @@ export class NarrativeEngine {
     if (lockState.kind === 'cost' && opts.payCost) {
       effects.push(...lockState.unlockEffects);
     }
+    // Every non-exempt pre-incident decision consumes operating runway. The
+    // breakdown is calculated before this choice mutates obligations, so a new
+    // favor starts costing money on the following turn and the preview is exact.
+    const recurringMoney = economyBreakdown(state, this.content.balance, card).total;
+    if (recurringMoney !== 0) {
+      effects.push({ type: 'stat', stat: 'money', add: recurringMoney });
+    }
     const app = applyEffects(state, effects, this.content.balance, context);
+
+    state.run.elapsedStoryDays =
+      storyElapsedDays(state, this.content.balance) +
+      cardStoryAdvanceDays(state, this.content.balance, card);
+
+    const hitFinancialFloor =
+      isFinancialPressureAct(state, this.content.balance) &&
+      !(card.tags?.includes('economy_exempt') ?? false) &&
+      state.stats.money <= this.content.balance.money.min;
+    let forceFinancialRescue = false;
+    let bankruptNow = false;
+    if (hitFinancialFloor) {
+      const { rescueFlag, bankruptcyFlag } = this.content.balance.economy.rescue;
+      if (state.flags.includes(rescueFlag)) {
+        bankruptNow = true;
+        if (!state.flags.includes(bankruptcyFlag)) {
+          const bankruptcyApp = applyEffects(
+            state,
+            [{ type: 'flag', flag: bankruptcyFlag, action: 'add' }],
+            this.content.balance,
+            context,
+          );
+          app.records.push(...bankruptcyApp.records);
+          app.flagsAdded.push(...bankruptcyApp.flagsAdded);
+        }
+      } else {
+        forceFinancialRescue = true;
+      }
+    }
 
     // Schedule delayed consequences; ranges are rolled NOW and stored, so a
     // reload can never reroll them.
@@ -285,6 +372,28 @@ export class NarrativeEngine {
         break;
     }
 
+    const rescueCardId = this.content.balance.economy.rescue.cardId;
+    if (card.id === rescueCardId) {
+      if (endingNow) {
+        state.narrative.financialResumeCardId = undefined;
+      } else if (state.narrative.financialResumeCardId) {
+        state.narrative.forcedNextCardId = state.narrative.financialResumeCardId;
+        state.narrative.financialResumeCardId = undefined;
+      }
+    }
+
+    if (forceFinancialRescue) {
+      if (state.narrative.forcedNextCardId && state.narrative.forcedNextCardId !== rescueCardId) {
+        state.narrative.financialResumeCardId = state.narrative.forcedNextCardId;
+      }
+      state.narrative.forcedNextCardId = rescueCardId;
+      endingNow = false;
+    } else if (bankruptNow) {
+      state.narrative.forcedNextCardId = undefined;
+      state.narrative.financialResumeCardId = undefined;
+      endingNow = true;
+    }
+
     state.rngState = rng.getState();
 
     if (endingNow) {
@@ -307,6 +416,10 @@ export class NarrativeEngine {
   private enterAct(state: GameState, act: string) {
     state.run.currentAct = act;
     state.run.actTurn = 0;
+    state.run.elapsedStoryDays = Math.max(
+      storyElapsedDays(state, this.content.balance),
+      this.content.balance.timeline.actStartDays[act] ?? this.content.balance.timeline.initialDay,
+    );
   }
 
   // -------------------------------------------------------------------------

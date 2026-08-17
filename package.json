@@ -9,6 +9,9 @@
     "preview": "vite preview",
     "validate": "tsx scripts/validate.ts",
     "simulate": "tsx scripts/simulate.ts",
+    "test:economy": "tsx scripts/test-economy.ts",
+    "test:gathering": "tsx scripts/test-gathering.ts",
+    "test:timeline": "tsx scripts/test-timeline.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

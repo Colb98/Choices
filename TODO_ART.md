@@ -65,3 +65,13 @@ Scene → card wiring (update `illustration.scene` in card JSON when art lands):
 `villa_evening` → `gathering_arrival` · `villa_toast` → `gathering_editor_toast_*` · `villa_glass` → `gathering_drink` · `villa_driveway` → `gathering_transport_*` · `night_road` → `incident_road_a` · `headlights` → `incident_collision` · `black_road` → `incident_immediate_choice` · `newspaper` → `aftermath_first_article` + ending article view background.
 
 **Total: 12 portraits + 8 scenes = 20 images.**
+
+---
+
+## 3. DESKTOP PRESENTATION
+
+| File | Purpose | Status |
+|---|---|---|
+| `public/art/backgrounds/political-city-desktop.png` | Warm fictional capital skyline surrounding the centered portrait canvas on landscape screens | Complete |
+
+The center is intentionally dark and low-detail because the portrait canvas covers it. The background is hidden in portrait orientation.

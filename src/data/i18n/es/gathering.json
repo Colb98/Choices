@@ -27,5 +27,8 @@
   "card.gathering_transport_sober.right": "Tomar el coche oficial.",
   "card.gathering_transport_drunk.text": "Las escaleras se mueven un poco más de lo que deberían moverse unas escaleras. Afuera, la noche es filosa, y tus propias llaves ya están, de algún modo, en tu mano — alguien te las pasó por cortesía al salir. La ciudad está a veinte minutos.",
   "card.gathering_transport_drunk.left": "Llamar a un chofer.",
+  "card.gathering_transport_drunk.left.locked": "Llamar a un chofer externo a esta dirección privada.",
+  "card.gathering_transport_drunk.left.costly": "Llamar a otro chofer; esperar cuarenta minutos fuera de la entrada.",
+  "card.gathering_transport_drunk.lock_caption": "Mandaste a casa la salida discreta que ya te esperaba y luego bebiste la copa que ofreció la mesa. Llamar a un extraño a una casa que no figura en ningún mapa dejaría tu nombre, la dirección y la hora. Le debes demasiado a esta sala para crear ese registro.",
   "card.gathering_transport_drunk.right": "Manejar. No está lejos."
 }

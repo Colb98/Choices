@@ -40,5 +40,39 @@ if (save) {
   const parsed = JSON.parse(save);
   console.log('TURN:', parsed.state.run.turn, 'CARD:', parsed.state.run.currentCardId);
 }
+
+// Regression: the headline balance keeps every digit at billion scale while
+// the recurring flow beside it remains compact.
+await page.evaluate(() => {
+  const raw = localStorage.getItem('choices.run');
+  if (!raw) return;
+  const parsed = JSON.parse(raw);
+  parsed.state.stats.money = 12_134_624_820;
+  localStorage.setItem('choices.run', JSON.stringify(parsed));
+});
+await page.reload({ waitUntil: 'load' });
+await page.waitForTimeout(500);
+await page.mouse.click(gx(270), gy(420));
+await page.waitForTimeout(700);
+await page.screenshot({ path: '/tmp/ux_billions.png' });
+
+// Regression: an existing English run must continue in the language currently
+// selected on the menu, not the language stored when the run was created.
+await page.reload({ waitUntil: 'load' });
+await page.waitForTimeout(700);
+const menuCanvas = page.locator('canvas');
+const menuBox = await menuCanvas.boundingBox();
+const mx = (x) => menuBox.x + (x / 540) * menuBox.width;
+const my = (y) => menuBox.y + (y / 960) * menuBox.height;
+await page.mouse.click(mx(270), my(654)); // English -> Vietnamese
+await page.waitForTimeout(250);
+await page.mouse.click(mx(270), my(420)); // Continue
+await page.waitForTimeout(700);
+const continuedLanguage = await page.evaluate(() => {
+  const raw = localStorage.getItem('choices.run');
+  return raw ? JSON.parse(raw).language : undefined;
+});
+console.log('CONTINUE_LANGUAGE:', continuedLanguage);
+if (continuedLanguage !== 'vi') errors.push(`Continue used ${continuedLanguage ?? 'no language'} instead of vi`);
 console.log('PAGE_ERRORS:', errors.length ? errors : 'none');
 await browser.close();

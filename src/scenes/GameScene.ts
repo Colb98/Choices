@@ -1,25 +1,31 @@
 import Phaser from 'phaser';
 import { GAME_WIDTH, GAME_HEIGHT } from '../ui/dimensions';
 import { content, engine, saves, session } from '../services';
+import { runwayRatio } from '../engine/economy';
 import { getLanguage, hasKey, t } from '../engine/i18n';
 import type { LockState } from '../engine/engine';
 import type { CardDefinition, ChoicePreview, GameState, TrustTrend } from '../engine/types';
-import { COLORS, FONT, formatMoney } from '../ui/format';
+import { COLORS, FONT, formatMoney, formatSignedMoney } from '../ui/format';
+import { enableHighResolutionText } from '../ui/textQuality';
 
 // Layout (Lapse-like): HUD row on top, one panel containing the narrative
 // (scrollable when long) directly above a large draggable artwork card.
 const ICON_Y = 84;
-const ICON_XS = { standing: 175, power: 270, trust: 365 } as const;
+const ICON_XS = { standing: 255, power: 350, trust: 445 } as const;
 const ICON_SIZE = 46;
-const PANEL = { x: 30, y: 132, w: GAME_WIDTH - 60, h: 772 };
+const MONEY_BAR = { x: 30, y: 121, w: 150, h: 7 };
+const PANEL = { x: 30, y: 132, w: GAME_WIDTH - 60, h: 760 };
 const SPEAKER_Y = 152;
 // Narrative viewport: masked, drag/wheel-scrollable when the text overflows.
-const NARR = { x: 44, y: 186, w: GAME_WIDTH - 88, h: 214 };
+const NARR = { x: 44, y: 186, w: GAME_WIDTH - 88, h: 145 };
 const NARR_LINE_H = 28;
 const CARD_W = 440;
 const CARD_H = 470;
+const CARD_RADIUS = 26;
 const CARD_X = GAME_WIDTH / 2;
-const CARD_Y = 651;
+const CARD_Y = 578;
+const TIMELINE_YEAR_Y = 838;
+const TIMELINE_DAY_Y = 858;
 const COMMIT_DIST = 120;
 const ARROW_DIST = 80;
 const MAX_ANGLE = 14;
@@ -29,11 +35,8 @@ const ARROW_UP = '▲';
 const ARROW_DOWN = '▼';
 
 type IconKey = keyof typeof ICON_XS;
-const ICON_GLYPHS: Record<IconKey, string> = { standing: '◆', power: '⬢', trust: '♥' };
-const ICON_COLORS: Record<IconKey, string> = { standing: '#7a86b8', power: '#b88a3c', trust: '#b85c6e' };
-
 interface StatIcon {
-  fill: Phaser.GameObjects.Text;
+  fill: Phaser.GameObjects.Image;
   maskG: Phaser.GameObjects.Graphics;
   shown: number; // 0..100, currently displayed fill
   up: Phaser.GameObjects.Text;
@@ -46,9 +49,15 @@ export class GameScene extends Phaser.Scene {
   // HUD
   private hud!: Phaser.GameObjects.Container;
   private moneyText!: Phaser.GameObjects.Text;
+  private moneyBarFill!: Phaser.GameObjects.Rectangle;
+  private cashflowText!: Phaser.GameObjects.Text;
+  private runwayLabel!: Phaser.GameObjects.Text;
   private moneyUp!: Phaser.GameObjects.Text;
   private moneyDown!: Phaser.GameObjects.Text;
   private icons: Partial<Record<IconKey, StatIcon>> = {};
+  private timelineYearText!: Phaser.GameObjects.Text;
+  private timelineDayText!: Phaser.GameObjects.Text;
+  private cardRestY = CARD_Y;
 
   // Narrative panel (static; body scrolls when long)
   private speakerText!: Phaser.GameObjects.Text;
@@ -62,6 +71,7 @@ export class GameScene extends Phaser.Scene {
   // Card (draggable, artwork only)
   private cardC!: Phaser.GameObjects.Container;
   private artImage!: Phaser.GameObjects.Image;
+  private cardArtMaskG!: Phaser.GameObjects.Graphics;
   private lockIcon!: Phaser.GameObjects.Text;
 
   // Choices
@@ -85,12 +95,14 @@ export class GameScene extends Phaser.Scene {
       this.scene.start('MainMenu');
       return;
     }
+    enableHighResolutionText(this);
     this.state = session.state;
     this.cameras.main.setBackgroundColor(COLORS.bg);
 
     this.buildHud();
     this.buildPanel();
     this.buildCard();
+    this.buildTimeline();
     this.setupInput();
     this.rebuildHighlightTerms();
     this.showCard();
@@ -98,6 +110,7 @@ export class GameScene extends Phaser.Scene {
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.debugEl?.remove();
       this.debugEl = undefined;
+      this.cardArtMaskG?.destroy();
     });
   }
 
@@ -106,12 +119,27 @@ export class GameScene extends Phaser.Scene {
   private buildHud() {
     this.hud = this.add.container(0, 0);
 
-    this.moneyText = this.add.text(30, ICON_Y, '', {
+    this.moneyText = this.add.text(30, 62, '', {
       fontFamily: FONT, fontSize: '20px', color: COLORS.text, fontStyle: 'bold',
     }).setOrigin(0, 0.5);
-    this.moneyUp = this.makeArrow(0, ICON_Y - 26);
-    this.moneyDown = this.makeArrow(0, ICON_Y + 26);
-    this.hud.add([this.moneyText, this.moneyUp, this.moneyDown]);
+    this.cashflowText = this.add.text(30, 87, '', {
+      fontFamily: FONT, fontSize: '12px', color: COLORS.textDim,
+    }).setOrigin(0, 0.5);
+    this.runwayLabel = this.add.text(30, 105, t('ui.hud.runway').toUpperCase(), {
+      fontFamily: FONT, fontSize: '9px', color: COLORS.textDim,
+    }).setOrigin(0, 0.5);
+    const moneyBarBg = this.add.rectangle(
+      MONEY_BAR.x, MONEY_BAR.y, MONEY_BAR.w, MONEY_BAR.h, COLORS.barBg,
+    ).setOrigin(0, 0.5);
+    this.moneyBarFill = this.add.rectangle(
+      MONEY_BAR.x, MONEY_BAR.y, MONEY_BAR.w, MONEY_BAR.h, 0x7ca36d,
+    ).setOrigin(0, 0.5);
+    this.moneyUp = this.makeArrow(105, 34);
+    this.moneyDown = this.makeArrow(105, 128);
+    this.hud.add([
+      this.moneyText, this.cashflowText, this.runwayLabel,
+      moneyBarBg, this.moneyBarFill, this.moneyUp, this.moneyDown,
+    ]);
 
     const tooltipKeys: Record<IconKey, string> = {
       standing: 'ui.hud.standing',
@@ -123,12 +151,11 @@ export class GameScene extends Phaser.Scene {
       const x = ICON_XS[key];
       // The icon IS the progress bar: a dim base glyph, and a colored copy
       // clipped from the bottom by a geometry (stencil) mask.
-      const base = this.add.text(x, ICON_Y, ICON_GLYPHS[key], {
-        fontFamily: FONT, fontSize: `${ICON_SIZE}px`, color: '#33333f',
-      }).setOrigin(0.5);
-      const fill = this.add.text(x, ICON_Y, ICON_GLYPHS[key], {
-        fontFamily: FONT, fontSize: `${ICON_SIZE}px`, color: ICON_COLORS[key],
-      }).setOrigin(0.5);
+      const base = this.add.image(x, ICON_Y, `hud:${key}`)
+        .setDisplaySize(ICON_SIZE, ICON_SIZE)
+        .setAlpha(0.28);
+      const fill = this.add.image(x, ICON_Y, `hud:${key}`)
+        .setDisplaySize(ICON_SIZE, ICON_SIZE);
       const maskG = this.make.graphics({}, false);
       fill.setMask(maskG.createGeometryMask());
       const up = this.makeArrow(x, ICON_Y - ICON_SIZE / 2 - 16);
@@ -146,10 +173,16 @@ export class GameScene extends Phaser.Scene {
 
     this.tooltipText = this.add.text(0, 0, '', {
       fontFamily: FONT, fontSize: '14px', color: COLORS.text,
-      backgroundColor: '#2a2a36', padding: { x: 10, y: 6 },
+      backgroundColor: '#2b2028', padding: { x: 10, y: 6 },
     }).setOrigin(0.5, 0);
     this.tooltip = this.add.container(0, ICON_Y + ICON_SIZE / 2 + 30, [this.tooltipText])
       .setDepth(40).setAlpha(0);
+
+    moneyBarBg.setInteractive({ useHandCursor: true });
+    moneyBarBg.on('pointerover', () => this.showTooltip(t('ui.hud.runway'), 105));
+    moneyBarBg.on('pointerdown', () => this.showTooltip(t('ui.hud.runway'), 105));
+    moneyBarBg.on('pointerout', () => this.hideTooltip());
+    moneyBarBg.on('pointerup', () => this.hideTooltip());
 
     this.updateHud(false);
   }
@@ -192,12 +225,65 @@ export class GameScene extends Phaser.Scene {
     });
   }
 
-  private updateHud(animate = true) {
-    this.moneyText.setText(formatMoney(this.state.stats.money));
+  private renderMoney(value: number) {
+    const ratio = runwayRatio(value, content.balance);
+    const { lowThreshold, criticalThreshold } = content.balance.economy;
+    const color = ratio <= criticalThreshold
+      ? 0xb23a3a
+      : ratio <= lowThreshold
+        ? 0xc18a42
+        : 0x7ca36d;
+    this.moneyText.setText(formatMoney(value));
+    this.moneyText.setColor(ratio <= criticalThreshold ? '#d66a6a' : COLORS.text);
+    this.moneyBarFill
+      .setFillStyle(color)
+      .setDisplaySize(Math.max(2, MONEY_BAR.w * ratio), MONEY_BAR.h)
+      .setAlpha(value <= 0 ? 0.25 : 1);
+  }
+
+  private updateHud(animate = true, moneyFrom?: number) {
+    const targetMoney = this.state.stats.money;
+    if (animate && moneyFrom !== undefined && moneyFrom !== targetMoney && !this.reducedMotion()) {
+      const proxy = { value: moneyFrom };
+      this.tweens.add({
+        targets: proxy, value: targetMoney, duration: 520, ease: 'Cubic.out',
+        onUpdate: () => this.renderMoney(proxy.value),
+        onComplete: () => this.renderMoney(targetMoney),
+      });
+    } else {
+      this.renderMoney(targetMoney);
+    }
+    const currentCard = this.state.run.currentCardId ? engine.currentCard(this.state) : undefined;
+    const flow = currentCard ? engine.getEconomyBreakdown(this.state, currentCard).total : 0;
+    this.cashflowText
+      .setText(`${formatSignedMoney(flow)} ${t('ui.hud.per_turn')}`)
+      .setColor(flow < 0 ? '#d08a8a' : flow > 0 ? '#9ac48a' : COLORS.textDim);
     this.setIconFill('standing', this.state.stats.standing, animate);
     this.setIconFill('power', this.state.stats.power, animate);
     // The player sees PERCEIVED trust; reality may differ.
     this.setIconFill('trust', this.state.stats.publicTrustPerceived, animate);
+  }
+
+  private showMoneyDelta(delta: number) {
+    if (delta === 0) return;
+    const loss = delta < 0;
+    const txt = this.add.text(105, 46, formatSignedMoney(delta), {
+      fontFamily: FONT, fontSize: '17px', fontStyle: 'bold',
+      color: loss ? '#e18181' : '#9ac48a',
+    }).setOrigin(0.5).setDepth(45);
+    this.tweens.add({
+      targets: txt, y: 24, alpha: 0,
+      duration: this.reducedMotion() ? 450 : 900,
+      ease: 'Cubic.out',
+      onComplete: () => txt.destroy(),
+    });
+    const ratio = runwayRatio(this.state.stats.money, content.balance);
+    if (loss && ratio <= content.balance.economy.criticalThreshold) {
+      this.cameras.main.flash(this.reducedMotion() ? 0 : 180, 125, 25, 25, false);
+      if (!this.reducedMotion() && (session.meta.settings?.screenShake ?? true)) {
+        this.cameras.main.shake(180, 0.006);
+      }
+    }
   }
 
   // -------------------------------------------------- HUD preview arrows
@@ -228,7 +314,10 @@ export class GameScene extends Phaser.Scene {
     this.hidePreviewArrows();
 
     const trends: Partial<Record<'money' | IconKey, { dir: 1 | -1; mag: number; uncertain?: boolean }>> = {};
-    const p: ChoicePreview = choice.preview ?? {};
+    const p: ChoicePreview = {
+      ...(choice.preview ?? {}),
+      money: engine.moneyTrend(engine.projectMoneyDelta(this.state, card, side, lock.kind === 'cost')),
+    };
     const put = (k: 'money' | IconKey, v: number | undefined) => {
       if (v) trends[k] = { dir: v > 0 ? 1 : -1, mag: Math.abs(v) };
     };
@@ -242,11 +331,10 @@ export class GameScene extends Phaser.Scene {
     // A cost-lock's price folds into the same arrows.
     if (lock.kind === 'cost') {
       for (const eff of lock.unlockEffects) {
-        if (eff.type === 'stat' && eff.add !== undefined && eff.add !== 0) {
+        if (eff.type === 'stat' && eff.stat !== 'money' && eff.add !== undefined && eff.add !== 0) {
           const mag = Math.abs(eff.add) >= 9 ? 3 : Math.abs(eff.add) >= 4 ? 2 : 1;
           const key: 'money' | IconKey | undefined =
-            eff.stat === 'money' ? 'money'
-            : eff.stat === 'standing' ? 'standing'
+            eff.stat === 'standing' ? 'standing'
             : eff.stat === 'power' ? 'power'
             : eff.stat === 'publicTrustPerceived' ? 'trust'
             : undefined;
@@ -288,14 +376,39 @@ export class GameScene extends Phaser.Scene {
     }
   }
 
+  private buildTimeline() {
+    this.timelineYearText = this.add.text(GAME_WIDTH / 2, TIMELINE_YEAR_Y, '', {
+      fontFamily: FONT, fontSize: '13px', color: COLORS.accent,
+      fontStyle: 'bold', letterSpacing: 2,
+    }).setOrigin(0.5).setDepth(1);
+    this.timelineDayText = this.add.text(GAME_WIDTH / 2, TIMELINE_DAY_Y, '', {
+      fontFamily: FONT, fontSize: '11px', color: COLORS.textDim,
+      letterSpacing: 1,
+    }).setOrigin(0.5).setDepth(1);
+    this.updateTimeline();
+  }
+
+  private updateTimeline() {
+    const elapsedDays = engine.getStoryElapsedDays(this.state);
+    const year = engine.getStoryYear(this.state);
+    const localizedDays = new Intl.NumberFormat(getLanguage()).format(elapsedDays);
+    this.timelineYearText.setText(t('ui.timeline.year', [year]));
+    this.timelineDayText.setText(t('ui.timeline.day_in_office', [localizedDays]));
+  }
+
+  private updateVerticalLayout(bodyHeight: number) {
+    const cardTop = Phaser.Math.Clamp(NARR.y + bodyHeight + 14, 270, NARR.y + NARR.h + 12);
+    this.cardRestY = cardTop + CARD_H / 2;
+    this.timelineYearText?.setY(this.cardRestY + CARD_H / 2 + 25);
+    this.timelineDayText?.setY(this.cardRestY + CARD_H / 2 + 45);
+  }
+
   // ------------------------------------------------------- narrative panel
 
   private buildPanel() {
     const g = this.add.graphics();
     g.fillStyle(COLORS.bgPanel, 1);
     g.fillRoundedRect(PANEL.x, PANEL.y, PANEL.w, PANEL.h, 14);
-    g.lineStyle(1, COLORS.cardBorder, 1);
-    g.strokeRoundedRect(PANEL.x, PANEL.y, PANEL.w, PANEL.h, 14);
 
     this.speakerText = this.add.text(GAME_WIDTH / 2, SPEAKER_Y, '', {
       fontFamily: FONT, fontSize: '17px', color: COLORS.accent, fontStyle: 'bold',
@@ -348,7 +461,7 @@ export class GameScene extends Phaser.Scene {
    * then lays it out manually: bold+accent runs, centered lines, CJK-aware
    * wrapping. Returns total content height.
    */
-  private renderRichBody(raw: string) {
+  private renderRichBody(raw: string): number {
     this.narrContent.removeAll(true);
 
     let text = raw;
@@ -438,6 +551,7 @@ export class GameScene extends Phaser.Scene {
 
     this.narrMaxScroll = Math.max(0, y - NARR.h);
     this.setNarrScroll(0);
+    return y;
   }
 
   private rebuildHighlightTerms() {
@@ -458,11 +572,24 @@ export class GameScene extends Phaser.Scene {
 
   private buildCard() {
     this.cardC = this.add.container(CARD_X, CARD_Y);
+    this.cardC.setDepth(2);
 
-    const panel = this.add.rectangle(0, 0, CARD_W, CARD_H, COLORS.card).setStrokeStyle(2, COLORS.cardBorder);
-    panel.setInteractive({ draggable: true, useHandCursor: true });
-    const art = this.add.rectangle(0, 0, CARD_W - 22, CARD_H - 22, COLORS.bgPanel);
+    const shadow = this.add.graphics();
+    shadow.fillStyle(0x000000, 0.38);
+    shadow.fillRoundedRect(-CARD_W / 2, -CARD_H / 2 + 8, CARD_W, CARD_H, CARD_RADIUS);
+
+    const fallback = this.add.graphics();
+    fallback.fillStyle(COLORS.card, 1);
+    fallback.fillRoundedRect(-CARD_W / 2, -CARD_H / 2, CARD_W, CARD_H, CARD_RADIUS);
+
+    const hitTarget = this.add.rectangle(0, 0, CARD_W, CARD_H, 0xffffff, 0);
+    hitTarget.setInteractive({ draggable: true, useHandCursor: true });
+
     this.artImage = this.add.image(0, 0, '__DEFAULT').setVisible(false);
+    this.cardArtMaskG = this.make.graphics({ x: CARD_X, y: CARD_Y }, false);
+    this.cardArtMaskG.fillStyle(0xffffff);
+    this.cardArtMaskG.fillRoundedRect(-CARD_W / 2, -CARD_H / 2, CARD_W, CARD_H, CARD_RADIUS);
+    this.artImage.setMask(this.cardArtMaskG.createGeometryMask());
     this.lockIcon = this.add.text(0, 0, '🔒', { fontSize: '46px' }).setOrigin(0.5).setAlpha(0);
 
     // Choice labels live on the card's top corners and move/rotate with it —
@@ -470,25 +597,25 @@ export class GameScene extends Phaser.Scene {
     // inside the viewport during the drag is the one you're reading.
     this.leftLabel = this.add.text(CARD_W / 2 - 16, -CARD_H / 2 + 14, '', {
       fontFamily: FONT, fontSize: '17px', color: COLORS.text,
-      wordWrap: { width: 168 }, align: 'right',
+      wordWrap: { width: 168 }, align: 'right', stroke: '#18090d', strokeThickness: 4,
     }).setOrigin(1, 0).setAlpha(CHOICE_BASE_ALPHA);
     this.rightLabel = this.add.text(-CARD_W / 2 + 16, -CARD_H / 2 + 14, '', {
       fontFamily: FONT, fontSize: '17px', color: COLORS.text,
-      wordWrap: { width: 168 }, align: 'left',
+      wordWrap: { width: 168 }, align: 'left', stroke: '#18090d', strokeThickness: 4,
     }).setOrigin(0, 0).setAlpha(CHOICE_BASE_ALPHA);
 
-    this.cardC.add([panel, art, this.artImage, this.leftLabel, this.rightLabel, this.lockIcon]);
+    this.cardC.add([shadow, fallback, this.artImage, hitTarget, this.leftLabel, this.rightLabel, this.lockIcon]);
 
-    panel.on('dragstart', (pointer: Phaser.Input.Pointer) => {
+    hitTarget.on('dragstart', (pointer: Phaser.Input.Pointer) => {
       if (this.busy) return;
       this.dragging = true;
       this.dragStart = { x: pointer.x, y: pointer.y };
     });
-    panel.on('drag', (pointer: Phaser.Input.Pointer) => {
+    hitTarget.on('drag', (pointer: Phaser.Input.Pointer) => {
       if (!this.dragging || this.busy) return;
       this.onDragMove(pointer.x - this.dragStart.x, pointer.y - this.dragStart.y);
     });
-    panel.on('dragend', () => {
+    hitTarget.on('dragend', () => {
       if (!this.dragging || this.busy) return;
       this.dragging = false;
       this.onDragEnd();
@@ -511,8 +638,10 @@ export class GameScene extends Phaser.Scene {
     const card = this.currentCard();
     const speaker = card.speaker ? t(content.characters[card.speaker]?.nameKey ?? `char.${card.speaker}.name`) : '';
     this.speakerText.setText(speaker);
-    this.renderRichBody(t(card.text));
+    const bodyHeight = this.renderRichBody(t(card.text));
+    this.updateVerticalLayout(bodyHeight);
     this.updateCardArt(card);
+    this.updateTimeline();
 
     const isIncident = card.type === 'incident';
     this.hud.setAlpha(isIncident ? 0 : 1);
@@ -568,8 +697,8 @@ export class GameScene extends Phaser.Scene {
       this.artImage.setVisible(false);
       return;
     }
-    const tw = CARD_W - 22;
-    const th = CARD_H - 22;
+    const tw = CARD_W;
+    const th = CARD_H;
     this.artImage.setTexture(key);
     const src = this.artImage.frame;
     // Cover-fit: scale to fill the card, crop the overflow symmetrically.
@@ -587,8 +716,11 @@ export class GameScene extends Phaser.Scene {
   /** Rotation follows the horizontal distance from the center vertical axis. */
   private applyCardTransform() {
     this.cardC.x = CARD_X + this.dragOffset.x;
-    this.cardC.y = CARD_Y + this.dragOffset.y;
+    this.cardC.y = this.cardRestY + this.dragOffset.y;
     this.cardC.angle = Phaser.Math.Clamp((this.dragOffset.x / (GAME_WIDTH / 2)) * MAX_ANGLE, -MAX_ANGLE, MAX_ANGLE);
+    this.cardArtMaskG
+      .setPosition(this.cardC.x, this.cardC.y)
+      .setAngle(this.cardC.angle);
   }
 
   private onDragMove(dx: number, dy: number) {
@@ -725,14 +857,16 @@ export class GameScene extends Phaser.Scene {
       items.forEach((_, i) => showMemory(i));
     }
 
+    const captionKey = hasKey(`card.${card.id}.lock_caption`) ? `card.${card.id}.lock_caption` : 'ui.lock.caption';
+    const caption = t(captionKey);
+    const captionDuration = Phaser.Math.Clamp(caption.length * 22, 1800, 5200);
     this.time.delayedCall(delay, () => {
       memoryText.setAlpha(0);
       chosenText.setAlpha(0);
-      const captionKey = hasKey(`card.${card.id}.lock_caption`) ? `card.${card.id}.lock_caption` : 'ui.lock.caption';
-      memoryText.setText(t(captionKey));
+      memoryText.setText(caption);
       memoryText.setAlpha(1);
     });
-    this.time.delayedCall(delay + 1400, () => {
+    this.time.delayedCall(delay + captionDuration, () => {
       [overlay, flashRect, memoryText, chosenText].forEach((o) => o.destroy());
       this.busy = false;
       this.returnCard();
@@ -745,6 +879,7 @@ export class GameScene extends Phaser.Scene {
     this.busy = true;
     const dir = side === 'left' ? -1 : 1;
     const actBefore = this.state.run.currentAct;
+    const moneyBefore = this.state.stats.money;
 
     let result;
     try {
@@ -771,13 +906,16 @@ export class GameScene extends Phaser.Scene {
         this.hidePreviewArrows();
         this.leftLabel.setAlpha(CHOICE_BASE_ALPHA);
         this.rightLabel.setAlpha(CHOICE_BASE_ALPHA);
-        this.updateHud();
+        this.updateHud(true, moneyBefore);
+        this.showMoneyDelta(this.state.stats.money - moneyBefore);
 
         if (result.endingId) {
           const meta = saves.recordCompletion(result.endingId);
           session.meta = meta;
           saves.clearRun();
-          this.scene.start('Ending', { endingId: result.endingId });
+          this.time.delayedCall(this.reducedMotion() ? 0 : 600, () => {
+            this.scene.start('Ending', { endingId: result.endingId });
+          });
           return;
         }
 
@@ -843,7 +981,10 @@ export class GameScene extends Phaser.Scene {
         act: s.run.currentAct,
         turn: s.run.turn,
         actTurn: s.run.actTurn,
+        storyDay: engine.getStoryElapsedDays(s),
+        storyYear: engine.getStoryYear(s),
         stats: s.stats,
+        economy: s.run.currentCardId ? engine.getEconomyBreakdown(s) : undefined,
         flags: s.flags,
         relationships: s.relationships,
         precedents: s.precedents,
