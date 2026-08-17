@@ -42,5 +42,11 @@
   "act.gathering.title": "La reunión",
   "act.incident.title": "Esa noche",
   "act.aftermath.title": "Consecuencias",
-  "ui.hud.trust": "Confianza"
+  "ui.hud.trust": "Confianza",
+  "ui.hud.trust_perceived": "Confianza pública — lo que tu círculo cree que siente la gente",
+  "ui.economy.title": "FLUJO POR TURNO",
+  "ui.economy.institutional": "Acceso institucional",
+  "ui.economy.civic": "Apoyo cívico",
+  "ui.economy.leverage": "Influencia del capital",
+  "ui.economy.pressure": "Costes y obligaciones"
 }

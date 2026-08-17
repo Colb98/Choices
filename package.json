@@ -13,6 +13,7 @@
     "test:gathering": "tsx scripts/test-gathering.ts",
     "test:timeline": "tsx scripts/test-timeline.ts",
     "test:standing-power": "tsx scripts/test-standing-power.ts",
+    "test:public-trust": "tsx scripts/test-public-trust.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

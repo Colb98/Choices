@@ -42,5 +42,11 @@
   "act.gathering.title": "夜宴",
   "act.incident.title": "那一夜",
   "act.aftermath.title": "余波",
-  "ui.hud.trust": "民心"
+  "ui.hud.trust": "民心",
+  "ui.hud.trust_perceived": "民心——你身边的人认为公众拥有的支持度",
+  "ui.economy.title": "每回合现金流",
+  "ui.economy.institutional": "体制资源",
+  "ui.economy.civic": "公民支持",
+  "ui.economy.leverage": "资本杠杆",
+  "ui.economy.pressure": "成本与义务"
 }

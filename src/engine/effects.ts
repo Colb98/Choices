@@ -52,6 +52,22 @@ export function applyEffects(
         app.records.push({ type: 'stat', target: effect.stat, before, after, sourceEffectIndex: index });
         break;
       }
+      case 'stat_converge': {
+        const before = state.stats[effect.from];
+        const target = state.stats[effect.to];
+        let after = Math.round(before + (target - before) * effect.fraction);
+        const bounds = balance.stats[effect.from];
+        after = clamp(after, bounds.min, bounds.max);
+        state.stats[effect.from] = after;
+        app.records.push({
+          type: 'stat_converge',
+          target: effect.from,
+          before,
+          after,
+          sourceEffectIndex: index,
+        });
+        break;
+      }
       case 'money_pressure': {
         const before = state.stats.money;
         const requestedLoss = clamp(

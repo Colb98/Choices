@@ -48,6 +48,12 @@ function evaluatePrimitive(state: GameState, c: Condition, explain?: string[]): 
       explain?.push(`stat ${c.stat} ${c.op} ${c.value}: ${r ? 'PASS' : 'FAIL'} (${v})`);
       return r;
     }
+    case 'trust_gap': {
+      const v = state.stats.publicTrustPerceived - state.stats.publicTrustActual;
+      const r = cmp(c.op, v, c.value);
+      explain?.push(`trust gap ${c.op} ${c.value}: ${r ? 'PASS' : 'FAIL'} (${v})`);
+      return r;
+    }
     case 'flag': {
       const has = state.flags.includes(c.flag);
       const r = has === c.exists;

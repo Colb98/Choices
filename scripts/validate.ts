@@ -82,6 +82,14 @@ function checkEffects(effects: Effect[] | undefined, where: string) {
           err(`${where}: stat effect must have exactly one of add/set`);
         }
         break;
+      case 'stat_converge':
+        if (!Number.isFinite(e.fraction) || e.fraction <= 0 || e.fraction > 1) {
+          err(`${where}: stat_converge fraction must satisfy 0 < fraction <= 1`);
+        }
+        if (e.from === e.to) {
+          err(`${where}: stat_converge must use different from/to stats`);
+        }
+        break;
       case 'money_pressure':
         if (!Number.isFinite(e.percent) || e.percent <= 0 || e.percent > 1) {
           err(`${where}: money_pressure percent must satisfy 0 < percent <= 1`);

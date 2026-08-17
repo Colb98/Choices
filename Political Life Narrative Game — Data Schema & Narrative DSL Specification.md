@@ -615,6 +615,7 @@ Recommended primitive condition types:
 ```ts
 type Condition =
     | StatCondition
+    | TrustGapCondition
     | FlagCondition
     | RelationshipCondition
     | PrecedentCondition
@@ -662,6 +663,34 @@ Example:
   "stat": "power",
   "op": ">=",
   "value": 70
+}
+```
+
+---
+
+# 15.1 Public Trust Gap Condition
+
+The Trust gap is the difference between the support shown to the player and genuine public support:
+
+```text
+publicTrustPerceived - publicTrustActual
+```
+
+```ts
+interface TrustGapCondition {
+    type: "trust_gap";
+    op: ">" | ">=" | "<" | "<=" | "==" | "!=";
+    value: number;
+}
+```
+
+A positive gap represents an inflated public image. A negative gap represents genuine support that political polling or advisors underestimate.
+
+```json
+{
+  "type": "trust_gap",
+  "op": ">=",
+  "value": 15
 }
 ```
 
@@ -901,6 +930,7 @@ All state mutation should go through `EffectResolver`.
 ```ts
 type Effect =
     | StatEffect
+    | StatConvergeEffect
     | MoneyPressureEffect
     | FlagEffect
     | RelationshipEffect
@@ -952,7 +982,7 @@ Example:
 
 # 25.1 Nonlethal Money Pressure Effect
 
-Low Standing or low Power may create a proportional cash loss without directly ending the run:
+Low Standing, low Power, or low Public Trust may create a proportional cash loss without directly ending the run:
 
 ```ts
 interface MoneyPressureEffect {
@@ -977,6 +1007,40 @@ Example:
 ```
 
 Choice preview must calculate the exact dynamic loss from the current balance. The committed effect produces a normal money delta animation and a `ResolvedEffectRecord` with `target: "money"`.
+
+---
+
+# 25.2 Stat Convergence Effect
+
+Polling, investigations, public hearings, and other revelations may move one bounded stat toward another:
+
+```ts
+interface StatConvergeEffect {
+    type: "stat_converge";
+    from: Exclude<keyof PlayerStats, "money">;
+    to: Exclude<keyof PlayerStats, "money">;
+    fraction: number;
+}
+```
+
+`fraction` must be greater than zero and at most one. The resolver applies:
+
+```text
+round(from + (to - from) * fraction)
+```
+
+Example: move perceived Trust 75% of the way toward actual Trust:
+
+```json
+{
+  "type": "stat_converge",
+  "from": "publicTrustPerceived",
+  "to": "publicTrustActual",
+  "fraction": 0.75
+}
+```
+
+The target stat is not changed. The resolved source value is clamped to its normal bounds.
 
 ---
 

@@ -1,0 +1,14 @@
+{
+  "flags": [
+    { "id": "flag_trust_story_rise_seen", "description": "A Trust-specific response story has occurred in the Rise act." },
+    { "id": "flag_trust_story_network_seen", "description": "A Trust-gap response story has occurred in the Network act." },
+    { "id": "flag_trust_story_power_seen", "description": "A Trust-and-Power response story has occurred in the Power act." },
+    { "id": "flag_public_warning_seen", "description": "The player has received a visible warning that public cooperation is deteriorating." },
+    { "id": "flag_staged_town_hall", "description": "The player concealed an empty public meeting with paid organizers and camera framing." },
+    { "id": "flag_grassroots_network", "description": "The player has preserved or organized a genuine grassroots network." },
+    { "id": "flag_public_mandate_used", "description": "The player spent a genuine public mandate on structural reform." },
+    { "id": "flag_trust_recovery_started", "description": "The player accepted a costly route to rebuild genuine public support." },
+    { "id": "flag_civic_crisis", "description": "Public noncooperation has become an open legitimacy crisis." },
+    { "id": "flag_trust_suppression_escalated", "description": "The player answered a legitimacy crisis with coordinated suppression, opening the Collapse route." }
+  ]
+}

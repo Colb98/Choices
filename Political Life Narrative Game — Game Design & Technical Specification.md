@@ -2707,4 +2707,47 @@ low Standing  + high Power = feared technocrat
 low Standing  + low Power  = marginal officeholder
 ```
 
-Low-status money pressure uses the dedicated `money_pressure` effect and may never directly trigger rescue or bankruptcy. Only one money-pressure story should be forced or strongly weighted per act. Public Trust remains outside this layer and retains its existing collapse-ending role.
+Low-status money pressure uses the dedicated `money_pressure` effect and may never directly trigger rescue or bankruptcy. Only one money-pressure story should be forced or strongly weighted per act.
+
+---
+
+# 82. Public Trust Gameplay Layer
+
+Public Trust represents social cooperation and political consent. Standing determines who takes the player's call; Power determines what the player can execute; Public Trust determines whether citizens help, tolerate, ignore, or resist the result.
+
+The system retains two values:
+
+```text
+publicTrustActual     = genuine support
+publicTrustPerceived  = the support shown on the HUD
+trustGap              = perceived - actual
+```
+
+Normal cards may change both values differently. Conditional Trust stories consume those values during play:
+
+- low actual Trust creates empty events, lost volunteers, public noncooperation, and nonlethal financial pressure;
+- high actual Trust creates grassroots labor, legitimate fundraising, public defense, and reform opportunities;
+- a large positive gap creates a lucrative but fragile popularity bubble;
+- a negative gap creates a quiet reserve of support that can later become visible political capacity;
+- high Trust plus high Power creates a public mandate;
+- high Trust plus low Power creates a beloved figurehead;
+- low Trust plus high Power creates coercive stability and the staged Collapse route;
+- low Trust plus low Power creates abandonment with both a patient recovery route and an easier corrupt shortcut.
+
+At most one dedicated Trust response story should appear in each of the Rise, Network, and Power acts. This prevents a single threshold crossing from flooding the run with similar consequences.
+
+Accurate polling and public revelations use `stat_converge` to move perceived Trust toward actual Trust. The game must never randomly lie about public response: every misleading preview must come from an authored information bubble, propaganda choice, delayed reaction, or unreliable intermediary.
+
+The per-turn cash-flow tooltip may reveal named categories such as institutional access and civic support, but it must not reveal the numeric actual-Trust stat.
+
+Collapse is staged rather than triggered by a low number alone:
+
+```text
+public cooperation deteriorates
+→ the player receives a warning or civic-crisis story
+→ recovery requires money, transparency, and surrendered Power
+→ suppression preserves short-term Power and opens the Collapse route
+→ later concealment at extremely low actual Trust causes institutional abandonment
+```
+
+Low Trust alone must never immediately end the game.

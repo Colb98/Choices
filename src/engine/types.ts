@@ -48,6 +48,7 @@ export interface NotCondition {
 
 export type Condition =
   | StatCondition
+  | TrustGapCondition
   | FlagCondition
   | RelationshipCondition
   | PrecedentCondition
@@ -62,6 +63,17 @@ export type CompareOp = '>' | '>=' | '<' | '<=' | '==' | '!=';
 export interface StatCondition {
   type: 'stat';
   stat: StatName;
+  op: CompareOp;
+  value: number;
+}
+
+/**
+ * Difference between the Trust shown to the player and genuine public support.
+ * Positive values are an inflated image; negative values are underestimated
+ * grassroots support.
+ */
+export interface TrustGapCondition {
+  type: 'trust_gap';
   op: CompareOp;
   value: number;
 }
@@ -128,6 +140,7 @@ export interface SeenCardCondition {
 
 export type Effect =
   | StatEffect
+  | StatConvergeEffect
   | MoneyPressureEffect
   | FlagEffect
   | RelationshipEffect
@@ -143,8 +156,16 @@ export interface StatEffect {
   set?: number;
 }
 
+/** Move one stat a fraction of the distance toward another stat. */
+export interface StatConvergeEffect {
+  type: 'stat_converge';
+  from: Exclude<StatName, 'money'>;
+  to: Exclude<StatName, 'money'>;
+  fraction: number;
+}
+
 /**
- * A visible, balance-scaled cash loss used by low Standing/Power stories.
+ * A visible, balance-scaled cash loss used by low-status and low-Trust stories.
  * Unlike an ordinary money stat effect, it cannot reduce the player below the
  * configured status-pressure floor and therefore cannot directly end a run.
  */

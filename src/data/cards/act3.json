@@ -1363,9 +1363,10 @@
           "action": "add"
         },
         {
-          "type": "stat",
-          "stat": "publicTrustPerceived",
-          "add": -6
+          "type": "stat_converge",
+          "from": "publicTrustPerceived",
+          "to": "publicTrustActual",
+          "fraction": 0.75
         }
       ]
     },
@@ -1389,11 +1390,7 @@
       ]
     },
     "metadata": {
-      "designIntent": "The only card in the game that can *shrink* the perceived−actual gap, and it costs money and comfort to pick. The right choice inflates the bubble the Collapse ending needs. This is the spec's \"incorrect predictions must have systemic reasons\" made purchasable: the player who never buys real polling has *chosen* their own blindfold, one card at a time.",
-      "authorNote": "ENGINE-REQ-01: left choice should use { \"type\": \"stat_converge\", \"from\": \"publicTrustPerceived\", \"to\": \"publicTrustActual\", \"fraction\": 0.75 } once implemented. The trustPerceived -6 effect is the authored fallback — approximately right on networked runs, wrong on clean runs; replace before ship.",
-      "debugTags": [
-        "TODO_ENGINE_REQ_01_stat_converge_fallback"
-      ]
+      "designIntent": "Accurate polling shrinks 75% of the perceived−actual gap, and it costs money and comfort to pick. The right choice inflates the bubble the Collapse ending needs. This is the spec's \"incorrect predictions must have systemic reasons\" made purchasable: the player who never buys real polling has chosen their own blindfold, one card at a time."
     }
   },
   {

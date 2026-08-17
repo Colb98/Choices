@@ -87,7 +87,7 @@ const strategies: Record<string, Strategy> = {
       if (lock.kind === 'hard') return -Infinity;
       const projected = structuredClone(s);
       const result = e.commitChoice(projected, side, { payCost: lock.kind === 'cost' });
-      if (result.endingId === 'ending_bankrupt') return -Infinity;
+      if (result.endingId === 'ending_bankrupt') return -1e30;
       // Intentionally construct the low-Standing/high-Power quadrant so its
       // conditional story and recovery choices receive simulation coverage.
       return (
@@ -101,6 +101,27 @@ const strategies: Record<string, Strategy> = {
     const side = ranked.length > 1 && ranked[0].score === ranked[1].score && r.next() < 0.5
       ? ranked[1].side
       : ranked[0].side;
+    return { side, payCost: e.getLockState(s, card, side).kind === 'cost' };
+  },
+  abandonedOffice: (e, s, r) => {
+    const card = e.currentCard(s);
+    const score = (side: 'left' | 'right') => {
+      const lock = e.getLockState(s, card, side);
+      if (lock.kind === 'hard') return -Infinity;
+      const projected = structuredClone(s);
+      const result = e.commitChoice(projected, side, { payCost: lock.kind === 'cost' });
+      if (result.endingId === 'ending_bankrupt') return -1e30;
+      // Intentionally construct the low-Power/low-Trust quadrant so the
+      // abandoned-office recovery route receives simulation coverage.
+      return (
+        -projected.stats.power * 10_000_000_000 -
+        projected.stats.publicTrustActual * 1_000_000_000 +
+        projected.stats.money
+      );
+    };
+    const left = score('left');
+    const right = score('right');
+    const side = right > left ? 'right' : left > right ? 'left' : (r.next() < 0.5 ? 'left' : 'right');
     return { side, payCost: e.getLockState(s, card, side).kind === 'cost' };
   },
   maximizeMoney: (e, s, r) => {
@@ -183,6 +204,36 @@ const strategies: Record<string, Strategy> = {
     const side = right > left ? 'right' : left > right ? 'left' : (r.next() < 0.5 ? 'left' : 'right');
     return { side, payCost: e.getLockState(s, card, side).kind === 'cost' };
   },
+  collapseArchitect: (e, s, r) => {
+    const card = e.currentCard(s);
+    const score = (side: 'left' | 'right') => {
+      const lock = e.getLockState(s, card, side);
+      if (lock.kind === 'hard') return -Infinity;
+      const projected = structuredClone(s);
+      const result = e.commitChoice(projected, side, { payCost: lock.kind === 'cost' });
+      if (result.endingId === 'ending_bankrupt') return -1e30;
+      const staged = projected.flags.includes('flag_trust_suppression_escalated') ? 1 : 0;
+      const finalCover = [
+        'flag_reports_removed',
+        'flag_concealment_started',
+        'flag_ally_protected',
+      ].some((flag) => projected.flags.includes(flag)) ? 1 : 0;
+      // Deliberately build the high-Power/low-Trust suppression route so the
+      // staged Collapse ending receives deterministic simulation coverage.
+      return (
+        staged * 1_000_000_000_000_000 +
+        finalCover * 10_000_000_000_000 +
+        projected.stats.power * 10_000_000_000 -
+        projected.stats.publicTrustActual * 1_000_000_000 +
+        leverageScore(projected, content.balance) * 100_000_000 +
+        projected.stats.money
+      );
+    };
+    const left = score('left');
+    const right = score('right');
+    const side = right > left ? 'right' : left > right ? 'left' : (r.next() < 0.5 ? 'left' : 'right');
+    return { side, payCost: e.getLockState(s, card, side).kind === 'cost' };
+  },
 };
 
 const content = loadContentNode();
@@ -202,6 +253,12 @@ const statusStoryVisits: Record<string, number> = Object.fromEntries(
     .filter((id) => id.startsWith('sp_'))
     .map((id) => [id, 0]),
 );
+const trustStoryVisits: Record<string, number> = Object.fromEntries(
+  Object.keys(content.cards)
+    .filter((id) => id.startsWith('trust_'))
+    .map((id) => [id, 0]),
+);
+const strategyEndings: Record<string, Record<string, number>> = {};
 const strategyStats: Record<string, {
   completed: number;
   bankrupt: number;
@@ -211,14 +268,16 @@ const strategyStats: Record<string, {
   betrayedWeight: number[];
   precedentFootprint: number[];
   actualTrust: number[];
+  perceivedTrust: number[];
   standing: number[];
   power: number[];
 }> = {};
 
 for (const [name, strategy] of Object.entries(strategies)) {
+  strategyEndings[name] = {};
   strategyStats[name] = {
     completed: 0, bankrupt: 0, turns: [], finalMoney: [], finalLeverage: [], betrayedWeight: [],
-    precedentFootprint: [], actualTrust: [],
+    precedentFootprint: [], actualTrust: [], perceivedTrust: [],
     standing: [], power: [],
   };
   for (let i = 0; i < RUNS_PER_STRATEGY; i++) {
@@ -248,6 +307,7 @@ for (const [name, strategy] of Object.entries(strategies)) {
       if (!sawIncident && bankrupt) bankruptBeforeIncident++;
       else if (!sawIncident) incidentMisses++;
       endingCounts[state.run.endingId!] = (endingCounts[state.run.endingId!] ?? 0) + 1;
+      strategyEndings[name][state.run.endingId!] = (strategyEndings[name][state.run.endingId!] ?? 0) + 1;
       turnCounts.push(state.run.turn);
       strategyStats[name].completed++;
       strategyStats[name].turns.push(state.run.turn);
@@ -255,10 +315,14 @@ for (const [name, strategy] of Object.entries(strategies)) {
       strategyStats[name].finalLeverage.push(leverageScore(state, content.balance));
       strategyStats[name].precedentFootprint.push(precedentFootprint(state));
       strategyStats[name].actualTrust.push(state.stats.publicTrustActual);
+      strategyStats[name].perceivedTrust.push(state.stats.publicTrustPerceived);
       strategyStats[name].standing.push(state.stats.standing);
       strategyStats[name].power.push(state.stats.power);
       for (const id of Object.keys(statusStoryVisits)) {
         statusStoryVisits[id] += state.seenCards[id] ?? 0;
+      }
+      for (const id of Object.keys(trustStoryVisits)) {
+        trustStoryVisits[id] += state.seenCards[id] ?? 0;
       }
       strategyStats[name].betrayedWeight.push(
         state.obligations
@@ -294,8 +358,10 @@ for (const [name, stat] of Object.entries(strategyStats)) {
   const medianBetrayal = sortedBetrayal[Math.floor(sortedBetrayal.length / 2)] ?? 0;
   const sortedPrecedents = [...stat.precedentFootprint].sort((a, b) => a - b);
   const sortedTrust = [...stat.actualTrust].sort((a, b) => a - b);
+  const sortedPerceivedTrust = [...stat.perceivedTrust].sort((a, b) => a - b);
   const medianPrecedents = sortedPrecedents[Math.floor(sortedPrecedents.length / 2)] ?? 0;
   const medianTrust = sortedTrust[Math.floor(sortedTrust.length / 2)] ?? 0;
+  const medianPerceivedTrust = sortedPerceivedTrust[Math.floor(sortedPerceivedTrust.length / 2)] ?? 0;
   const sortedStanding = [...stat.standing].sort((a, b) => a - b);
   const sortedPower = [...stat.power].sort((a, b) => a - b);
   const medianStanding = sortedStanding[Math.floor(sortedStanding.length / 2)] ?? 0;
@@ -305,14 +371,20 @@ for (const [name, stat] of Object.entries(strategyStats)) {
     `median ${strategyMedian} turns, median $${Math.round(medianMoney).toLocaleString('en-US')}, ` +
     `max $${Math.round(maxMoney).toLocaleString('en-US')}, ` +
     `leverage ${medianLeverage.toFixed(1)}, precedents ${medianPrecedents}, ` +
-    `standing ${medianStanding}, power ${medianPower}, actual trust ${medianTrust}, betrayed ${medianBetrayal}`,
+    `standing ${medianStanding}, power ${medianPower}, trust ${medianTrust}/${medianPerceivedTrust}, betrayed ${medianBetrayal}`,
   );
 }
 console.log('Standing/Power story visits:');
 for (const [id, visits] of Object.entries(statusStoryVisits)) console.log(`  ${id}: ${visits}`);
+console.log('Public Trust story visits:');
+for (const [id, visits] of Object.entries(trustStoryVisits)) console.log(`  ${id}: ${visits}`);
 console.log('Ending distribution:');
 for (const [id, n] of Object.entries(endingCounts).sort((a, b) => b[1] - a[1])) {
   console.log(`  ${id}: ${n}`);
+}
+console.log('Collapse endings by strategy:');
+for (const [name, endings] of Object.entries(strategyEndings)) {
+  console.log(`  ${name}: ${endings.ending_collapse ?? 0}`);
 }
 const reachable = new Set(Object.keys(endingCounts));
 const unreached = content.endings.filter((e) => !reachable.has(e.id));
@@ -342,6 +414,10 @@ if (cleanMoney < 100_000 || cleanMoney > 200_000) {
 }
 if (corruptMoney < 1_000_000_000) {
   console.error(`ERROR: optimized corruption should exceed $1B (median $${Math.round(corruptMoney).toLocaleString('en-US')})`);
+  process.exit(1);
+}
+if ((strategyEndings.collapseArchitect.ending_collapse ?? 0) === 0) {
+  console.error('ERROR: the dedicated suppression strategy should reach ending_collapse');
   process.exit(1);
 }
 console.log('\nSIMULATION OK');

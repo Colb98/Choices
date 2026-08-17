@@ -144,7 +144,7 @@ export class GameScene extends Phaser.Scene {
     const tooltipKeys: Record<IconKey, string> = {
       standing: 'ui.hud.standing',
       power: 'ui.hud.power',
-      trust: 'ui.hud.trust',
+      trust: 'ui.hud.trust_perceived',
     };
 
     for (const key of Object.keys(ICON_XS) as IconKey[]) {
@@ -174,6 +174,7 @@ export class GameScene extends Phaser.Scene {
     this.tooltipText = this.add.text(0, 0, '', {
       fontFamily: FONT, fontSize: '14px', color: COLORS.text,
       backgroundColor: '#2b2028', padding: { x: 10, y: 6 },
+      wordWrap: { width: 300 }, align: 'left', lineSpacing: 3,
     }).setOrigin(0.5, 0);
     this.tooltip = this.add.container(0, ICON_Y + ICON_SIZE / 2 + 30, [this.tooltipText])
       .setDepth(40).setAlpha(0);
@@ -183,6 +184,12 @@ export class GameScene extends Phaser.Scene {
     moneyBarBg.on('pointerdown', () => this.showTooltip(t('ui.hud.runway'), 105));
     moneyBarBg.on('pointerout', () => this.hideTooltip());
     moneyBarBg.on('pointerup', () => this.hideTooltip());
+
+    this.cashflowText.setInteractive({ useHandCursor: true });
+    this.cashflowText.on('pointerover', () => this.showTooltip(this.economyTooltip(), 145));
+    this.cashflowText.on('pointerdown', () => this.showTooltip(this.economyTooltip(), 145));
+    this.cashflowText.on('pointerout', () => this.hideTooltip());
+    this.cashflowText.on('pointerup', () => this.hideTooltip());
 
     this.updateHud(false);
   }
@@ -195,6 +202,25 @@ export class GameScene extends Phaser.Scene {
 
   private hideTooltip() {
     this.tooltip.setAlpha(0);
+  }
+
+  private economyTooltip(): string {
+    if (!this.state.run.currentCardId) return t('ui.economy.title');
+    const flow = engine.getEconomyBreakdown(this.state);
+    const pressure = flow.baseTurnCost + flow.precedentExposureCost +
+      flow.activeObligationCost + flow.betrayedObligationCost;
+    const lines = [
+      t('ui.economy.title'),
+      `${t('ui.economy.institutional')}  ${formatSignedMoney(flow.institutionalIncome)}`,
+      `${t('ui.economy.civic')}  ${formatSignedMoney(flow.civicIncome)}`,
+    ];
+    if (flow.leverageIncome !== 0) {
+      lines.push(`${t('ui.economy.leverage')}  ${formatSignedMoney(flow.leverageIncome)}`);
+    }
+    if (pressure !== 0) {
+      lines.push(`${t('ui.economy.pressure')}  ${formatSignedMoney(-pressure)}`);
+    }
+    return lines.join('\n');
   }
 
   private makeArrow(x: number, y: number) {

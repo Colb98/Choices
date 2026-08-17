@@ -42,5 +42,11 @@
   "act.gathering.title": "The Gathering",
   "act.incident.title": "That Night",
   "act.aftermath.title": "Aftermath",
-  "ui.hud.trust": "Public Trust"
+  "ui.hud.trust": "Public Trust",
+  "ui.hud.trust_perceived": "Public Trust — what your circle believes the public feels",
+  "ui.economy.title": "PER-TURN CASH FLOW",
+  "ui.economy.institutional": "Institutional access",
+  "ui.economy.civic": "Civic support",
+  "ui.economy.leverage": "Capital leverage",
+  "ui.economy.pressure": "Costs and obligations"
 }

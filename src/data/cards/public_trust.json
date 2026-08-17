@@ -1,0 +1,372 @@
+[
+  {
+    "id": "trust_empty_town_hall",
+    "act": "rise",
+    "type": "contextual",
+    "speaker": "aide",
+    "text": "card.trust_empty_town_hall.text",
+    "conditions": {
+      "all": [
+        { "type": "stat", "stat": "publicTrustActual", "op": "<=", "value": 55 },
+        { "type": "flag", "flag": "flag_trust_story_rise_seen", "exists": false }
+      ]
+    },
+    "left": {
+      "text": "card.trust_empty_town_hall.left",
+      "preview": { "money": -1, "standing": -1, "publicTrust": "strong_up_uncertain" },
+      "effects": [
+        { "type": "money_pressure", "percent": 0.1, "minLoss": 7000, "maxLoss": 50000 },
+        { "type": "stat", "stat": "standing", "add": -2 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 8 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 2 },
+        { "type": "flag", "flag": "flag_public_warning_seen", "action": "add" },
+        { "type": "flag", "flag": "flag_trust_story_rise_seen", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.trust_empty_town_hall.right",
+      "preview": { "money": -1, "standing": 1, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "money_pressure", "percent": 0.05, "minLoss": 5000, "maxLoss": 30000 },
+        { "type": "stat", "stat": "standing", "add": 3 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 8 },
+        { "type": "stat", "stat": "publicTrustActual", "add": -4 },
+        { "type": "precedent", "precedent": "precedent_media_management", "add": 1 },
+        { "type": "flag", "flag": "flag_public_warning_seen", "action": "add" },
+        { "type": "flag", "flag": "flag_staged_town_hall", "action": "add" },
+        { "type": "flag", "flag": "flag_trust_story_rise_seen", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 22,
+    "once": true,
+    "minActTurn": 3,
+    "metadata": {
+      "designIntent": "Low actual Trust creates a visible, nonlethal bill. The player can rebuild genuine support through smaller meetings or purchase the appearance of a crowd while widening the Trust gap."
+    }
+  },
+  {
+    "id": "trust_volunteer_wave",
+    "act": "rise",
+    "type": "contextual",
+    "speaker": "family_rep",
+    "text": "card.trust_volunteer_wave.text",
+    "conditions": {
+      "all": [
+        { "type": "stat", "stat": "publicTrustActual", "op": ">=", "value": 65 },
+        { "type": "flag", "flag": "flag_trust_story_rise_seen", "exists": false }
+      ]
+    },
+    "left": {
+      "text": "card.trust_volunteer_wave.left",
+      "preview": { "money": 1, "power": 1, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 20000 },
+        { "type": "stat", "stat": "power", "add": 3 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 4 },
+        { "type": "flag", "flag": "flag_grassroots_network", "action": "add" },
+        { "type": "flag", "flag": "flag_trust_story_rise_seen", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.trust_volunteer_wave.right",
+      "preview": { "money": 2, "standing": 2, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 150000 },
+        { "type": "stat", "stat": "standing", "add": 5 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 6 },
+        { "type": "stat", "stat": "publicTrustActual", "add": -4 },
+        { "type": "precedent", "precedent": "precedent_media_management", "add": 1 },
+        { "type": "flag", "flag": "flag_trust_story_rise_seen", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 20,
+    "once": true,
+    "minActTurn": 4,
+    "metadata": {
+      "designIntent": "High actual Trust produces labor and legitimate fundraising. Centralizing the movement is more profitable immediately but converts genuine ownership into the player's personal brand."
+    }
+  },
+  {
+    "id": "trust_polling_bubble",
+    "act": "network",
+    "type": "contextual",
+    "speaker": "press_officer",
+    "text": "card.trust_polling_bubble.text",
+    "conditions": {
+      "all": [
+        { "type": "trust_gap", "op": ">=", "value": 15 },
+        { "type": "flag", "flag": "flag_trust_story_network_seen", "exists": false }
+      ]
+    },
+    "left": {
+      "text": "card.trust_polling_bubble.left",
+      "preview": { "money": -1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": -25000 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 2 },
+        { "type": "stat_converge", "from": "publicTrustPerceived", "to": "publicTrustActual", "fraction": 0.75 },
+        { "type": "flag", "flag": "flag_accurate_polling", "action": "add" },
+        { "type": "flag", "flag": "flag_trust_story_network_seen", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.trust_polling_bubble.right",
+      "preview": { "money": 2, "standing": 2, "publicTrust": "strong_up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 200000 },
+        { "type": "stat", "stat": "standing", "add": 5 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 8 },
+        { "type": "stat", "stat": "publicTrustActual", "add": -5 },
+        { "type": "precedent", "precedent": "precedent_media_management", "add": 1 },
+        { "type": "flag", "flag": "flag_trust_story_network_seen", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 24,
+    "once": true,
+    "minActTurn": 3,
+    "metadata": {
+      "designIntent": "An inflated public image becomes a lucrative asset. Accurate polling collapses most of the gap; exploiting the headline pays immediately while making the eventual correction more dangerous."
+    }
+  },
+  {
+    "id": "trust_quiet_reservoir",
+    "act": "network",
+    "type": "contextual",
+    "speaker": "reformist",
+    "text": "card.trust_quiet_reservoir.text",
+    "conditions": {
+      "all": [
+        { "type": "stat", "stat": "publicTrustActual", "op": ">=", "value": 55 },
+        { "type": "trust_gap", "op": "<=", "value": -10 },
+        { "type": "flag", "flag": "flag_trust_story_network_seen", "exists": false }
+      ]
+    },
+    "left": {
+      "text": "card.trust_quiet_reservoir.left",
+      "preview": { "money": -1, "standing": 1, "power": 1, "publicTrust": "strong_up_uncertain" },
+      "effects": [
+        { "type": "money_pressure", "percent": 0.05, "minLoss": 10000, "maxLoss": 100000 },
+        { "type": "stat", "stat": "standing", "add": 3 },
+        { "type": "stat", "stat": "power", "add": 4 },
+        { "type": "stat_converge", "from": "publicTrustPerceived", "to": "publicTrustActual", "fraction": 0.6 },
+        { "type": "flag", "flag": "flag_grassroots_network", "action": "add" },
+        { "type": "flag", "flag": "flag_trust_story_network_seen", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.trust_quiet_reservoir.right",
+      "preview": { "power": 1, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "power", "add": 2 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 6 },
+        { "type": "flag", "flag": "flag_grassroots_network", "action": "add" },
+        { "type": "flag", "flag": "flag_trust_story_network_seen", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 22,
+    "once": true,
+    "minActTurn": 4,
+    "metadata": {
+      "designIntent": "When actual support exceeds the public image, the player owns a quiet reserve. It can be revealed now for visible political capacity or kept decentralized for a larger hidden Trust gain."
+    }
+  },
+  {
+    "id": "trust_public_mandate",
+    "act": "power",
+    "type": "contextual",
+    "speaker": "reformist",
+    "text": "card.trust_public_mandate.text",
+    "conditions": {
+      "all": [
+        { "type": "stat", "stat": "publicTrustActual", "op": ">=", "value": 65 },
+        { "type": "stat", "stat": "power", "op": ">=", "value": 60 },
+        { "type": "flag", "flag": "flag_trust_story_power_seen", "exists": false }
+      ]
+    },
+    "left": {
+      "text": "card.trust_public_mandate.left",
+      "preview": { "power": -3, "standing": 2, "publicTrust": "strong_up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "power", "add": -15 },
+        { "type": "stat", "stat": "standing", "add": 5 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 7 },
+        { "type": "flag", "flag": "flag_public_mandate_used", "action": "add" },
+        { "type": "flag", "flag": "flag_trust_story_power_seen", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.trust_public_mandate.right",
+      "preview": { "money": 3, "standing": 2, "publicTrust": "down_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 1000000 },
+        { "type": "stat", "stat": "standing", "add": 5 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 5 },
+        { "type": "stat", "stat": "publicTrustActual", "add": -10 },
+        { "type": "relationship", "character": "businessman", "add": 2 },
+        { "type": "precedent", "precedent": "precedent_conflict_of_interest", "add": 1 },
+        { "type": "flag", "flag": "flag_trust_story_power_seen", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 23,
+    "once": true,
+    "minActTurn": 3,
+    "metadata": {
+      "designIntent": "High Power and high actual Trust create a genuine mandate. The player may spend institutional capacity on durable reform or immediately monetize public confidence."
+    }
+  },
+  {
+    "id": "trust_beloved_figurehead",
+    "act": "power",
+    "type": "contextual",
+    "speaker": "coalition_whip",
+    "text": "card.trust_beloved_figurehead.text",
+    "conditions": {
+      "all": [
+        { "type": "stat", "stat": "publicTrustActual", "op": ">=", "value": 65 },
+        { "type": "stat", "stat": "power", "op": "<", "value": 25 },
+        { "type": "flag", "flag": "flag_trust_story_power_seen", "exists": false }
+      ]
+    },
+    "left": {
+      "text": "card.trust_beloved_figurehead.left",
+      "preview": { "money": -1, "power": 3, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "money_pressure", "percent": 0.08, "minLoss": 15000, "maxLoss": 120000 },
+        { "type": "stat", "stat": "power", "add": 12 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 3 },
+        { "type": "flag", "flag": "flag_grassroots_network", "action": "add" },
+        { "type": "flag", "flag": "flag_trust_story_power_seen", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.trust_beloved_figurehead.right",
+      "preview": { "money": 2, "power": 3, "publicTrust": "down_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 300000 },
+        { "type": "stat", "stat": "power", "set": 45 },
+        { "type": "stat", "stat": "publicTrustActual", "add": -7 },
+        { "type": "relationship", "character": "coalition_whip", "add": 3 },
+        { "type": "obligation_add", "id": "obligation_coalition_machinery_01", "creditor": "coalition_whip", "weight": 2, "tags": ["coalition", "machinery", "votes"] },
+        { "type": "flag", "flag": "flag_trust_story_power_seen", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 23,
+    "once": true,
+    "minActTurn": 3,
+    "metadata": {
+      "designIntent": "High Trust without Power is love without machinery. A grassroots organization is slower and costly; coalition machinery converts popularity into control at the price of dependence."
+    }
+  },
+  {
+    "id": "trust_coercive_stability",
+    "act": "power",
+    "type": "contextual",
+    "speaker": "aide",
+    "text": "card.trust_coercive_stability.text",
+    "conditions": {
+      "all": [
+        { "type": "stat", "stat": "publicTrustActual", "op": "<=", "value": 45 },
+        { "type": "stat", "stat": "power", "op": ">=", "value": 60 },
+        { "type": "flag", "flag": "flag_trust_story_power_seen", "exists": false }
+      ]
+    },
+    "left": {
+      "text": "card.trust_coercive_stability.left",
+      "preview": { "money": -3, "power": -3, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "money_pressure", "percent": 0.2, "minLoss": 50000, "maxLoss": 500000 },
+        { "type": "stat", "stat": "power", "add": -15 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 12 },
+        { "type": "stat_converge", "from": "publicTrustPerceived", "to": "publicTrustActual", "fraction": 0.75 },
+        { "type": "flag", "flag": "flag_trust_recovery_started", "action": "add" },
+        { "type": "flag", "flag": "flag_trust_story_power_seen", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.trust_coercive_stability.right",
+      "preview": { "money": 1, "power": 2, "publicTrust": "strong_down_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 250000 },
+        { "type": "stat", "stat": "power", "add": 5 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 5 },
+        { "type": "stat", "stat": "publicTrustActual", "add": -15 },
+        { "type": "precedent", "precedent": "precedent_public_suppression", "add": 1 },
+        { "type": "precedent", "precedent": "precedent_media_suppression", "add": 1 },
+        { "type": "flag", "flag": "flag_civic_crisis", "action": "add" },
+        { "type": "flag", "flag": "flag_trust_suppression_escalated", "action": "add" },
+        { "type": "flag", "flag": "flag_trust_story_power_seen", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 26,
+    "once": true,
+    "minActTurn": 3,
+    "metadata": {
+      "designIntent": "This is the staged Collapse fork. A powerful but distrusted player can pay, surrender authority, and begin recovery—or suppress evidence of noncooperation, gain short-term control, and explicitly enter the Collapse route."
+    }
+  },
+  {
+    "id": "trust_abandoned_office",
+    "act": "power",
+    "type": "contextual",
+    "speaker": "family_rep",
+    "text": "card.trust_abandoned_office.text",
+    "conditions": {
+      "all": [
+        {
+          "any": [
+            { "type": "stat", "stat": "publicTrustActual", "op": "<=", "value": 45 },
+            { "type": "flag", "flag": "flag_staged_town_hall", "exists": true }
+          ]
+        },
+        { "type": "stat", "stat": "power", "op": "<", "value": 25 },
+        { "type": "flag", "flag": "flag_trust_story_power_seen", "exists": false }
+      ]
+    },
+    "left": {
+      "text": "card.trust_abandoned_office.left",
+      "preview": { "standing": 2, "power": 1, "publicTrust": "strong_up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 5 },
+        { "type": "stat", "stat": "power", "add": 4 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 12 },
+        { "type": "flag", "flag": "flag_trust_recovery_started", "action": "add" },
+        { "type": "flag", "flag": "flag_trust_story_power_seen", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.trust_abandoned_office.right",
+      "preview": { "money": 3, "power": 3, "publicTrust": "strong_down_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 500000 },
+        { "type": "stat", "stat": "power", "set": 45 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 5 },
+        { "type": "stat", "stat": "publicTrustActual", "add": -6 },
+        { "type": "relationship", "character": "businessman", "add": 2 },
+        { "type": "precedent", "precedent": "precedent_special_treatment", "add": 1 },
+        { "type": "flag", "flag": "flag_trust_story_power_seen", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 24,
+    "once": true,
+    "minActTurn": 3,
+    "metadata": {
+      "designIntent": "Low Trust and low Power create abandonment rather than game over. Staging the earlier empty town hall guarantees this later callback if the player still lacks Power. Patient casework starts a genuine recovery; selling the empty office restores money and machinery while making public rejection worse."
+    }
+  }
+]

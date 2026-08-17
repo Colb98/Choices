@@ -42,5 +42,11 @@
   "act.gathering.title": "Buổi tiệc",
   "act.incident.title": "Đêm đó",
   "act.aftermath.title": "Hậu quả",
-  "ui.hud.trust": "Lòng Tin"
+  "ui.hud.trust": "Lòng Tin",
+  "ui.hud.trust_perceived": "Lòng Tin — mức ủng hộ mà những người quanh bạn tin là có thật",
+  "ui.economy.title": "DÒNG TIỀN MỖI LƯỢT",
+  "ui.economy.institutional": "Tiếp cận thể chế",
+  "ui.economy.civic": "Hỗ trợ từ cộng đồng",
+  "ui.economy.leverage": "Đòn bẩy vốn",
+  "ui.economy.pressure": "Chi phí và nghĩa vụ"
 }

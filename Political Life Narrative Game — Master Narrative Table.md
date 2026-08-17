@@ -3666,3 +3666,22 @@ These cards are conditional contextual stories, not a fixed linear chapter.
 | `sp_marginal_officeholder` | Network | Standing `< 25`, Power `< 25` | Marginal Officeholder | Slow constituent recovery versus turning the office into a loyal enforcement network. |
 
 Power-sensitive variants also exist on the constituent-case disclosure, business audit, hospital opening, protected contract, investigation-authority vote, and aftermath-records decisions. Their high-Power branches spend `6`, `12`, or `20` points to make outcomes possible that the base choices cannot cleanly deliver.
+
+---
+
+# Public Trust Side-Story Pack
+
+These contextual stories make actual Trust, perceived Trust, and the gap between them alter the run before the ending. Only one Trust-specific story may occur in each of the Rise, Network, and Power acts.
+
+| ID | Act | Gate | Story | Gameplay purpose |
+|---|---|---|---|---|
+| `trust_empty_town_hall` | Rise | Actual Trust `<= 55` | Empty Town Hall | Pay for genuine local access or manufacture a crowd and widen the Trust gap. |
+| `trust_volunteer_wave` | Rise | Actual Trust `>= 65` | Volunteer Wave | Convert genuine support into grassroots capacity or profitable personal branding. |
+| `trust_polling_bubble` | Network | Perceived minus actual Trust `>= 15` | Polling Bubble | Buy accurate convergence or monetize a fragile flattering number. |
+| `trust_quiet_reservoir` | Network | Actual Trust `>= 55`, gap `<= -10` | Quiet Reservoir | Reveal underestimated support as visible capacity or keep deepening it locally. |
+| `trust_public_mandate` | Power | Actual Trust `>= 65`, Power `>= 60` | Public Mandate | Spend Power on durable reform or monetize public confidence. |
+| `trust_beloved_figurehead` | Power | Actual Trust `>= 65`, Power `< 25` | Beloved Figurehead | Build grassroots machinery slowly or accept coalition dependence. |
+| `trust_coercive_stability` | Power | Actual Trust `<= 45`, Power `>= 60` | Coercive Stability | Begin costly recovery or suppress civic resistance and open the Collapse route. |
+| `trust_abandoned_office` | Power | Actual Trust `<= 45` or staged-town-hall callback, Power `< 25` | Abandoned Office | Rebuild through neglected cases or sell access to restore money and machinery. |
+
+The existing `act3_public_poll` choice uses `stat_converge` so perceived Trust moves 75% toward actual Trust. Collapse additionally requires the player to have chosen suppression during the civic-crisis story; an extremely low Trust value alone is insufficient.

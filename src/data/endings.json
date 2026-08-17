@@ -77,8 +77,8 @@
     "conditions": {
       "all": [
         { "type": "stat", "stat": "power", "op": ">=", "value": 70 },
-        { "type": "stat", "stat": "publicTrustActual", "op": "<=", "value": 8 },
-        { "type": "precedent", "precedent": "precedent_media_suppression", "op": ">=", "value": 2 },
+        { "type": "stat", "stat": "publicTrustActual", "op": "<=", "value": 12 },
+        { "type": "flag", "flag": "flag_trust_suppression_escalated", "exists": true },
         {
           "any": [
             { "type": "flag", "flag": "flag_reports_removed", "exists": true },
