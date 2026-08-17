@@ -1,0 +1,107 @@
+{
+  "flags": [
+    { "id": "flag_dismissed_driver", "description": "Player sent their driver home on arrival." },
+    { "id": "flag_drank_at_gathering", "description": "Player consumed alcohol at the gathering." },
+    { "id": "flag_self_driving", "description": "Player chose to drive themself home." },
+    { "id": "flag_safe_transport", "description": "Player used a driver/official car home." },
+    { "id": "flag_divested_at_gathering", "description": "Player divested the stake during the gathering." }
+  ],
+  "beats": [
+    {
+      "id": "beat_g_arrival",
+      "act": "gathering",
+      "cardId": "gathering_arrival",
+      "earliestActTurn": 1,
+      "latestActTurn": 1,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_g_project",
+      "act": "gathering",
+      "cardId": "gathering_strategic_project",
+      "earliestActTurn": 2,
+      "latestActTurn": 2,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_g_conflict",
+      "act": "gathering",
+      "cardId": "gathering_investment_conflict",
+      "earliestActTurn": 3,
+      "latestActTurn": 3,
+      "priority": 100,
+      "once": true,
+      "conditions": { "type": "flag", "flag": "flag_invested_protected_company", "exists": true }
+    },
+    {
+      "id": "beat_g_promise",
+      "act": "gathering",
+      "cardId": "gathering_future_support",
+      "earliestActTurn": 3,
+      "latestActTurn": 4,
+      "priority": 90,
+      "once": true
+    },
+    {
+      "id": "beat_g_toast_light",
+      "act": "gathering",
+      "cardId": "gathering_editor_toast_light",
+      "earliestActTurn": 4,
+      "latestActTurn": 5,
+      "priority": 80,
+      "once": true,
+      "conditions": {
+        "all": [
+          { "type": "precedent", "precedent": "precedent_media_suppression", "op": "==", "value": 0 },
+          { "type": "precedent", "precedent": "precedent_media_interference", "op": "==", "value": 0 }
+        ]
+      }
+    },
+    {
+      "id": "beat_g_toast_heavy",
+      "act": "gathering",
+      "cardId": "gathering_editor_toast_heavy",
+      "earliestActTurn": 4,
+      "latestActTurn": 5,
+      "priority": 80,
+      "once": true,
+      "conditions": {
+        "any": [
+          { "type": "precedent", "precedent": "precedent_media_suppression", "op": ">=", "value": 1 },
+          { "type": "precedent", "precedent": "precedent_media_interference", "op": ">=", "value": 1 }
+        ]
+      }
+    },
+    {
+      "id": "beat_g_drink",
+      "act": "gathering",
+      "cardId": "gathering_drink",
+      "earliestActTurn": 5,
+      "latestActTurn": 6,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_g_transport_sober",
+      "act": "gathering",
+      "cardId": "gathering_transport_sober",
+      "earliestActTurn": 6,
+      "latestActTurn": 7,
+      "priority": 100,
+      "once": true,
+      "conditions": { "not": { "type": "flag", "flag": "flag_drank_at_gathering", "exists": true } }
+    },
+    {
+      "id": "beat_g_transport_drunk",
+      "act": "gathering",
+      "cardId": "gathering_transport_drunk",
+      "earliestActTurn": 6,
+      "latestActTurn": 7,
+      "priority": 100,
+      "once": true,
+      "conditions": { "type": "flag", "flag": "flag_drank_at_gathering", "exists": true }
+    }
+  ]
+}

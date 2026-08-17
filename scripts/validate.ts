@@ -1,0 +1,265 @@
+// Narrative content validator. Fails the build loudly on broken data.
+import { loadContentNode, loadI18nNode } from './load';
+import { collectConditions } from '../src/engine/conditions';
+import type {
+  CardDefinition,
+  ChoiceDefinition,
+  ChoiceVariant,
+  ConditionExpression,
+  ContentBundle,
+  DelayedEffect,
+  Effect,
+} from '../src/engine/types';
+
+const errors: string[] = [];
+const warnings: string[] = [];
+
+function err(msg: string) {
+  errors.push(msg);
+}
+function warn(msg: string) {
+  warnings.push(msg);
+}
+
+let loaded: ContentBundle;
+try {
+  loaded = loadContentNode();
+} catch (e) {
+  console.error(`FATAL: ${(e as Error).message}`);
+  process.exit(1);
+}
+const content: ContentBundle = loaded;
+const i18n = loadI18nNode();
+const en = i18n['en'] ?? {};
+
+const actIds = new Set(content.acts.map((a) => a.id));
+const cardIds = new Set(Object.keys(content.cards));
+
+// ---------------------------------------------------------------- helpers
+
+function checkKey(key: string | undefined, where: string) {
+  if (!key) return;
+  if (!en[key]) err(`${where}: i18n key missing from en: ${key}`);
+  for (const lang of Object.keys(i18n)) {
+    if (lang === 'en') continue;
+    if (!i18n[lang][key]) warn(`${where}: i18n key missing from ${lang}: ${key}`);
+  }
+}
+
+function checkCondition(expr: ConditionExpression | undefined, where: string) {
+  if (!expr) return;
+  for (const c of collectConditions(expr, 'flag')) {
+    if (!content.flags[c.flag]) err(`${where}: unknown flag in condition: ${c.flag}`);
+  }
+  for (const c of collectConditions(expr, 'precedent')) {
+    if (!content.precedents[c.precedent]) err(`${where}: unknown precedent in condition: ${c.precedent}`);
+  }
+  for (const c of collectConditions(expr, 'relationship')) {
+    if (!content.characters[c.character]) err(`${where}: unknown character in condition: ${c.character}`);
+  }
+  for (const c of collectConditions(expr, 'obligation')) {
+    if (c.creditor && !content.characters[c.creditor]) err(`${where}: unknown obligation creditor: ${c.creditor}`);
+  }
+  for (const c of collectConditions(expr, 'history')) {
+    if (!cardIds.has(c.cardId)) err(`${where}: history condition references unknown card: ${c.cardId}`);
+  }
+  for (const c of collectConditions(expr, 'seen_card')) {
+    if (!cardIds.has(c.cardId)) err(`${where}: seen_card condition references unknown card: ${c.cardId}`);
+  }
+  for (const c of collectConditions(expr, 'act')) {
+    if (!actIds.has(c.act)) err(`${where}: unknown act in condition: ${c.act}`);
+  }
+}
+
+function checkEffects(effects: Effect[] | undefined, where: string) {
+  for (const e of effects ?? []) {
+    switch (e.type) {
+      case 'stat':
+        if ((e.add === undefined) === (e.set === undefined)) {
+          err(`${where}: stat effect must have exactly one of add/set`);
+        }
+        break;
+      case 'flag':
+        if (!content.flags[e.flag]) err(`${where}: unknown flag in effect: ${e.flag}`);
+        break;
+      case 'relationship':
+        if (!content.characters[e.character]) err(`${where}: unknown character in effect: ${e.character}`);
+        break;
+      case 'precedent':
+        if (!content.precedents[e.precedent]) err(`${where}: unknown precedent in effect: ${e.precedent}`);
+        break;
+      case 'obligation_add':
+        if (!content.characters[e.creditor]) err(`${where}: unknown creditor: ${e.creditor}`);
+        break;
+      case 'obligation_resolve':
+        if (e.creditor && !content.characters[e.creditor]) err(`${where}: unknown creditor: ${e.creditor}`);
+        break;
+    }
+  }
+}
+
+function checkDelayed(delayed: DelayedEffect[] | undefined, where: string) {
+  for (const d of delayed ?? []) {
+    if (!content.events[d.eventId]) err(`${where}: delayed effect references unknown event: ${d.eventId}`);
+    if (d.delay.type === 'turn_range' && d.delay.min > d.delay.max) err(`${where}: turn_range min > max`);
+    if (d.delay.type === 'turns' && d.delay.turns < 1) err(`${where}: delay turns < 1`);
+    if (d.delay.type === 'act' && !actIds.has(d.delay.act)) err(`${where}: delay references unknown act: ${d.delay.act}`);
+    checkCondition(d.conditionsAtTrigger, `${where} (conditionsAtTrigger)`);
+    if (d.onConditionFail === 'replace' && !d.replacementEventId) {
+      err(`${where}: replace policy without replacementEventId`);
+    }
+  }
+}
+
+function checkChoicePart(c: ChoiceDefinition | ChoiceVariant, where: string, isVariant: boolean) {
+  if (c.text) checkKey(c.text, where);
+  else if (!isVariant) err(`${where}: missing text key`);
+  checkEffects(c.effects, where);
+  checkDelayed(c.delayedEffects, where);
+  if (c.lock) {
+    checkCondition(c.lock.condition, `${where} (lock)`);
+    checkEffects(c.lock.unlockEffects, `${where} (unlockEffects)`);
+    if (c.lock.mode === 'hard') {
+      const reason = c.lock.reason;
+      if (!reason) {
+        err(`${where}: hard lock without reason (flashbacks cannot be constructed)`);
+      } else if (reason.source === 'explicit') {
+        for (const src of reason.explicitSources ?? []) {
+          if (!cardIds.has(src.cardId)) err(`${where}: lock explicitSource references unknown card: ${src.cardId}`);
+        }
+        if ((reason.explicitSources ?? []).length === 0) err(`${where}: explicit lock reason with no sources`);
+      } else if (reason.source === 'obligations') {
+        if (collectConditions(c.lock.condition, 'obligation').length === 0) {
+          warn(`${where}: obligation-sourced lock has no obligation conditions`);
+        }
+      } else if (reason.source === 'history') {
+        if (collectConditions(c.lock.condition, 'history').length === 0) {
+          warn(`${where}: history-sourced lock has no history conditions`);
+        }
+      }
+    }
+    if (c.lock.mode === 'cost' && (!c.lock.unlockEffects || c.lock.unlockEffects.length === 0)) {
+      warn(`${where}: cost lock with no unlockEffects`);
+    }
+  }
+  if (c.next) {
+    if (c.next.type === 'card' && !cardIds.has(c.next.cardId)) err(`${where}: next references unknown card: ${c.next.cardId}`);
+    if (c.next.type === 'event' && !content.events[c.next.eventId]) err(`${where}: next references unknown event: ${c.next.eventId}`);
+    if (c.next.type === 'act' && !actIds.has(c.next.act)) err(`${where}: next references unknown act: ${c.next.act}`);
+  }
+}
+
+function checkChoice(c: ChoiceDefinition, where: string) {
+  checkChoicePart(c, where, false);
+  for (const [i, v] of (c.variants ?? []).entries()) {
+    checkCondition(v.conditions, `${where} variant[${i}]`);
+    checkChoicePart(v, `${where} variant[${i}]`, true);
+  }
+}
+
+// ---------------------------------------------------------------- cards
+
+for (const card of Object.values(content.cards)) {
+  const where = `card ${card.id}`;
+  if (!/^[a-z0-9_]+$/.test(card.id)) err(`${where}: id must be lowercase snake_case`);
+  if (!actIds.has(card.act)) err(`${where}: unknown act ${card.act}`);
+  if (card.speaker && !content.characters[card.speaker]) err(`${where}: unknown speaker ${card.speaker}`);
+  checkKey(card.text, where);
+  if (card.title) checkKey(card.title, where);
+  checkCondition(card.conditions, where);
+  checkChoice(card.left, `${where} left`);
+  checkChoice(card.right, `${where} right`);
+}
+
+// ---------------------------------------------------------------- events/beats
+
+for (const ev of Object.values(content.events)) {
+  if (!cardIds.has(ev.cardId)) err(`event ${ev.id}: unknown card ${ev.cardId}`);
+  checkCondition(ev.conditions, `event ${ev.id}`);
+}
+const beatIds = new Set<string>();
+for (const beat of content.beats) {
+  if (beatIds.has(beat.id)) err(`duplicate beat id: ${beat.id}`);
+  beatIds.add(beat.id);
+  if (!cardIds.has(beat.cardId)) err(`beat ${beat.id}: unknown card ${beat.cardId}`);
+  if (!actIds.has(beat.act)) err(`beat ${beat.id}: unknown act ${beat.act}`);
+  checkCondition(beat.conditions, `beat ${beat.id}`);
+  if (
+    beat.earliestActTurn !== undefined &&
+    beat.latestActTurn !== undefined &&
+    beat.earliestActTurn > beat.latestActTurn
+  ) {
+    err(`beat ${beat.id}: earliestActTurn > latestActTurn`);
+  }
+}
+
+// ---------------------------------------------------------------- endings
+
+if (content.endings.length === 0) err('no endings defined');
+const fallback = content.endings.filter(
+  (e) => !e.conditions || (('all' in e.conditions) && (e.conditions as { all: unknown[] }).all.length === 0),
+);
+if (fallback.length === 0) warn('no unconditional fallback ending found (engine falls back to lowest priority)');
+const endingIds = new Set<string>();
+for (const ending of content.endings) {
+  if (endingIds.has(ending.id)) err(`duplicate ending id: ${ending.id}`);
+  endingIds.add(ending.id);
+  checkCondition(ending.conditions, `ending ${ending.id}`);
+  checkKey(ending.titleKey, `ending ${ending.id}`);
+  for (const [i, step] of ending.presentation.sequence.entries()) {
+    const where = `ending ${ending.id} step[${i}]`;
+    if (step.type === 'article' && !content.articles[step.articleId]) err(`${where}: unknown article ${step.articleId}`);
+    if (step.type === 'article_updates') {
+      if (!content.articles[step.articleId]) err(`${where}: unknown article ${step.articleId}`);
+      step.updateKeys.forEach((k) => checkKey(k, where));
+    }
+    if (step.type === 'text') checkKey(step.textKey, where);
+  }
+}
+
+// ---------------------------------------------------------------- articles
+
+for (const a of Object.values(content.articles)) {
+  checkKey(a.headlineKey, `article ${a.id}`);
+  a.bodyKeys.forEach((k) => checkKey(k, `article ${a.id}`));
+}
+
+// ---------------------------------------------------------------- reachability
+
+const referenced = new Set<string>([content.balance.start.firstCardId]);
+for (const card of Object.values(content.cards)) {
+  for (const side of [card.left, card.right]) {
+    const nexts = [side.next, ...(side.variants ?? []).map((v) => v.next)];
+    for (const n of nexts) if (n?.type === 'card') referenced.add(n.cardId);
+  }
+}
+for (const ev of Object.values(content.events)) referenced.add(ev.cardId);
+for (const b of content.beats) referenced.add(b.cardId);
+for (const card of Object.values(content.cards)) {
+  const type = card.type ?? 'contextual';
+  if (type !== 'contextual' && !referenced.has(card.id)) {
+    warn(`card ${card.id} (${type}) may be unreachable: not referenced by any next/event/beat/start`);
+  }
+}
+
+// ---------------------------------------------------------------- start card
+
+if (!cardIds.has(content.balance.start.firstCardId)) {
+  err(`start.firstCardId unknown: ${content.balance.start.firstCardId}`);
+}
+if (!actIds.has(content.balance.start.act)) err(`start.act unknown: ${content.balance.start.act}`);
+
+// ---------------------------------------------------------------- report
+
+console.log(`Validated: ${cardIds.size} cards, ${Object.keys(content.events).length} events, ${content.beats.length} beats, ${content.endings.length} endings, ${Object.keys(content.articles).length} articles, ${Object.keys(content.characters).length} characters, ${Object.keys(content.flags).length} flags, ${Object.keys(content.precedents).length} precedents, languages: ${Object.keys(i18n).join(', ')}`);
+
+if (warnings.length) {
+  console.log(`\n${warnings.length} warning(s):`);
+  for (const w of warnings) console.log(`  WARN ${w}`);
+}
+if (errors.length) {
+  console.error(`\n${errors.length} error(s):`);
+  for (const e of errors) console.error(`  ERROR ${e}`);
+  process.exit(1);
+}
+console.log('\nOK');

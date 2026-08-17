@@ -1,0 +1,1719 @@
+[
+  {
+    "id": "act0_appointment_day",
+    "act": "entry",
+    "type": "story",
+    "speaker": "mentor",
+    "text": "card.act0_appointment_day.text",
+    "illustration": {
+      "scene": "assembly_hall_oath",
+      "expression": "friendly"
+    },
+    "once": true,
+    "left": {
+      "text": "card.act0_appointment_day.left",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 1
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "act0_constituent_land_case"
+      }
+    },
+    "right": {
+      "text": "card.act0_appointment_day.right",
+      "preview": {
+        "standing": 2,
+        "publicTrust": "strong_up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 5
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 4
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 2
+        },
+        {
+          "type": "flag",
+          "flag": "flag_ambitious_public_image",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "act0_constituent_land_case"
+      }
+    },
+    "metadata": {
+      "designIntent": "Teach preview UI. Seed the perceived/actual trust gap on turn 1: promises inflate perception more than reality. `flag_ambitious_public_image` is referenced by Act II media cards (\"Whatever happened to the big change?\")."
+    }
+  },
+  {
+    "id": "act0_constituent_land_case",
+    "act": "entry",
+    "type": "story",
+    "text": "card.act0_constituent_land_case.text",
+    "illustration": {
+      "scene": "office_letters"
+    },
+    "once": true,
+    "left": {
+      "text": "card.act0_constituent_land_case.left",
+      "preview": {
+        "standing": 0,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 2
+        },
+        {
+          "type": "flag",
+          "flag": "flag_requested_transparency_early",
+          "action": "add"
+        }
+      ],
+      "delayedEffects": [
+        {
+          "delay": {
+            "type": "turn_range",
+            "min": 4,
+            "max": 7
+          },
+          "eventId": "event_constituent_case_followup",
+          "onConditionFail": "discard"
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "act0_first_parliament_speech"
+      }
+    },
+    "right": {
+      "text": "card.act0_constituent_land_case.right",
+      "preview": {
+        "standing": 0,
+        "publicTrust": "unknown"
+      },
+      "next": {
+        "type": "card",
+        "cardId": "act0_first_parliament_speech"
+      }
+    },
+    "metadata": {
+      "designIntent": "Responsible action = more work, delayed payoff. The scheduled event lands early in Act I (card 010). Right is not punished — silence is the realistic default and its cost is invisible."
+    }
+  },
+  {
+    "id": "act0_first_parliament_speech",
+    "act": "entry",
+    "type": "story",
+    "text": "card.act0_first_parliament_speech.text",
+    "illustration": {
+      "scene": "parliament_podium",
+      "expression": "serious"
+    },
+    "once": true,
+    "left": {
+      "text": "card.act0_first_parliament_speech.left",
+      "preview": {
+        "standing": 1,
+        "power": 0,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 2
+        },
+        {
+          "type": "relationship",
+          "character": "reformist",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_early_transparency_position",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "act0_first_interview"
+      }
+    },
+    "right": {
+      "text": "card.act0_first_parliament_speech.right",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "strong_up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 5
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 3
+        },
+        {
+          "type": "relationship",
+          "character": "mentor",
+          "add": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_political_punishment",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "act0_first_interview"
+      }
+    },
+    "metadata": {
+      "designIntent": "Both options are crowd-pleasers; the right one is *more* popular and grants Power — punishment politics pays better than procedure politics. First precedent of the run, invisible."
+    }
+  },
+  {
+    "id": "act0_first_interview",
+    "act": "entry",
+    "type": "story",
+    "text": "card.act0_first_interview.text",
+    "illustration": {
+      "scene": "corridor_press"
+    },
+    "once": true,
+    "left": {
+      "text": "card.act0_first_interview.left",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 1
+        },
+        {
+          "type": "relationship",
+          "character": "reformist",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "act0_mentor_advice"
+      }
+    },
+    "right": {
+      "text": "card.act0_first_interview.right",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        },
+        {
+          "type": "relationship",
+          "character": "mentor",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "act0_mentor_advice"
+      }
+    },
+    "metadata": {
+      "designIntent": "First alignment fork: public principle vs. establishment signal. Neither is corrupt. The Right answer is what every real politician says — and it is genuinely how things pass."
+    },
+    "speaker": "journalist"
+  },
+  {
+    "id": "act0_mentor_advice",
+    "act": "entry",
+    "type": "story",
+    "speaker": "mentor",
+    "text": "card.act0_mentor_advice.text",
+    "illustration": {
+      "scene": "tea_room",
+      "expression": "friendly"
+    },
+    "once": true,
+    "left": {
+      "text": "card.act0_mentor_advice.left",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "relationship",
+          "character": "mentor",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "act0_private_dinner_invitation"
+      }
+    },
+    "right": {
+      "text": "card.act0_mentor_advice.right",
+      "preview": {
+        "standing": 0,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 1
+        },
+        {
+          "type": "relationship",
+          "character": "mentor",
+          "add": -1
+        },
+        {
+          "type": "relationship",
+          "character": "reformist",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "act0_private_dinner_invitation"
+      }
+    },
+    "metadata": {
+      "designIntent": "The Mentor's thesis is the game's thesis, inverted: he is *right* that relationships pass reforms. The game never argues with him. It just remembers."
+    }
+  },
+  {
+    "id": "act0_private_dinner_invitation",
+    "act": "entry",
+    "type": "story",
+    "text": "card.act0_private_dinner_invitation.text",
+    "illustration": {
+      "scene": "envelope_invitation"
+    },
+    "once": true,
+    "left": {
+      "text": "card.act0_private_dinner_invitation.left",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        },
+        {
+          "type": "relationship",
+          "character": "mentor",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_entered_inner_social_circle",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "act",
+        "act": "rise"
+      }
+    },
+    "right": {
+      "text": "card.act0_private_dinner_invitation.right",
+      "preview": {
+        "standing": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -2
+        }
+      ],
+      "next": {
+        "type": "act",
+        "act": "rise"
+      }
+    },
+    "metadata": {
+      "designIntent": "End of Act 0. Attending creates no obligation — deliberately. The room costs nothing to enter. That is the point of the room."
+    }
+  },
+  {
+    "id": "act1_committee_opportunity",
+    "act": "rise",
+    "type": "story",
+    "speaker": "mentor",
+    "text": "card.act1_committee_opportunity.text",
+    "illustration": {
+      "scene": "office_mentor",
+      "expression": "friendly"
+    },
+    "once": true,
+    "left": {
+      "text": "card.act1_committee_opportunity.left",
+      "preview": {
+        "standing": 0,
+        "power": 0,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "relationship",
+          "character": "mentor",
+          "add": -1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act1_committee_opportunity.right",
+      "preview": {
+        "standing": 2,
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 6
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 3
+        },
+        {
+          "type": "relationship",
+          "character": "mentor",
+          "add": 2
+        },
+        {
+          "type": "obligation_add",
+          "id": "obligation_mentor_committee_01",
+          "creditor": "mentor",
+          "weight": 1,
+          "tags": [
+            "political",
+            "committee",
+            "inner_circle"
+          ]
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "Chain A root. The first real obligation of the run, priced generously: +6 Standing for one word. Refusing costs nothing visible — only the Mentor's warmth."
+    }
+  },
+  {
+    "id": "act1_businessman_intro",
+    "act": "rise",
+    "type": "contextual",
+    "speaker": "businessman",
+    "text": "card.act1_businessman_intro.text",
+    "illustration": {
+      "scene": "reception_hall",
+      "expression": "friendly"
+    },
+    "conditions": {
+      "type": "flag",
+      "flag": "flag_entered_inner_social_circle",
+      "exists": true
+    },
+    "once": true,
+    "weight": 10,
+    "left": {
+      "text": "card.act1_businessman_intro.left",
+      "preview": {
+        "standing": 0,
+        "publicTrust": "unknown"
+      },
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act1_businessman_intro.right",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "relationship",
+          "character": "businessman",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_direct_business_contact",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "Chain C root. No request, no obligation, no money. The corrupt network's first move is always free."
+    }
+  },
+  {
+    "id": "act1_businessman_glimpse",
+    "act": "rise",
+    "type": "contextual",
+    "text": "card.act1_businessman_glimpse.text",
+    "illustration": {
+      "scene": "reception_hall"
+    },
+    "conditions": {
+      "not": {
+        "type": "flag",
+        "flag": "flag_direct_business_contact",
+        "exists": true
+      }
+    },
+    "once": true,
+    "weight": 5,
+    "minActTurn": 5,
+    "left": {
+      "text": "card.act1_businessman_glimpse.left",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act1_businessman_glimpse.right",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "The declined network keeps functioning without the player. The permit still went through — someone else made the call. Both choices are deliberately empty: watching costs nothing and changes nothing, which is exactly the sentence this card is writing. Refusal removes you from the machine; it does not stop the machine. No relationship, no flag, no follow-up — he never looks the player's way again for the rest of the run."
+    }
+  },
+  {
+    "id": "act1_business_permit",
+    "act": "rise",
+    "type": "contextual",
+    "speaker": "businessman",
+    "text": "card.act1_business_permit.text",
+    "illustration": {
+      "scene": "restaurant_private_room",
+      "expression": "friendly"
+    },
+    "conditions": {
+      "type": "flag",
+      "flag": "flag_direct_business_contact",
+      "exists": true
+    },
+    "once": true,
+    "weight": 8,
+    "left": {
+      "text": "card.act1_business_permit.left",
+      "preview": {
+        "power": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -2
+        },
+        {
+          "type": "relationship",
+          "character": "businessman",
+          "add": -1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act1_business_permit.right",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 3
+        },
+        {
+          "type": "relationship",
+          "character": "businessman",
+          "add": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_special_treatment",
+          "add": 1
+        }
+      ],
+      "delayedEffects": [
+        {
+          "delay": {
+            "type": "act",
+            "act": "network",
+            "minActTurn": 1
+          },
+          "eventId": "event_permit_favor_callback",
+          "onConditionFail": "discard"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "Chain C link 2. **Deliberately no obligation and no money** — after this favor, *he* owes *you*. Gratitude is the hook: it converts into \"access\" (card 022, protected investment) which is where the real capture happens. The player should feel generous here, not bribed."
+    }
+  },
+  {
+    "id": "act1_constituent_case_callback",
+    "act": "rise",
+    "type": "consequence",
+    "speaker": "aide",
+    "text": "card.act1_constituent_case_callback.text",
+    "illustration": {
+      "scene": "office_files",
+      "expression": "concerned"
+    },
+    "conditions": {
+      "type": "flag",
+      "flag": "flag_requested_transparency_early",
+      "exists": true
+    },
+    "once": true,
+    "left": {
+      "text": "card.act1_constituent_case_callback.left",
+      "preview": {
+        "standing": -1,
+        "publicTrust": "strong_up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 6
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 2
+        },
+        {
+          "type": "flag",
+          "flag": "flag_early_case_public",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act1_constituent_case_callback.right",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 1
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 2
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_quiet_resolution",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "The pack's cleanest actual/perceived split. Publishing: elites recoil (Standing −), the real public quietly banks it (Actual ++, but Perceived lags — no one polls gratitude). Quiet resolution genuinely helps the family too — the promoted official is simply never named. Both defensible. That's the trap working as intended."
+    }
+  },
+  {
+    "id": "act1_editor_profile_offer",
+    "act": "rise",
+    "type": "contextual",
+    "speaker": "editor",
+    "text": "card.act1_editor_profile_offer.text",
+    "illustration": {
+      "scene": "newsroom_office",
+      "expression": "friendly"
+    },
+    "once": true,
+    "weight": 10,
+    "left": {
+      "text": "card.act1_editor_profile_offer.left",
+      "preview": {
+        "standing": 0,
+        "publicTrust": "unknown"
+      },
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act1_editor_profile_offer.right",
+      "preview": {
+        "standing": 2,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 6
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 1
+        },
+        {
+          "type": "relationship",
+          "character": "editor",
+          "add": 1
+        },
+        {
+          "type": "obligation_add",
+          "id": "obligation_editor_profile_01",
+          "creditor": "editor",
+          "weight": 1,
+          "tags": [
+            "media",
+            "favor"
+          ]
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "Chain B root. The line \"I choose the questions\" is the entire media-capture arc in six words; the player will re-read it very differently at card 049."
+    }
+  },
+  {
+    "id": "act1_reformist_bill_intro",
+    "act": "rise",
+    "type": "contextual",
+    "speaker": "reformist",
+    "text": "card.act1_reformist_bill_intro.text",
+    "illustration": {
+      "scene": "office_desk_draft",
+      "expression": "neutral"
+    },
+    "once": true,
+    "weight": 10,
+    "left": {
+      "text": "card.act1_reformist_bill_intro.left",
+      "preview": {
+        "standing": -1,
+        "power": -1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 4
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 1
+        },
+        {
+          "type": "relationship",
+          "character": "reformist",
+          "add": 2
+        },
+        {
+          "type": "flag",
+          "flag": "flag_public_reform_support",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act1_reformist_bill_intro.right",
+      "preview": {
+        "standing": 0,
+        "power": 0,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "relationship",
+          "character": "reformist",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "Chain D root. The only Act I card where the \"good\" option visibly costs two stats at once. `flag_public_reform_support` gates cards 031/038/052 and ultimately the Ending G payoff line: \"Your office has no authority over this inquiry.\""
+    }
+  },
+  {
+    "id": "act1_staff_hiring",
+    "act": "rise",
+    "type": "contextual",
+    "speaker": "aide",
+    "text": "card.act1_staff_hiring.text",
+    "illustration": {
+      "scene": "office_cv_pile",
+      "expression": "neutral"
+    },
+    "once": true,
+    "weight": 10,
+    "left": {
+      "text": "card.act1_staff_hiring.left",
+      "preview": {
+        "power": 0,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act1_staff_hiring.right",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        },
+        {
+          "type": "relationship",
+          "character": "mentor",
+          "add": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_nepotism",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "The nephew is *genuinely qualified* — stated twice. Nepotism's first step never requires hiring anyone unqualified. The precedent is what matters, and precedents don't check CVs."
+    }
+  },
+  {
+    "id": "act1_local_project",
+    "act": "rise",
+    "type": "contextual",
+    "text": "card.act1_local_project.text",
+    "illustration": {
+      "scene": "flooded_district"
+    },
+    "once": true,
+    "weight": 10,
+    "left": {
+      "text": "card.act1_local_project.left",
+      "preview": {
+        "power": 0,
+        "publicTrust": "unknown"
+      },
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act1_local_project.right",
+      "preview": {
+        "power": 1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 4
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 3
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_administrative_override",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "**The most important card in Act I.** Bypassing procedure produces real, unambiguous good — dry homes, grateful residents, deserved trust. The mechanism that drains a flooded district is the same mechanism that will later bury an investigation. The game must never say this. The precedent counter says it."
+    }
+  },
+  {
+    "id": "act1_mentor_vote_request",
+    "act": "rise",
+    "type": "contextual",
+    "speaker": "mentor",
+    "text": "card.act1_mentor_vote_request.text",
+    "illustration": {
+      "scene": "office_mentor",
+      "expression": "neutral"
+    },
+    "once": true,
+    "weight": 10,
+    "minActTurn": 4,
+    "tags": [
+      "mentor",
+      "loyalty",
+      "chain_a"
+    ],
+    "left": {
+      "text": "card.act1_mentor_vote_request.left",
+      "preview": {
+        "standing": -1,
+        "power": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -2
+        },
+        {
+          "type": "relationship",
+          "character": "mentor",
+          "add": -2
+        }
+      ],
+      "lock": {
+        "mode": "cost",
+        "condition": {
+          "type": "obligation",
+          "creditor": "mentor",
+          "status": "active",
+          "minCount": 1
+        },
+        "unlockEffects": [
+          {
+            "type": "stat",
+            "stat": "power",
+            "add": -4
+          },
+          {
+            "type": "relationship",
+            "character": "mentor",
+            "add": -1
+          }
+        ],
+        "reason": {
+          "source": "obligations",
+          "maxFlashbacks": 1
+        }
+      },
+      "delayedEffects": [
+        {
+          "delay": {
+            "type": "turn_range",
+            "min": 2,
+            "max": 4
+          },
+          "eventId": "event_committee_vote_refused",
+          "onConditionFail": "discard"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act1_mentor_vote_request.right",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 3
+        },
+        {
+          "type": "relationship",
+          "character": "mentor",
+          "add": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_loyalty_appointments",
+          "add": 1
+        },
+        {
+          "type": "obligation_resolve",
+          "creditor": "mentor",
+          "amount": 1,
+          "resolution": "repaid"
+        }
+      ],
+      "delayedEffects": [
+        {
+          "delay": {
+            "type": "turn_range",
+            "min": 2,
+            "max": 4
+          },
+          "eventId": "event_committee_vote_supported",
+          "onConditionFail": "discard"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "The mechanical thesis in miniature: free refusal has already quietly expired if you took card 007. And the sting — the *only way to clear* the Mentor's debt is to do the thing he wants: you repay an obligation by acquiring a precedent. The ledger balances; the player doesn't. First cost-lock must land before turn ~10 so the Milestone-3 experience (\"choice → advantage → obligation → later resistance\") is proven inside Act I.",
+      "expectedDurationSeconds": 25
+    }
+  },
+  {
+    "id": "act1_small_reform_success",
+    "act": "rise",
+    "type": "contextual",
+    "text": "card.act1_small_reform_success.text",
+    "illustration": {
+      "scene": "corridor_press"
+    },
+    "once": true,
+    "weight": 10,
+    "minActTurn": 5,
+    "left": {
+      "text": "card.act1_small_reform_success.left",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act1_small_reform_success.right",
+      "preview": {
+        "standing": 2,
+        "publicTrust": "strong_up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 5
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 4
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_self_promotional_style",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "A palate-cleanser that still teaches the perception economy: claiming credit *works*, and Perceived Trust is the stat advisors will quote back later. `flag_self_promotional_style` modulates Act II media card wording."
+    }
+  },
+  {
+    "id": "act1_business_dinner",
+    "act": "rise",
+    "type": "contextual",
+    "speaker": "businessman",
+    "text": "card.act1_business_dinner.text",
+    "illustration": {
+      "scene": "restaurant_private_room",
+      "expression": "friendly"
+    },
+    "conditions": {
+      "type": "relationship",
+      "character": "businessman",
+      "op": ">=",
+      "value": 1
+    },
+    "once": true,
+    "weight": 10,
+    "left": {
+      "text": "card.act1_business_dinner.left",
+      "preview": {
+        "money": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "money",
+          "add": -600
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act1_business_dinner.right",
+      "preview": {
+        "money": 0,
+        "standing": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "relationship",
+          "character": "businessman",
+          "add": 1
+        },
+        {
+          "type": "obligation_add",
+          "id": "obligation_businessman_hospitality_01",
+          "creditor": "businessman",
+          "weight": 1,
+          "tags": [
+            "business",
+            "hospitality"
+          ]
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "The cheapest obligation in the game — weight 1, attached to a dinner. Teaches that obligations attach to *comfort*, not just contracts. Also the run's first meaningful money interaction: paying your own way should feel slightly, memorably annoying ($600 against $50,000 — the pain is symbolic and that's the lesson)."
+    }
+  },
+  {
+    "id": "act1_minor_rumor",
+    "act": "rise",
+    "type": "contextual",
+    "speaker": "aide",
+    "text": "card.act1_minor_rumor.text",
+    "illustration": {
+      "scene": "office_phone",
+      "expression": "concerned"
+    },
+    "once": true,
+    "weight": 10,
+    "minActTurn": 5,
+    "left": {
+      "text": "card.act1_minor_rumor.left",
+      "preview": {
+        "publicTrust": "down_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": -2
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act1_minor_rumor.right",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": -1
+        },
+        {
+          "type": "relationship",
+          "character": "editor",
+          "add": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_management",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "First divergence where \"fixing\" trust *lowers* actual trust: managed coverage reads as managed. The aide's \"wrong on the details — mostly\" is written to sting precisely when the rumor is half-true (player took 007 right) while remaining innocuous otherwise — one line, two readings, zero conditional text."
+    }
+  },
+  {
+    "id": "act1_committee_result_supported",
+    "act": "rise",
+    "type": "consequence",
+    "speaker": "aide",
+    "text": "card.act1_committee_result_supported.text",
+    "illustration": {
+      "scene": "office_phone",
+      "expression": "neutral"
+    },
+    "conditions": {
+      "type": "history",
+      "cardId": "act1_mentor_vote_request",
+      "choice": "right",
+      "exists": true
+    },
+    "once": true,
+    "left": {
+      "text": "card.act1_committee_result_supported.left",
+      "preview": {
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 3
+        },
+        {
+          "type": "relationship",
+          "character": "mentor",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_loyal_committee_member",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act1_committee_result_supported.right",
+      "preview": {
+        "power": 0,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_loyal_committee_member",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "The loyalty machine pays out immediately and asks nothing. Both choices set the world-state flag (the secretary exists either way); only Left *uses* him — a small distinction the Aftermath remembers."
+    }
+  },
+  {
+    "id": "act1_committee_result_refused",
+    "act": "rise",
+    "type": "consequence",
+    "speaker": "aide",
+    "text": "card.act1_committee_result_refused.text",
+    "illustration": {
+      "scene": "office_phone",
+      "expression": "concerned"
+    },
+    "conditions": {
+      "type": "history",
+      "cardId": "act1_mentor_vote_request",
+      "choice": "left",
+      "exists": true
+    },
+    "once": true,
+    "left": {
+      "text": "card.act1_committee_result_refused.left",
+      "preview": {
+        "standing": -1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -1
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act1_committee_result_refused.right",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "Independence rendered as friction, not catastrophe: your items just… wait. The machine doesn't punish; it deprioritizes. Neither choice fixes it — the point is that the vote you didn't cast still governs your Thursday."
+    }
+  },
+  {
+    "id": "act1_reformist_warning",
+    "act": "rise",
+    "type": "contextual",
+    "speaker": "reformist",
+    "text": "card.act1_reformist_warning.text",
+    "illustration": {
+      "scene": "corridor_walk",
+      "expression": "concerned"
+    },
+    "conditions": {
+      "any": [
+        {
+          "type": "precedent",
+          "precedent": "precedent_special_treatment",
+          "op": ">=",
+          "value": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_nepotism",
+          "op": ">=",
+          "value": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_administrative_override",
+          "op": ">=",
+          "value": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_management",
+          "op": ">=",
+          "value": 1
+        }
+      ]
+    },
+    "once": true,
+    "weight": 6,
+    "minActTurn": 6,
+    "left": {
+      "text": "card.act1_reformist_warning.left",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "relationship",
+          "character": "reformist",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act1_reformist_warning.right",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "relationship",
+          "character": "reformist",
+          "add": -1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "The single permitted moment of near-commentary in Act I, delivered as a character's opinion, conditional on the player having actually earned it, and mechanically toothless — no stat punishes ignoring her. If the player's precedent counters are all zero, this card never appears: clean runs get no sermon."
+    }
+  },
+  {
+    "id": "act1_first_promotion",
+    "act": "rise",
+    "type": "story",
+    "text": "card.act1_first_promotion.text",
+    "illustration": {
+      "scene": "office_phone_call"
+    },
+    "once": true,
+    "left": {
+      "text": "card.act1_first_promotion.left",
+      "preview": {
+        "standing": 2,
+        "power": 2,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 6
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 6
+        }
+      ],
+      "variants": [
+        {
+          "conditions": {
+            "type": "history",
+            "cardId": "act1_committee_opportunity",
+            "choice": "right",
+            "exists": true
+          },
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "standing",
+              "add": 6
+            },
+            {
+              "type": "stat",
+              "stat": "power",
+              "add": 6
+            },
+            {
+              "type": "relationship",
+              "character": "mentor",
+              "add": 1
+            },
+            {
+              "type": "obligation_add",
+              "id": "obligation_mentor_promotion_01",
+              "creditor": "mentor",
+              "weight": 2,
+              "tags": [
+                "promotion",
+                "inner_circle"
+              ]
+            }
+          ]
+        }
+      ],
+      "next": {
+        "type": "act",
+        "act": "network"
+      }
+    },
+    "right": {
+      "text": "card.act1_first_promotion.right",
+      "preview": {
+        "standing": -1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_declined_first_promotion",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "act",
+        "act": "network"
+      }
+    },
+    "metadata": {
+      "designIntent": "Act I closes on the run's largest stat jump, sourced ambiguously on purpose (\"the unofficial version depends on who is telling it\"). The variant obligation is weight 2 — the heaviest debt so far — attached to the most flattering moment so far. Declining is rare but must stay viable (Standing −3, not a death sentence) and is remembered by Act II wording."
+    }
+  }
+]

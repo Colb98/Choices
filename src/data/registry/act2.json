@@ -1,0 +1,42 @@
+{
+  "characters": [
+    {
+      "id": "minister",
+      "nameKey": "char.minister.name"
+    }
+  ],
+  "flags": [
+    { "id": "flag_invested_protected_company", "description": "Player bought pre-market shares via the Businessman." },
+    { "id": "flag_minister_access", "description": "Player built a personal channel to the Minister." },
+    { "id": "flag_audit_allowed", "description": "Player let the full audit of the protected company proceed." },
+    { "id": "flag_audit_referrals_public", "description": "Player let audit referrals go public." },
+    { "id": "flag_financial_disclosure", "description": "Player voluntarily disclosed the full portfolio." },
+    { "id": "flag_discreet_accounts", "description": "Player moved investment gains somewhere quieter." },
+    { "id": "flag_portfolio_valued", "description": "Player had the doubled stake independently valued." },
+    { "id": "flag_strong_procurement_reform", "description": "Player backed the full-disclosure procurement bill." },
+    { "id": "flag_weak_procurement_reform", "description": "Player backed the watered-down procurement bill." },
+    { "id": "flag_strongman_branding", "description": "Player campaigned on strong leadership." },
+    { "id": "flag_hospital_opened_early", "description": "Player overrode certification queue to open hospital wing." },
+    { "id": "flag_supports_investigation_independence", "description": "Player backed fixed-term, court-removable investigators." }
+  ],
+  "precedents": [
+    { "id": "precedent_conflict_of_interest", "description": "Normalized holding stakes in entities player governs." },
+    { "id": "precedent_media_interference", "description": "Normalized reaching into editorial decisions." },
+    { "id": "precedent_investigation_interference", "description": "Normalized shaping reviews and audits." },
+    { "id": "precedent_media_regulatory_favor", "description": "Normalized trading regulatory relief for coverage." },
+    { "id": "precedent_information_delay", "description": "Normalized sitting on inconvenient records." },
+    { "id": "precedent_disclosure_minimization", "description": "Normalized declaring only what the letter of the law demands." }
+  ],
+  "events": [
+    { "id": "event_investment_growth", "cardId": "act2_investment_growth" },
+    { "id": "event_investment_doubles", "cardId": "act2_investment_doubles" },
+    { "id": "event_delayed_article_returns", "cardId": "act2_article_softened" },
+    { "id": "event_audit_result_full", "cardId": "act2_audit_result_full" },
+    { "id": "event_audit_result_managed", "cardId": "act2_audit_result_managed" },
+    { "id": "event_audit_scandal_return", "cardId": "act3_audit_scandal_return" }
+  ],
+  "beats": [
+    { "id": "beat_act2_minister", "act": "network", "cardId": "act2_minister_intro", "earliestActTurn": 1, "latestActTurn": 3, "priority": 100, "once": true },
+    { "id": "beat_act2_second_promotion", "act": "network", "cardId": "act2_second_promotion", "earliestActTurn": 13, "latestActTurn": 16, "priority": 100, "once": true }
+  ]
+}

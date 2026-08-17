@@ -1,0 +1,1595 @@
+[
+  {
+    "id": "incident_road_a",
+    "act": "incident",
+    "type": "incident",
+    "text": "card.incident_road_a.text",
+    "illustration": {
+      "scene": "night_road"
+    },
+    "once": true,
+    "left": {
+      "text": "card.incident_road_a.left",
+      "next": {
+        "type": "card",
+        "cardId": "incident_collision"
+      }
+    },
+    "right": {
+      "text": "card.incident_road_a.right",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_looked_at_phone",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "incident_collision"
+      }
+    },
+    "metadata": {
+      "designIntent": "The message, if read, is the Minister's — five words of gratitude arriving at the exact wrong moment. Alters presentation only; the collision does not depend on the glance. Guilt is not a reflex test."
+    }
+  },
+  {
+    "id": "incident_collision",
+    "act": "incident",
+    "type": "incident",
+    "text": "card.incident_collision.text",
+    "illustration": {
+      "scene": "headlights"
+    },
+    "once": true,
+    "left": {
+      "text": "card.incident_collision.left",
+      "next": {
+        "type": "card",
+        "cardId": "incident_immediate_choice"
+      }
+    },
+    "right": {
+      "text": "card.incident_collision.right",
+      "next": {
+        "type": "card",
+        "cardId": "incident_immediate_choice"
+      }
+    },
+    "metadata": {
+      "authorNote": "presentationHint: impact_blackout",
+      "designIntent": "The concept's forced moment, implemented without a fake lock: both choices are real, both are honored, both fail — because braking distance is chemistry, not will. The player did choose; they chose at the table, six cards ago. Impact sound, brief interruption, black screen. No gore, ever. The HUD is already gone."
+    }
+  },
+  {
+    "id": "incident_immediate_choice",
+    "act": "incident",
+    "type": "incident",
+    "text": "card.incident_immediate_choice.text",
+    "illustration": {
+      "scene": "black_road"
+    },
+    "once": true,
+    "left": {
+      "text": "card.incident_immediate_choice.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_stayed_at_scene",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "incident_stay"
+      }
+    },
+    "right": {
+      "text": "card.incident_immediate_choice.right",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_left_scene",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "incident_leave"
+      }
+    },
+    "metadata": {
+      "authorNote": "Never locked. Never priced. Per spec §29 — this decision remains player agency regardless of past corruption.",
+      "designIntent": "The whole game funnels to two words on a black screen. Everything the player has built can protect them from consequences; nothing they have built can make this choice for them. The card text does not mention the woman's condition — the player must decide without a prognosis, the way it happens."
+    }
+  },
+  {
+    "id": "incident_stay",
+    "act": "incident",
+    "type": "incident",
+    "text": "card.incident_stay.text",
+    "illustration": {
+      "scene": "phone_in_hand_dark"
+    },
+    "once": true,
+    "left": {
+      "text": "card.incident_stay.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_called_emergency",
+          "action": "add"
+        },
+        {
+          "type": "flag",
+          "flag": "flag_victim_received_early_help",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "act",
+        "act": "aftermath"
+      }
+    },
+    "right": {
+      "text": "card.incident_stay.right",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_delayed_emergency",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "act",
+        "act": "aftermath"
+      }
+    },
+    "metadata": {
+      "designIntent": "The table's \"important humanitarian consequence,\" compressed into a contact list. The Aide-first path is not villainy — it is the trained reflex of forty turns of having a person who fixes things. The endings will measure this in minutes, not morals."
+    }
+  },
+  {
+    "id": "incident_leave",
+    "act": "incident",
+    "type": "incident",
+    "speaker": "aide",
+    "text": "card.incident_leave.text",
+    "illustration": {
+      "scene": "car_interior_phone"
+    },
+    "once": true,
+    "left": {
+      "text": "card.incident_leave.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_aide_knows_truth",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "act",
+        "act": "aftermath"
+      }
+    },
+    "right": {
+      "text": "card.incident_leave.right",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_concealment_started",
+          "action": "add"
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_concealment",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "act",
+        "act": "aftermath"
+      }
+    },
+    "metadata": {
+      "designIntent": "The first lie is three words to the one person who kept a list to protect you. If REL aide was damaged at card 045, no alternate line is needed — the same words simply land colder. The concealment precedent opens vocabulary the aftermath will regret having."
+    }
+  },
+  {
+    "id": "incident_call_b",
+    "act": "incident",
+    "type": "incident",
+    "speaker": "aide",
+    "text": "card.incident_call_b.text",
+    "illustration": {
+      "scene": "home_phone_night"
+    },
+    "once": true,
+    "left": {
+      "text": "card.incident_call_b.left",
+      "next": {
+        "type": "card",
+        "cardId": "incident_identity_b"
+      }
+    },
+    "right": {
+      "text": "card.incident_call_b.right",
+      "next": {
+        "type": "card",
+        "cardId": "incident_identity_b"
+      }
+    }
+  },
+  {
+    "id": "incident_identity_b",
+    "act": "incident",
+    "type": "incident",
+    "speaker": "aide",
+    "text": "card.incident_identity_b.text",
+    "illustration": {
+      "scene": "office_night_two_chairs"
+    },
+    "once": true,
+    "left": {
+      "text": "card.incident_identity_b.left",
+      "next": {
+        "type": "card",
+        "cardId": "incident_first_request_b"
+      }
+    },
+    "right": {
+      "text": "card.incident_identity_b.right",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_asked_about_victim",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "incident_first_request_b"
+      }
+    },
+    "metadata": {
+      "designIntent": "The pack's purest wording-as-mechanics: two grammatically identical questions, one pronoun apart. The game records which one came out of the player's mouth first and never mentions it again — until card 074, where the family's lawyer will somehow already know."
+    }
+  },
+  {
+    "id": "incident_first_request_b",
+    "act": "incident",
+    "type": "incident",
+    "speaker": "minister",
+    "text": "card.incident_first_request_b.text",
+    "illustration": {
+      "scene": "phone_call_1am"
+    },
+    "once": true,
+    "left": {
+      "text": "card.incident_first_request_b.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_immediate_disclosure",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -2
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "incident_emergency_b"
+      }
+    },
+    "right": {
+      "text": "card.incident_first_request_b.right",
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_information_delay",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "incident_emergency_b"
+      }
+    }
+  },
+  {
+    "id": "incident_emergency_b",
+    "act": "incident",
+    "type": "incident",
+    "text": "card.incident_emergency_b.text",
+    "illustration": {
+      "scene": "hospital_corridor_night"
+    },
+    "once": true,
+    "left": {
+      "text": "card.incident_emergency_b.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_victim_received_early_help",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "incident_explicit_request_b"
+      }
+    },
+    "right": {
+      "text": "card.incident_emergency_b.right",
+      "next": {
+        "type": "card",
+        "cardId": "incident_explicit_request_b"
+      }
+    },
+    "metadata": {
+      "designIntent": "The one card in Route B where power can simply *help*, no strings, no witnesses. The wording \"someone must authorize\" is exact: the machinery that delayed a hospital wing for eleven months is the same machinery that can move a surgical team in eleven minutes. The player has held this lever all game."
+    },
+    "speaker": "doctor"
+  },
+  {
+    "id": "incident_explicit_request_b",
+    "act": "incident",
+    "type": "incident",
+    "speaker": "minister",
+    "text": "card.incident_explicit_request_b.text",
+    "illustration": {
+      "scene": "ministry_office_night",
+      "expression": "concerned"
+    },
+    "once": true,
+    "left": {
+      "text": "card.incident_explicit_request_b.left",
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -5
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -3
+        },
+        {
+          "type": "relationship",
+          "character": "minister",
+          "add": -2
+        },
+        {
+          "type": "relationship",
+          "character": "mentor",
+          "add": -2
+        }
+      ],
+      "next": {
+        "type": "act",
+        "act": "aftermath"
+      }
+    },
+    "right": {
+      "text": "card.incident_explicit_request_b.right",
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 3
+        },
+        {
+          "type": "flag",
+          "flag": "flag_coverup_started",
+          "action": "add"
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_coverup",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "act",
+        "act": "aftermath"
+      }
+    },
+    "metadata": {
+      "designIntent": "Card 056 was the rehearsal; this is the performance, and the player who coordinated the Editor then has already learned the lines. Per AFTERMATH-LAW-01: refusal is never locked, never priced beyond its stated cost. The rehearsed sentence — \"He has served this country for thirty years\" — is the network speaking its only true belief: that service is a currency, and it buys people."
+    }
+  },
+  {
+    "id": "aftermath_first_article",
+    "act": "aftermath",
+    "type": "aftermath",
+    "text": "card.aftermath_first_article.text",
+    "once": true,
+    "conditions": {
+      "type": "precedent",
+      "precedent": "precedent_media_suppression",
+      "op": "==",
+      "value": 0
+    },
+    "left": {
+      "text": "card.aftermath_first_article.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_aftermath_facts_released",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 2
+        }
+      ]
+    },
+    "right": {
+      "text": "card.aftermath_first_article.right",
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_manipulation",
+          "add": 1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The 048 vocabulary law, applied to a person instead of a portfolio. On captured runs, \"release the facts\" has left the building; the Editor's four words are the entire moral history of Chain B, spoken as a service."
+    },
+    "illustration": {
+      "scene": "newspaper"
+    }
+  },
+  {
+    "id": "aftermath_first_article_captured",
+    "act": "aftermath",
+    "type": "aftermath",
+    "speaker": "editor",
+    "text": "card.aftermath_first_article_captured.text",
+    "once": true,
+    "conditions": {
+      "type": "precedent",
+      "precedent": "precedent_media_suppression",
+      "op": ">=",
+      "value": 1
+    },
+    "left": {
+      "text": "card.aftermath_first_article_captured.left",
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_manipulation",
+          "add": 1
+        }
+      ]
+    },
+    "right": {
+      "text": "card.aftermath_first_article_captured.right",
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": -4
+        },
+        {
+          "type": "flag",
+          "flag": "flag_article_suppressed_aftermath",
+          "action": "add"
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_suppression",
+          "add": 1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The 048 vocabulary law, applied to a person instead of a portfolio. On captured runs, \"release the facts\" has left the building; the Editor's four words are the entire moral history of Chain B, spoken as a service."
+    }
+  },
+  {
+    "id": "aftermath_investigator_independent",
+    "act": "aftermath",
+    "type": "aftermath",
+    "text": "card.aftermath_investigator_independent.text",
+    "once": true,
+    "conditions": {
+      "type": "flag",
+      "flag": "flag_investigation_independent",
+      "exists": true
+    },
+    "left": {
+      "text": "card.aftermath_investigator_independent.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_gave_full_statement",
+          "action": "add"
+        }
+      ]
+    },
+    "right": {
+      "text": "card.aftermath_investigator_independent.right"
+    },
+    "metadata": {
+      "designIntent": "Card 052's receipt, both sides of it. On independent runs the *reward is a limitation* — the sentence the player paid −8 Power for, delivered to their face, and the correct emotional response is relief. On controlled runs the investigator's deference is the horror: \"whenever convenient\" is what a captured institution sounds like when it thinks it is being polite."
+    },
+    "speaker": "investigator"
+  },
+  {
+    "id": "aftermath_investigator_controlled",
+    "act": "aftermath",
+    "type": "aftermath",
+    "text": "card.aftermath_investigator_controlled.text",
+    "once": true,
+    "conditions": {
+      "type": "flag",
+      "flag": "flag_investigation_politically_controlled",
+      "exists": true
+    },
+    "left": {
+      "text": "card.aftermath_investigator_controlled.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_gave_full_statement",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -2
+        }
+      ]
+    },
+    "right": {
+      "text": "card.aftermath_investigator_controlled.right",
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_investigation_interference",
+          "add": 1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "Card 052's receipt, both sides of it. On independent runs the *reward is a limitation* — the sentence the player paid −8 Power for, delivered to their face, and the correct emotional response is relief. On controlled runs the investigator's deference is the horror: \"whenever convenient\" is what a captured institution sounds like when it thinks it is being polite."
+    },
+    "speaker": "investigator"
+  },
+  {
+    "id": "aftermath_records",
+    "act": "aftermath",
+    "type": "aftermath",
+    "speaker": "aide",
+    "text": "card.aftermath_records.text",
+    "illustration": {
+      "scene": "office_boxes"
+    },
+    "once": true,
+    "left": {
+      "text": "card.aftermath_records.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_records_preserved",
+          "action": "add"
+        },
+        {
+          "type": "flag",
+          "flag": "flag_cooperated_with_investigation",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -3
+        }
+      ]
+    },
+    "right": {
+      "text": "card.aftermath_records.right",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_records_selective",
+          "action": "add"
+        }
+      ],
+      "variants": [
+        {
+          "conditions": {
+            "type": "precedent",
+            "precedent": "precedent_investigation_interference",
+            "op": ">=",
+            "value": 2
+          },
+          "text": "card.aftermath_records.right.v1",
+          "effects": [
+            {
+              "type": "flag",
+              "flag": "flag_release_coordinated",
+              "action": "add"
+            },
+            {
+              "type": "stat",
+              "stat": "power",
+              "add": 2
+            },
+            {
+              "type": "precedent",
+              "precedent": "precedent_investigation_interference",
+              "add": 1
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "aftermath_compensation",
+    "act": "aftermath",
+    "type": "aftermath",
+    "text": "card.aftermath_compensation.text",
+    "illustration": {
+      "scene": "office_visitor_standing"
+    },
+    "once": true,
+    "left": {
+      "text": "card.aftermath_compensation.left",
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "money",
+          "add": -150000
+        },
+        {
+          "type": "flag",
+          "flag": "flag_unconditional_compensation",
+          "action": "add"
+        }
+      ]
+    },
+    "right": {
+      "text": "card.aftermath_compensation.right",
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "money",
+          "add": -80000
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "flag",
+          "flag": "flag_confidential_settlement",
+          "action": "add"
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_victim_silencing",
+          "add": 1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The table's law — *compensation must not erase responsibility* — is enforced by the endings, not this card: neither choice moves any accountability flag. What the card does is set up the ledger (ENGINE-REQ-03): $150,000 unconditional, against a money counter that may read $1.1M, against a gathering that cost more per head than the settlement discount. The arithmetic is left entirely to the player. On runs with `flag_asked_about_victim`, the lawyer's last line lands differently — same words, and the player knows why."
+    },
+    "speaker": "lawyer"
+  },
+  {
+    "id": "aftermath_responsibility_a",
+    "act": "aftermath",
+    "type": "aftermath",
+    "text": "card.aftermath_responsibility_a.text",
+    "once": true,
+    "conditions": {
+      "all": [
+        {
+          "type": "flag",
+          "flag": "flag_drank_at_gathering",
+          "exists": true
+        },
+        {
+          "type": "flag",
+          "flag": "flag_self_driving",
+          "exists": true
+        }
+      ]
+    },
+    "left": {
+      "text": "card.aftermath_responsibility_a.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_confessed",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -8
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -8
+        }
+      ]
+    },
+    "right": {
+      "text": "card.aftermath_responsibility_a.right",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_remained_silent",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "Per AFTERMATH-LAW-01, both left options are free at every corruption level — the visible costs are large and honest, and that is the entire pricing model now. 075B's phrasing is engineered so that protecting the Mentor is one warm word and abandoning him is a procedural sentence: the network has spent the whole game making loyalty feel like language and accountability feel like paperwork. The card lets the grammar do the tempting."
+    }
+  },
+  {
+    "id": "aftermath_responsibility_b",
+    "act": "aftermath",
+    "type": "aftermath",
+    "speaker": "aide",
+    "text": "card.aftermath_responsibility_b.text",
+    "once": true,
+    "conditions": {
+      "not": {
+        "all": [
+          {
+            "type": "flag",
+            "flag": "flag_drank_at_gathering",
+            "exists": true
+          },
+          {
+            "type": "flag",
+            "flag": "flag_self_driving",
+            "exists": true
+          }
+        ]
+      }
+    },
+    "left": {
+      "text": "card.aftermath_responsibility_b.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_charges_allowed",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -6
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -6
+        },
+        {
+          "type": "relationship",
+          "character": "mentor",
+          "add": -4
+        },
+        {
+          "type": "relationship",
+          "character": "minister",
+          "add": -3
+        }
+      ]
+    },
+    "right": {
+      "text": "card.aftermath_responsibility_b.right",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_ally_protected",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 3
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_investigation_interference",
+          "add": 1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "Per AFTERMATH-LAW-01, both left options are free at every corruption level — the visible costs are large and honest, and that is the entire pricing model now. 075B's phrasing is engineered so that protecting the Mentor is one warm word and abandoning him is a procedural sentence: the network has spent the whole game making loyalty feel like language and accountability feel like paperwork. The card lets the grammar do the tempting."
+    }
+  },
+  {
+    "id": "aftermath_network_exposed",
+    "act": "aftermath",
+    "type": "aftermath",
+    "text": "card.aftermath_network_exposed.text",
+    "once": true,
+    "conditions": {
+      "any": [
+        {
+          "type": "flag",
+          "flag": "flag_confessed",
+          "exists": true
+        },
+        {
+          "type": "flag",
+          "flag": "flag_charges_allowed",
+          "exists": true
+        }
+      ]
+    },
+    "left": {
+      "text": "card.aftermath_network_exposed.left",
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -4
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -6
+        },
+        {
+          "type": "relationship",
+          "character": "mentor",
+          "add": -2
+        },
+        {
+          "type": "relationship",
+          "character": "businessman",
+          "add": -2
+        },
+        {
+          "type": "relationship",
+          "character": "editor",
+          "add": -2
+        }
+      ]
+    },
+    "right": {
+      "text": "card.aftermath_network_exposed.right",
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -4
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -6
+        },
+        {
+          "type": "relationship",
+          "character": "mentor",
+          "add": -2
+        },
+        {
+          "type": "relationship",
+          "character": "businessman",
+          "add": -2
+        },
+        {
+          "type": "relationship",
+          "character": "editor",
+          "add": -2
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The table asks that this card \"visually show political survival being exchanged for accountability\" — done with temperature instead of numbers. Exposure reads as a column of names going dark; cover reads as a room getting warmer *the way rooms are warm before doors close* — the pack's one repeated simile, planted at 076 and harvested by the Scapegoat ending. Identical effects per choice pair: what happened is done; the swipe only decides what the player looks at."
+    }
+  },
+  {
+    "id": "aftermath_network_covered",
+    "act": "aftermath",
+    "type": "aftermath",
+    "text": "card.aftermath_network_covered.text",
+    "once": true,
+    "conditions": {
+      "not": {
+        "any": [
+          {
+            "type": "flag",
+            "flag": "flag_confessed",
+            "exists": true
+          },
+          {
+            "type": "flag",
+            "flag": "flag_charges_allowed",
+            "exists": true
+          }
+        ]
+      }
+    },
+    "left": {
+      "text": "card.aftermath_network_covered.left",
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 4
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 4
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": -4
+        }
+      ]
+    },
+    "right": {
+      "text": "card.aftermath_network_covered.right",
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 4
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 4
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": -4
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The table asks that this card \"visually show political survival being exchanged for accountability\" — done with temperature instead of numbers. Exposure reads as a column of names going dark; cover reads as a room getting warmer *the way rooms are warm before doors close* — the pack's one repeated simile, planted at 076 and harvested by the Scapegoat ending. Identical effects per choice pair: what happened is done; the swipe only decides what the player looks at."
+    }
+  },
+  {
+    "id": "aftermath_reformist_steady",
+    "act": "aftermath",
+    "type": "aftermath",
+    "speaker": "reformist",
+    "text": "card.aftermath_reformist_steady.text",
+    "once": true,
+    "conditions": {
+      "all": [
+        {
+          "not": {
+            "type": "flag",
+            "flag": "flag_reformist_removed",
+            "exists": true
+          }
+        },
+        {
+          "type": "relationship",
+          "character": "reformist",
+          "op": ">=",
+          "value": 2
+        },
+        {
+          "any": [
+            {
+              "type": "flag",
+              "flag": "flag_confessed",
+              "exists": true
+            },
+            {
+              "type": "flag",
+              "flag": "flag_charges_allowed",
+              "exists": true
+            }
+          ]
+        }
+      ]
+    },
+    "left": {
+      "text": "card.aftermath_reformist_steady.left"
+    },
+    "right": {
+      "text": "card.aftermath_reformist_steady.right"
+    },
+    "metadata": {
+      "designIntent": "No moral lecture — the spec's hardest brief. The steady version is four words. The plea version distinguishes *fixing* from *stopping adding to it*, which is the only distinction the endings actually measure from here. The aide-substitute card makes the Reformist's absence audible: \"I'm not the person who was supposed to say this to you\" is the cost of card 046, presented as staffing."
+    }
+  },
+  {
+    "id": "aftermath_reformist_plea",
+    "act": "aftermath",
+    "type": "aftermath",
+    "speaker": "reformist",
+    "text": "card.aftermath_reformist_plea.text",
+    "once": true,
+    "conditions": {
+      "all": [
+        {
+          "not": {
+            "type": "flag",
+            "flag": "flag_reformist_removed",
+            "exists": true
+          }
+        },
+        {
+          "not": {
+            "any": [
+              {
+                "type": "flag",
+                "flag": "flag_confessed",
+                "exists": true
+              },
+              {
+                "type": "flag",
+                "flag": "flag_charges_allowed",
+                "exists": true
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "left": {
+      "text": "card.aftermath_reformist_plea.left"
+    },
+    "right": {
+      "text": "card.aftermath_reformist_plea.right",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_heard_plea",
+          "action": "add"
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "No moral lecture — the spec's hardest brief. The steady version is four words. The plea version distinguishes *fixing* from *stopping adding to it*, which is the only distinction the endings actually measure from here. The aide-substitute card makes the Reformist's absence audible: \"I'm not the person who was supposed to say this to you\" is the cost of card 046, presented as staffing."
+    }
+  },
+  {
+    "id": "aftermath_aide_substitute",
+    "act": "aftermath",
+    "type": "aftermath",
+    "speaker": "aide",
+    "text": "card.aftermath_aide_substitute.text",
+    "once": true,
+    "conditions": {
+      "type": "flag",
+      "flag": "flag_reformist_removed",
+      "exists": true
+    },
+    "left": {
+      "text": "card.aftermath_aide_substitute.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_heard_plea",
+          "action": "add"
+        }
+      ]
+    },
+    "right": {
+      "text": "card.aftermath_aide_substitute.right",
+      "effects": [
+        {
+          "type": "relationship",
+          "character": "aide",
+          "add": -1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "No moral lecture — the spec's hardest brief. The steady version is four words. The plea version distinguishes *fixing* from *stopping adding to it*, which is the only distinction the endings actually measure from here. The aide-substitute card makes the Reformist's absence audible: \"I'm not the person who was supposed to say this to you\" is the cost of card 046, presented as staffing."
+    }
+  },
+  {
+    "id": "aftermath_media_clean",
+    "act": "aftermath",
+    "type": "aftermath",
+    "text": "card.aftermath_media_clean.text",
+    "once": true,
+    "conditions": {
+      "all": [
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_suppression",
+          "op": "==",
+          "value": 0
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_manipulation",
+          "op": "==",
+          "value": 0
+        }
+      ]
+    },
+    "left": {
+      "text": "card.aftermath_media_clean.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_full_timeline_published",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 4
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -3
+        }
+      ]
+    },
+    "right": {
+      "text": "card.aftermath_media_clean.right",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_controlled_statement",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 2
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The largest menu shift in the game: across the three tiers, \"publish\" slides off the left edge and \"remove\" slides in from the right, and the *middle option is always the same words* — recoded from worst-available to best-available purely by what surrounds it. The Editor's shopping-list delivery on tier c is the end state of Chain B: censorship as errand."
+    },
+    "speaker": "press_officer"
+  },
+  {
+    "id": "aftermath_media_corrupt",
+    "act": "aftermath",
+    "type": "aftermath",
+    "text": "card.aftermath_media_corrupt.text",
+    "once": true,
+    "conditions": {
+      "all": [
+        {
+          "any": [
+            {
+              "type": "precedent",
+              "precedent": "precedent_media_suppression",
+              "op": ">=",
+              "value": 1
+            },
+            {
+              "type": "precedent",
+              "precedent": "precedent_media_manipulation",
+              "op": ">=",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_suppression",
+          "op": "<",
+          "value": 2
+        }
+      ]
+    },
+    "left": {
+      "text": "card.aftermath_media_corrupt.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_controlled_statement",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 2
+        }
+      ]
+    },
+    "right": {
+      "text": "card.aftermath_media_corrupt.right",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_editors_pressured",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": -3
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_suppression",
+          "add": 1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The largest menu shift in the game: across the three tiers, \"publish\" slides off the left edge and \"remove\" slides in from the right, and the *middle option is always the same words* — recoded from worst-available to best-available purely by what surrounds it. The Editor's shopping-list delivery on tier c is the end state of Chain B: censorship as errand."
+    },
+    "speaker": "press_officer"
+  },
+  {
+    "id": "aftermath_media_captured",
+    "act": "aftermath",
+    "type": "aftermath",
+    "speaker": "editor",
+    "text": "card.aftermath_media_captured.text",
+    "once": true,
+    "conditions": {
+      "type": "precedent",
+      "precedent": "precedent_media_suppression",
+      "op": ">=",
+      "value": 2
+    },
+    "left": {
+      "text": "card.aftermath_media_captured.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_editors_pressured",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": -3
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_suppression",
+          "add": 1
+        }
+      ]
+    },
+    "right": {
+      "text": "card.aftermath_media_captured.right",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_reports_removed",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": -6
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_suppression",
+          "add": 1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The largest menu shift in the game: across the three tiers, \"publish\" slides off the left edge and \"remove\" slides in from the right, and the *middle option is always the same words* — recoded from worst-available to best-available purely by what surrounds it. The Editor's shopping-list delivery on tier c is the end state of Chain B: censorship as errand."
+    }
+  },
+  {
+    "id": "aftermath_institution_a",
+    "act": "aftermath",
+    "type": "aftermath",
+    "text": "card.aftermath_institution_a.text",
+    "once": true,
+    "conditions": {
+      "all": [
+        {
+          "type": "flag",
+          "flag": "flag_drank_at_gathering",
+          "exists": true
+        },
+        {
+          "type": "flag",
+          "flag": "flag_self_driving",
+          "exists": true
+        }
+      ]
+    },
+    "left": {
+      "text": "card.aftermath_institution_a.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_resigned",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -10
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -15
+        }
+      ],
+      "next": {
+        "type": "ending_check"
+      }
+    },
+    "right": {
+      "text": "card.aftermath_institution_a.right",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_remained_in_office",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        }
+      ],
+      "next": {
+        "type": "ending_check"
+      }
+    }
+  },
+  {
+    "id": "aftermath_institution_b",
+    "act": "aftermath",
+    "type": "aftermath",
+    "text": "card.aftermath_institution_b.text",
+    "once": true,
+    "conditions": {
+      "not": {
+        "all": [
+          {
+            "type": "flag",
+            "flag": "flag_drank_at_gathering",
+            "exists": true
+          },
+          {
+            "type": "flag",
+            "flag": "flag_self_driving",
+            "exists": true
+          }
+        ]
+      }
+    },
+    "left": {
+      "text": "card.aftermath_institution_b.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_investigation_continues",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "ending_check"
+      }
+    },
+    "right": {
+      "text": "card.aftermath_institution_b.right",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_intervention_ordered",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    }
+  },
+  {
+    "id": "aftermath_intervention_failed",
+    "act": "aftermath",
+    "type": "aftermath",
+    "text": "card.aftermath_intervention_failed.text",
+    "once": true,
+    "conditions": {
+      "type": "flag",
+      "flag": "flag_investigation_independent",
+      "exists": true
+    },
+    "left": {
+      "text": "card.aftermath_intervention_failed.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_intervention_failed",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -5
+        }
+      ],
+      "next": {
+        "type": "ending_check"
+      }
+    },
+    "right": {
+      "text": "card.aftermath_intervention_failed.right",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_intervention_failed",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -5
+        }
+      ],
+      "next": {
+        "type": "ending_check"
+      }
+    },
+    "metadata": {
+      "designIntent": "Card 052's final payment, both currencies. The failed intervention is the strongest sentence in the game and it is quoted, not written: the player reads their own two-year-old vote, returned to sender. The succeeded intervention gets the coldest text in the pack — *nothing was refused; nothing needed to be* — capture described as the absence of friction."
+    }
+  },
+  {
+    "id": "aftermath_intervention_succeeded",
+    "act": "aftermath",
+    "type": "aftermath",
+    "text": "card.aftermath_intervention_succeeded.text",
+    "once": true,
+    "conditions": {
+      "type": "flag",
+      "flag": "flag_investigation_politically_controlled",
+      "exists": true
+    },
+    "left": {
+      "text": "card.aftermath_intervention_succeeded.left",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_intervention_succeeded",
+          "action": "add"
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_investigation_interference",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "ending_check"
+      }
+    },
+    "right": {
+      "text": "card.aftermath_intervention_succeeded.right",
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_intervention_succeeded",
+          "action": "add"
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_investigation_interference",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "ending_check"
+      }
+    },
+    "metadata": {
+      "designIntent": "Card 052's final payment, both currencies. The failed intervention is the strongest sentence in the game and it is quoted, not written: the player reads their own two-year-old vote, returned to sender. The succeeded intervention gets the coldest text in the pack — *nothing was refused; nothing needed to be* — capture described as the absence of friction."
+    }
+  }
+]

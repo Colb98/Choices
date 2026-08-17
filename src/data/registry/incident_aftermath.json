@@ -1,0 +1,369 @@
+{
+  "flags": [
+    { "id": "flag_looked_at_phone", "description": "Player glanced at the Minister's message on the road home (066A right)." },
+    { "id": "flag_stayed_at_scene", "description": "Player stayed at the collision scene (068A left)." },
+    { "id": "flag_left_scene", "description": "Player left the collision scene (068A right)." },
+    { "id": "flag_called_emergency", "description": "Player called the emergency line first (069A left)." },
+    { "id": "flag_delayed_emergency", "description": "Player called the Aide before the emergency line (069A right)." },
+    { "id": "flag_victim_received_early_help", "description": "The victim received help in the first minutes; the only variable deciding survival phrasing in ending texts." },
+    { "id": "flag_aide_knows_truth", "description": "Player told the Aide the truth after leaving the scene (070A left)." },
+    { "id": "flag_concealment_started", "description": "Player lied to the Aide; concealment of their own act has begun (070A right)." },
+    { "id": "flag_asked_about_victim", "description": "Player asked where she was before asking where he was (067B right)." },
+    { "id": "flag_immediate_disclosure", "description": "Basic facts of the incident released the same night (068B left)." },
+    { "id": "flag_coverup_started", "description": "Player agreed to arrange protection for the Mentor (070B right)." },
+    { "id": "flag_aftermath_facts_released", "description": "Player released the facts for the first aftermath article (071a left)." },
+    { "id": "flag_article_suppressed_aftermath", "description": "Player had the first aftermath article removed (071b right)." },
+    { "id": "flag_gave_full_statement", "description": "Player gave the investigator a full statement (072a/072b left)." },
+    { "id": "flag_records_preserved", "description": "Player provided all records to the investigation (073 left)." },
+    { "id": "flag_cooperated_with_investigation", "description": "Player cooperated fully with the investigation (073 left)." },
+    { "id": "flag_records_selective", "description": "Player provided only the records that were requested (073 right)." },
+    { "id": "flag_release_coordinated", "description": "Player coordinated what records were released (073 right variant on interfered runs)." },
+    { "id": "flag_unconditional_compensation", "description": "Player assisted the victim's family with no conditions (074 left)." },
+    { "id": "flag_confidential_settlement", "description": "Player settled with the family under a confidentiality clause (074 right)." },
+    { "id": "flag_confessed", "description": "Player confessed, in the first person (075A left)." },
+    { "id": "flag_remained_silent", "description": "Player remained silent on the details (075A right)." },
+    { "id": "flag_charges_allowed", "description": "Player's office declined to intervene; charges against the Mentor proceed (075B left)." },
+    { "id": "flag_ally_protected", "description": "Player protected the Mentor from prosecution (075B right)." },
+    { "id": "flag_heard_plea", "description": "Player heard the plea to stop adding to it (077 plea/aide-substitute)." },
+    { "id": "flag_full_timeline_published", "description": "Player published the full timeline (078a left)." },
+    { "id": "flag_controlled_statement", "description": "Player issued a controlled statement (078a right / 078b left)." },
+    { "id": "flag_editors_pressured", "description": "Player pressured the editors (078b right / 078c left)." },
+    { "id": "flag_reports_removed", "description": "Player had the reports removed and discussion restricted (078c right)." },
+    { "id": "flag_resigned", "description": "Player resigned from office (079A left)." },
+    { "id": "flag_remained_in_office", "description": "Player remained in office (079A right)." },
+    { "id": "flag_investigation_continues", "description": "Player let the investigation continue (079B left)." },
+    { "id": "flag_intervention_ordered", "description": "Player ordered the intervention in the investigation (079B right)." },
+    { "id": "flag_intervention_failed", "description": "The ordered intervention failed against the independent authority (turn-10 consequence)." },
+    { "id": "flag_intervention_succeeded", "description": "The ordered intervention succeeded against the controlled inquiry (turn-10 consequence)." }
+  ],
+  "precedents": [
+    { "id": "precedent_concealment", "description": "Normalized hiding one's own act." },
+    { "id": "precedent_coverup", "description": "Normalized hiding another's act." },
+    { "id": "precedent_media_manipulation", "description": "Normalized shaping the incident's coverage." },
+    { "id": "precedent_victim_silencing", "description": "Normalized paying for silence." }
+  ],
+  "events": [],
+  "beats": [
+    {
+      "id": "beat_incident_route_a",
+      "act": "incident",
+      "cardId": "incident_road_a",
+      "conditions": {
+        "all": [
+          { "type": "flag", "flag": "flag_drank_at_gathering", "exists": true },
+          { "type": "flag", "flag": "flag_self_driving", "exists": true }
+        ]
+      },
+      "earliestActTurn": 1,
+      "latestActTurn": 1,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_incident_route_b",
+      "act": "incident",
+      "cardId": "incident_call_b",
+      "conditions": {
+        "not": {
+          "all": [
+            { "type": "flag", "flag": "flag_drank_at_gathering", "exists": true },
+            { "type": "flag", "flag": "flag_self_driving", "exists": true }
+          ]
+        }
+      },
+      "earliestActTurn": 1,
+      "latestActTurn": 1,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_first_article",
+      "act": "aftermath",
+      "cardId": "aftermath_first_article",
+      "conditions": { "type": "precedent", "precedent": "precedent_media_suppression", "op": "==", "value": 0 },
+      "earliestActTurn": 1,
+      "latestActTurn": 1,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_first_article_captured",
+      "act": "aftermath",
+      "cardId": "aftermath_first_article_captured",
+      "conditions": { "type": "precedent", "precedent": "precedent_media_suppression", "op": ">=", "value": 1 },
+      "earliestActTurn": 1,
+      "latestActTurn": 1,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_investigator_independent",
+      "act": "aftermath",
+      "cardId": "aftermath_investigator_independent",
+      "conditions": { "type": "flag", "flag": "flag_investigation_independent", "exists": true },
+      "earliestActTurn": 2,
+      "latestActTurn": 2,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_investigator_controlled",
+      "act": "aftermath",
+      "cardId": "aftermath_investigator_controlled",
+      "conditions": { "type": "flag", "flag": "flag_investigation_politically_controlled", "exists": true },
+      "earliestActTurn": 2,
+      "latestActTurn": 2,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_records",
+      "act": "aftermath",
+      "cardId": "aftermath_records",
+      "earliestActTurn": 3,
+      "latestActTurn": 3,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_compensation",
+      "act": "aftermath",
+      "cardId": "aftermath_compensation",
+      "earliestActTurn": 4,
+      "latestActTurn": 4,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_responsibility_a",
+      "act": "aftermath",
+      "cardId": "aftermath_responsibility_a",
+      "conditions": {
+        "all": [
+          { "type": "flag", "flag": "flag_drank_at_gathering", "exists": true },
+          { "type": "flag", "flag": "flag_self_driving", "exists": true }
+        ]
+      },
+      "earliestActTurn": 5,
+      "latestActTurn": 5,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_responsibility_b",
+      "act": "aftermath",
+      "cardId": "aftermath_responsibility_b",
+      "conditions": {
+        "not": {
+          "all": [
+            { "type": "flag", "flag": "flag_drank_at_gathering", "exists": true },
+            { "type": "flag", "flag": "flag_self_driving", "exists": true }
+          ]
+        }
+      },
+      "earliestActTurn": 5,
+      "latestActTurn": 5,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_network_exposed",
+      "act": "aftermath",
+      "cardId": "aftermath_network_exposed",
+      "conditions": {
+        "any": [
+          { "type": "flag", "flag": "flag_confessed", "exists": true },
+          { "type": "flag", "flag": "flag_charges_allowed", "exists": true }
+        ]
+      },
+      "earliestActTurn": 6,
+      "latestActTurn": 6,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_network_covered",
+      "act": "aftermath",
+      "cardId": "aftermath_network_covered",
+      "conditions": {
+        "not": {
+          "any": [
+            { "type": "flag", "flag": "flag_confessed", "exists": true },
+            { "type": "flag", "flag": "flag_charges_allowed", "exists": true }
+          ]
+        }
+      },
+      "earliestActTurn": 6,
+      "latestActTurn": 6,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_reformist_steady",
+      "act": "aftermath",
+      "cardId": "aftermath_reformist_steady",
+      "conditions": {
+        "all": [
+          { "not": { "type": "flag", "flag": "flag_reformist_removed", "exists": true } },
+          { "type": "relationship", "character": "reformist", "op": ">=", "value": 2 },
+          {
+            "any": [
+              { "type": "flag", "flag": "flag_confessed", "exists": true },
+              { "type": "flag", "flag": "flag_charges_allowed", "exists": true }
+            ]
+          }
+        ]
+      },
+      "earliestActTurn": 7,
+      "latestActTurn": 7,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_reformist_plea",
+      "act": "aftermath",
+      "cardId": "aftermath_reformist_plea",
+      "conditions": {
+        "all": [
+          { "not": { "type": "flag", "flag": "flag_reformist_removed", "exists": true } },
+          {
+            "not": {
+              "any": [
+                { "type": "flag", "flag": "flag_confessed", "exists": true },
+                { "type": "flag", "flag": "flag_charges_allowed", "exists": true }
+              ]
+            }
+          }
+        ]
+      },
+      "earliestActTurn": 7,
+      "latestActTurn": 7,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_aide_substitute",
+      "act": "aftermath",
+      "cardId": "aftermath_aide_substitute",
+      "conditions": { "type": "flag", "flag": "flag_reformist_removed", "exists": true },
+      "earliestActTurn": 7,
+      "latestActTurn": 7,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_media_clean",
+      "act": "aftermath",
+      "cardId": "aftermath_media_clean",
+      "conditions": {
+        "all": [
+          { "type": "precedent", "precedent": "precedent_media_suppression", "op": "==", "value": 0 },
+          { "type": "precedent", "precedent": "precedent_media_manipulation", "op": "==", "value": 0 }
+        ]
+      },
+      "earliestActTurn": 8,
+      "latestActTurn": 8,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_media_corrupt",
+      "act": "aftermath",
+      "cardId": "aftermath_media_corrupt",
+      "conditions": {
+        "all": [
+          {
+            "any": [
+              { "type": "precedent", "precedent": "precedent_media_suppression", "op": ">=", "value": 1 },
+              { "type": "precedent", "precedent": "precedent_media_manipulation", "op": ">=", "value": 1 }
+            ]
+          },
+          { "type": "precedent", "precedent": "precedent_media_suppression", "op": "<", "value": 2 }
+        ]
+      },
+      "earliestActTurn": 8,
+      "latestActTurn": 8,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_media_captured",
+      "act": "aftermath",
+      "cardId": "aftermath_media_captured",
+      "conditions": { "type": "precedent", "precedent": "precedent_media_suppression", "op": ">=", "value": 2 },
+      "earliestActTurn": 8,
+      "latestActTurn": 8,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_institution_a",
+      "act": "aftermath",
+      "cardId": "aftermath_institution_a",
+      "conditions": {
+        "all": [
+          { "type": "flag", "flag": "flag_drank_at_gathering", "exists": true },
+          { "type": "flag", "flag": "flag_self_driving", "exists": true }
+        ]
+      },
+      "earliestActTurn": 9,
+      "latestActTurn": 9,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_institution_b",
+      "act": "aftermath",
+      "cardId": "aftermath_institution_b",
+      "conditions": {
+        "not": {
+          "all": [
+            { "type": "flag", "flag": "flag_drank_at_gathering", "exists": true },
+            { "type": "flag", "flag": "flag_self_driving", "exists": true }
+          ]
+        }
+      },
+      "earliestActTurn": 9,
+      "latestActTurn": 9,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_intervention_failed",
+      "act": "aftermath",
+      "cardId": "aftermath_intervention_failed",
+      "conditions": {
+        "all": [
+          { "type": "flag", "flag": "flag_intervention_ordered", "exists": true },
+          { "type": "flag", "flag": "flag_investigation_independent", "exists": true }
+        ]
+      },
+      "earliestActTurn": 10,
+      "latestActTurn": 10,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_aftermath_intervention_succeeded",
+      "act": "aftermath",
+      "cardId": "aftermath_intervention_succeeded",
+      "conditions": {
+        "all": [
+          { "type": "flag", "flag": "flag_intervention_ordered", "exists": true },
+          { "type": "flag", "flag": "flag_investigation_politically_controlled", "exists": true }
+        ]
+      },
+      "earliestActTurn": 10,
+      "latestActTurn": 10,
+      "priority": 100,
+      "once": true
+    }
+  ],
+  "articles": [
+    {
+      "id": "article_first_report",
+      "headlineKey": "article.article_first_report.headline",
+      "bodyKeys": ["article.article_first_report.body.1"]
+    }
+  ]
+}

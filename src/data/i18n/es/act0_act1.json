@@ -1,0 +1,99 @@
+{
+  "char.mentor.name": "El Mentor",
+  "char.businessman.name": "El Empresario",
+  "char.editor.name": "El Editor",
+  "char.reformist.name": "El Reformista",
+  "char.aide.name": "El Asistente",
+
+  "card.act0_appointment_day.text": "Tu mentor te encuentra justo después del juramento, con una mano en tu hombro. «Felicidades. A partir de ahora la gente espera cosas de alguien en tu posición — empezando por tus primeras palabras a la prensa.»",
+  "card.act0_appointment_day.left": "Un discurso modesto.",
+  "card.act0_appointment_day.right": "Promete grandes cambios.",
+
+  "card.act0_constituent_land_case.text": "Una familia de tu distrito te escribe: la compensación por un terreno expropiado para una obra pública fue calculada de tres maneras distintas en tres documentos distintos. No piden dinero. Preguntan cuál de las cifras es la verdadera.",
+  "card.act0_constituent_land_case.left": "Solicitar el expediente completo.",
+  "card.act0_constituent_land_case.right": "Remitirlo a la oficina local.",
+
+  "card.act0_first_parliament_speech.text": "Tu primer discurso programado ante la cámara. Dos borradores sobre tu escritorio: uno propone procedimientos transparentes de denuncia; el otro exige castigos más duros para los funcionarios señalados en el escándalo del mes pasado.",
+  "card.act0_first_parliament_speech.left": "Proponer procedimientos transparentes de denuncia.",
+  "card.act0_first_parliament_speech.right": "Exigir castigos más duros para los culpables.",
+
+  "card.act0_first_interview.text": "La reportera lo intercepta en el pasillo, con la grabadora ya encendida. «Una sola pregunta. Cuando las reglas chocan con la gente importante, ¿de qué lado está usted?»",
+  "card.act0_first_interview.left": "«Las reglas deben aplicarse a todos por igual.»",
+  "card.act0_first_interview.right": "«La reforma requiere cooperación.»",
+
+  "card.act0_mentor_advice.text": "«Tienes buen instinto», dice tu mentor mientras sirve el té. «Pero el instinto no aprueba votaciones. Las relaciones sí. Constrúyelas primero. Reforma después — desde una posición en la que tu negativa les cueste algo.»",
+  "card.act0_mentor_advice.left": "Escuchar con atención.",
+  "card.act0_mentor_advice.right": "«La independencia importa más.»",
+
+  "card.act0_private_dinner_invitation.text": "Un sobre sin membrete. Una cena privada: ocho nombres, tres de los cuales solo has visto en televisión. Nadie menciona la agenda. No hace falta.",
+  "card.act0_private_dinner_invitation.left": "Asistir.",
+  "card.act0_private_dinner_invitation.right": "Declinar con cortesía.",
+
+  "card.act1_committee_opportunity.text": "«El puesto en Supervisión Presupuestaria queda libre la próxima semana», dice tu mentor. «El proceso de selección es una formalidad… si la persona adecuada menciona tu nombre. ¿Lo hago?»",
+  "card.act1_committee_opportunity.left": "Que decida el proceso.",
+  "card.act1_committee_opportunity.right": "«Te agradecería la mención.»",
+
+  "card.act1_businessman_intro.text": "En una recepción, tu mentor conduce hacia ti a un hombre de traje discreto y caro. «Financiamos lo que los gobiernos tardan demasiado en financiar», dice el hombre. «Y admiro a la gente que se mueve más rápido que sus instituciones.»",
+  "card.act1_businessman_intro.left": "Mantener la conversación formal.",
+  "card.act1_businessman_intro.right": "Intercambiar contactos privados.",
+
+  "card.act1_businessman_glimpse.text": "Dos recepciones después, vuelves a verlo: el mismo traje discreto y caro, riéndose de algo que dijo un diputado del comité de presupuesto. Un fragmento flota hasta ti: «…se aprobó la semana pasada. No lo olvidaré.» Él no mira en tu dirección.",
+  "card.act1_businessman_glimpse.left": "Observar un momento más.",
+  "card.act1_businessman_glimpse.right": "Volver a tu conversación.",
+
+  "card.act1_business_permit.text": "«Un solo permiso», dice el empresario. «Cumplimiento ambiental: aprobado una vez, presentado de nuevo por un cambio de formulario, y cinco meses en el escritorio de alguien. Nada ilegal. Solo gravedad. Usted podría quitar la gravedad.»",
+  "card.act1_business_permit.left": "Que el trámite siga su curso.",
+  "card.act1_business_permit.right": "«Haré una llamada.»",
+
+  "card.act1_constituent_case_callback.text": "El expediente completo llega, más pesado de lo esperado. La revisión lo confirma: tres avalúos, dos firmas que no coinciden y un funcionario que desde entonces fue ascendido. Tu asistente espera junto a la puerta.",
+  "card.act1_constituent_case_callback.left": "Publicar los hallazgos.",
+  "card.act1_constituent_case_callback.right": "Resolverlo discretamente.",
+
+  "card.act1_editor_profile_offer.text": "La oficina del editor huele a café y a pruebas de imprenta recién hechas. «Vamos a publicar una serie sobre la nueva generación política. Tú la abrirías. Buenas fotos, mejores preguntas — y las preguntas las elijo yo.»",
+  "card.act1_editor_profile_offer.left": "Sin trato preferencial.",
+  "card.act1_editor_profile_offer.right": "Aceptar el reportaje.",
+
+  "card.act1_reformist_bill_intro.text": "«Divulgación de contrataciones públicas», dice el Reformista, deslizando un borrador sobre tu escritorio. «Todo contrato por encima del umbral, publicado en treinta días. La mitad de la cámara lo odiará — la mitad importante.»",
+  "card.act1_reformist_bill_intro.left": "Copatrocinarlo públicamente.",
+  "card.act1_reformist_bill_intro.right": "Apoyarlo en privado.",
+
+  "card.act1_staff_hiring.text": "Tu asistente marca un currículum de la pila. «El sobrino del vicepresidente del comité. Realmente calificado: encabezaría mi lista incluso sin el apellido. Pero el apellido está ahí.»",
+  "card.act1_staff_hiring.left": "Convocatoria abierta.",
+  "card.act1_staff_hiring.right": "Contratar al recomendado.",
+
+  "card.act1_local_project.text": "El sistema de drenaje del distrito ha fallado dos veces este mes. La revisión normal toma una temporada que el distrito no tiene. Tu puesto en el comité puede ponerlo al principio de la fila: una firma, totalmente dentro de tu autoridad.",
+  "card.act1_local_project.left": "Exigir la revisión normal.",
+  "card.act1_local_project.right": "Acelerarlo.",
+
+  "card.act1_mentor_vote_request.text": "«El comité elige secretario el jueves», dice tu mentor. «Vota por mi candidato. Confiable. Sabe cómo se hacen las cosas.» Una pausa. «No pido favores a menudo.»",
+  "card.act1_mentor_vote_request.left": "Votar con independencia.",
+  "card.act1_mentor_vote_request.right": "Apoyar al candidato.",
+
+  "card.act1_small_reform_success.text": "Tu enmienda se aprueba: pequeña, procedimental, genuinamente útil. Los plazos de respuesta a denuncias ahora son vinculantes. En el pasillo, las cámaras te encuentran.",
+  "card.act1_small_reform_success.left": "Dar el crédito al comité.",
+  "card.act1_small_reform_success.right": "Adjudicarte la victoria.",
+
+  "card.act1_business_dinner.text": "Un salón privado con vista a la ciudad. El empresario ordena sin abrir el menú. Hacia el final de la velada, el mesero duda con la cuenta en la mano, sin saber dónde dejarla.",
+  "card.act1_business_dinner.left": "Pagar tu parte.",
+  "card.act1_business_dinner.right": "Dejar que él invite.",
+
+  "card.act1_minor_rumor.text": "«Es algo menor», dice tu asistente, teléfono en mano. «Un hilo en un foro afirma que tu puesto en el comité fue arreglado. Doscientos comentarios hasta ahora. Se equivoca en los detalles… en su mayoría.»",
+  "card.act1_minor_rumor.left": "Ignorarlo.",
+  "card.act1_minor_rumor.right": "Pedir al Editor una cobertura aclaratoria.",
+
+  "card.act1_committee_result_supported.text": "«La votación salió», informa tu asistente. «El candidato de tu mentor ya es secretario del comité. Me pidió transmitirte que la oficina de agenda siempre encontrará espacio para tus asuntos.»",
+  "card.act1_committee_result_supported.left": "«Bien. Adelanta nuestros asuntos.»",
+  "card.act1_committee_result_supported.right": "Mantener una distancia cortés.",
+
+  "card.act1_committee_result_refused.text": "«La votación salió de todos modos», dice tu asistente. «Sin ti. El nuevo secretario revisó la agenda esta mañana: tus dos asuntos pasaron del jueves a \"pendiente de revisión\".»",
+  "card.act1_committee_result_refused.left": "Presentar una objeción formal.",
+  "card.act1_committee_result_refused.right": "Dejarlo pasar.",
+
+  "card.act1_reformist_warning.text": "El Reformista se pone a caminar a tu lado. «Consigues resultados. Lo he notado — todos lo han notado. La eficiencia es útil. También se vuelve hábito muy rápido, y los hábitos los heredan personas peores que tú.»",
+  "card.act1_reformist_warning.left": "Reconocer la preocupación.",
+  "card.act1_reformist_warning.right": "Defender la política práctica.",
+
+  "card.act1_first_promotion.text": "La llamada llega un martes: vicepresidencia del comité. La carta oficial cita tu historial legislativo. La versión extraoficial depende de quién la cuente.",
+  "card.act1_first_promotion.left": "Aceptar.",
+  "card.act1_first_promotion.right": "Declinar, por ahora."
+}

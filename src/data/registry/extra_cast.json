@@ -1,0 +1,10 @@
+{
+  "characters": [
+    { "id": "journalist", "nameKey": "char.journalist.name", "role": "Field Reporter", "tags": ["press"] },
+    { "id": "family_rep", "nameKey": "char.family_rep.name", "role": "Constituent Family", "tags": ["public"] },
+    { "id": "lawyer", "nameKey": "char.lawyer.name", "role": "Family's Lawyer", "tags": ["legal"] },
+    { "id": "doctor", "nameKey": "char.doctor.name", "role": "Hospital Doctor", "tags": ["medical"] },
+    { "id": "investigator", "nameKey": "char.investigator.name", "role": "State Investigator", "tags": ["institutional"] },
+    { "id": "press_officer", "nameKey": "char.press_officer.name", "role": "Press Officer", "tags": ["staff"] }
+  ]
+}

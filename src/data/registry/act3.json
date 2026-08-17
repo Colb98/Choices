@@ -1,0 +1,38 @@
+{
+  "flags": [
+    { "id": "flag_independent_regulator", "description": "Player appointed a career official to head the agency." },
+    { "id": "flag_loyal_regulator", "description": "Player appointed a loyal ally to head the agency." },
+    { "id": "flag_recused_from_contract", "description": "Player recused from the protected company's contract." },
+    { "id": "flag_self_review_started", "description": "Player ordered an internal review of their own conflicts." },
+    { "id": "flag_reformist_removed", "description": "Player removed the Reformist from committee leadership." },
+    { "id": "flag_final_reform_in_progress", "description": "Player pushed the final independence bill early." },
+    { "id": "flag_investigation_independent", "description": "Independent investigative authority exists. Ending G keystone." },
+    { "id": "flag_investigation_politically_controlled", "description": "Investigations remain under political oversight." },
+    { "id": "flag_leak_documents_released", "description": "Player released their own records in response to the leak." },
+    { "id": "flag_article_removed_leak", "description": "Player had the leak story removed." },
+    { "id": "flag_accurate_polling", "description": "Player commissioned independent polling." },
+    { "id": "flag_divestment_started", "description": "Player began divesting the protected stake." },
+    { "id": "flag_owned_audit_interference", "description": "Player publicly owned the narrowed audit." },
+    { "id": "flag_denied_audit_interference", "description": "Player attributed the narrowed audit to procedure." },
+    { "id": "flag_reopened_old_case", "description": "Player reopened the constituent land case." }
+  ],
+  "precedents": [
+    { "id": "precedent_public_suppression", "description": "Normalized restricting public assembly." },
+    { "id": "precedent_retaliation", "description": "Normalized removing critics from positions." },
+    { "id": "precedent_coercive_bargaining", "description": "Normalized forcing outcomes through leverage." },
+    { "id": "precedent_media_suppression", "description": "Normalized removing published reporting." },
+    { "id": "precedent_protected_business", "description": "Normalized contract exemptions for allied companies." }
+  ],
+  "events": [
+    {
+      "id": "event_suppression_fallout",
+      "cardId": "act3_suppression_escalation",
+      "metadata": { "description": "Scheduled by act3_leak_captured:right (turns 2-4). Resolves into card 049, What Removal Costs." }
+    }
+  ],
+  "beats": [
+    { "id": "beat_act3_regulator", "act": "power", "cardId": "act3_regulatory_appointment", "earliestActTurn": 1, "latestActTurn": 3, "priority": 100, "once": true },
+    { "id": "beat_act3_authority_vote", "act": "power", "cardId": "act3_authority_vote", "earliestActTurn": 8, "latestActTurn": 11, "priority": 100, "once": true },
+    { "id": "beat_act3_invitation", "act": "power", "cardId": "act3_gathering_invitation", "earliestActTurn": 13, "latestActTurn": 16, "priority": 100, "once": true }
+  ]
+}

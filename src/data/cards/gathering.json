@@ -1,0 +1,817 @@
+[
+  {
+    "id": "gathering_arrival",
+    "act": "gathering",
+    "type": "story",
+    "text": "card.gathering_arrival.text",
+    "illustration": {
+      "scene": "villa_evening"
+    },
+    "once": true,
+    "left": {
+      "text": "card.gathering_arrival.left",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.gathering_arrival.right",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_dismissed_driver",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "The table calls this slot \"no meaningful choice.\" This pack disagrees by exactly one flag: the driver micro-choice *feels* like flavor — it echoes the invitation's \"Bring nothing. Everything is arranged\" — and it is the traceable cause the transport card (065b) will need. The spec forbids arbitrary locks; this is where the non-arbitrary one is planted, in plain sight, at the moment the player is busiest looking at the room."
+    }
+  },
+  {
+    "id": "gathering_strategic_project",
+    "act": "gathering",
+    "type": "story",
+    "speaker": "minister",
+    "text": "card.gathering_strategic_project.text",
+    "illustration": {
+      "scene": "villa_map_table",
+      "expression": "friendly"
+    },
+    "once": true,
+    "left": {
+      "text": "card.gathering_strategic_project.left",
+      "preview": {
+        "standing": -1,
+        "power": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -3
+        },
+        {
+          "type": "relationship",
+          "character": "minister",
+          "add": -1
+        },
+        {
+          "type": "relationship",
+          "character": "businessman",
+          "add": -2
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      },
+      "variants": [
+        {
+          "conditions": {
+            "all": [
+              {
+                "type": "obligation",
+                "tag": "inner_circle",
+                "status": "active",
+                "minCount": 4
+              },
+              {
+                "type": "obligation",
+                "creditor": "businessman",
+                "status": "active",
+                "minWeight": 3
+              }
+            ]
+          },
+          "lock": {
+            "mode": "hard",
+            "condition": {
+              "all": [
+                {
+                  "type": "obligation",
+                  "tag": "inner_circle",
+                  "status": "active",
+                  "minCount": 4
+                },
+                {
+                  "type": "obligation",
+                  "creditor": "businessman",
+                  "status": "active",
+                  "minWeight": 3
+                }
+              ]
+            },
+            "reason": {
+              "source": "obligations",
+              "maxFlashbacks": 3
+            }
+          }
+        },
+        {
+          "conditions": {
+            "type": "obligation",
+            "tag": "inner_circle",
+            "status": "active",
+            "minCount": 2
+          },
+          "lock": {
+            "mode": "cost",
+            "condition": {
+              "type": "obligation",
+              "tag": "inner_circle",
+              "status": "active",
+              "minCount": 2
+            },
+            "unlockEffects": [
+              {
+                "type": "stat",
+                "stat": "power",
+                "add": -6
+              },
+              {
+                "type": "relationship",
+                "character": "businessman",
+                "add": -2
+              }
+            ],
+            "reason": {
+              "source": "obligations",
+              "maxFlashbacks": 2
+            }
+          }
+        }
+      ]
+    },
+    "right": {
+      "text": "card.gathering_strategic_project.right",
+      "preview": {
+        "standing": 1,
+        "power": 2,
+        "money": 0,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 5
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_protected_business",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      },
+      "variants": [
+        {
+          "conditions": {
+            "type": "flag",
+            "flag": "flag_invested_protected_company",
+            "exists": true
+          },
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "standing",
+              "add": 2
+            },
+            {
+              "type": "stat",
+              "stat": "power",
+              "add": 5
+            },
+            {
+              "type": "stat",
+              "stat": "money",
+              "add": 150000
+            },
+            {
+              "type": "precedent",
+              "precedent": "precedent_protected_business",
+              "add": 1
+            },
+            {
+              "type": "precedent",
+              "precedent": "precedent_conflict_of_interest",
+              "add": 1
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The first choice in the game that can be *hard-locked* — one card before the drink, so the player who has never seen resistance meets it here first, on money, where it reads as politics rather than fate. The flashbacks warm up the mechanic; 064 lands it."
+    }
+  },
+  {
+    "id": "gathering_investment_conflict",
+    "act": "gathering",
+    "type": "story",
+    "text": "card.gathering_investment_conflict.text",
+    "illustration": {
+      "scene": "villa_phone_glow"
+    },
+    "once": true,
+    "left": {
+      "text": "card.gathering_investment_conflict.left",
+      "preview": {
+        "money": -3,
+        "standing": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "money",
+          "add": -300000
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -2
+        },
+        {
+          "type": "relationship",
+          "character": "businessman",
+          "add": -2
+        },
+        {
+          "type": "flag",
+          "flag": "flag_divested_at_gathering",
+          "action": "add"
+        },
+        {
+          "type": "obligation_resolve",
+          "creditor": "businessman",
+          "tag": "investment",
+          "resolution": "betrayed"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      },
+      "variants": [
+        {
+          "conditions": {
+            "type": "flag",
+            "flag": "flag_divestment_started",
+            "exists": true
+          },
+          "text": "card.gathering_investment_conflict.left.v1",
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "money",
+              "add": -100000
+            },
+            {
+              "type": "stat",
+              "stat": "standing",
+              "add": -1
+            },
+            {
+              "type": "relationship",
+              "character": "businessman",
+              "add": -1
+            },
+            {
+              "type": "flag",
+              "flag": "flag_divested_at_gathering",
+              "action": "add"
+            },
+            {
+              "type": "obligation_resolve",
+              "creditor": "businessman",
+              "tag": "investment",
+              "resolution": "betrayed"
+            }
+          ]
+        }
+      ]
+    },
+    "right": {
+      "text": "card.gathering_investment_conflict.right",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_conflict_of_interest",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "The table's \"divest now costs millions\" beat, priced: a panic exit at the table costs $300k and *betrays* an obligation — the only place in the game where the player can burn an inner_circle debt on purpose, buying back one unit of freedom at maximum price, one card before the drink lock counts debts. Players who started divesting in Act III (054 left) exit for $100k — the game quietly rewards having begun leaving early. The aide's message arriving *here*, in this room, is the aide's list from card 045 doing its job."
+    }
+  },
+  {
+    "id": "gathering_future_support",
+    "act": "gathering",
+    "type": "story",
+    "speaker": "minister",
+    "text": "card.gathering_future_support.text",
+    "illustration": {
+      "scene": "villa_balcony",
+      "expression": "neutral"
+    },
+    "once": true,
+    "left": {
+      "text": "card.gathering_future_support.left",
+      "preview": {
+        "standing": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -2
+        },
+        {
+          "type": "relationship",
+          "character": "minister",
+          "add": -1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.gathering_future_support.right",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        },
+        {
+          "type": "relationship",
+          "character": "minister",
+          "add": 1
+        },
+        {
+          "type": "obligation_add",
+          "id": "obligation_future_support_01",
+          "creditor": "minister",
+          "weight": 2,
+          "tags": [
+            "political",
+            "promise",
+            "inner_circle"
+          ]
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "The last acquirable obligation in the game, and the purest: it costs nothing, delivers nothing, and exists entirely in the future tense. A player at 2 inner_circle obligations who says yes here crosses to 3 — arming the drink lock *minutes before the drink*, with a sentence that felt like manners. The balcony staging is deliberate: away from the table, no witnesses, nothing signed. The lock will remember anyway."
+    }
+  },
+  {
+    "id": "gathering_editor_toast_light",
+    "act": "gathering",
+    "type": "story",
+    "speaker": "editor",
+    "text": "card.gathering_editor_toast_light.text",
+    "illustration": {
+      "scene": "villa_toast"
+    },
+    "once": true,
+    "left": {
+      "text": "card.gathering_editor_toast_light.left",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "relationship",
+          "character": "editor",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.gathering_editor_toast_light.right",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "The table's \"subtle recap\" slot: the run's media history read back as a joke, in front of witnesses. On heavy runs, \"the ones we never ran\" lands one beat before the drink — the Editor unknowingly (or knowingly; the text never says) rehearsing the flashbacks the lock is about to show. Raising the glass is a confession nobody can quote. The Minister not looking up from pouring is the pack's quietest sentence: he already knows how the toast ends, and what he is pouring is the next card."
+    }
+  },
+  {
+    "id": "gathering_editor_toast_heavy",
+    "act": "gathering",
+    "type": "story",
+    "speaker": "editor",
+    "text": "card.gathering_editor_toast_heavy.text",
+    "illustration": {
+      "scene": "villa_toast"
+    },
+    "once": true,
+    "left": {
+      "text": "card.gathering_editor_toast_heavy.left",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "relationship",
+          "character": "editor",
+          "add": 1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.gathering_editor_toast_heavy.right",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "The table's \"subtle recap\" slot: the run's media history read back as a joke, in front of witnesses. On heavy runs, \"the ones we never ran\" lands one beat before the drink — the Editor unknowingly (or knowingly; the text never says) rehearsing the flashbacks the lock is about to show. Raising the glass is a confession nobody can quote. The Minister not looking up from pouring is the pack's quietest sentence: he already knows how the toast ends, and what he is pouring is the next card."
+    }
+  },
+  {
+    "id": "gathering_drink",
+    "act": "gathering",
+    "type": "story",
+    "speaker": "minister",
+    "text": "card.gathering_drink.text",
+    "illustration": {
+      "scene": "villa_glass"
+    },
+    "once": true,
+    "left": {
+      "text": "card.gathering_drink.left",
+      "preview": {
+        "standing": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -1
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      },
+      "variants": [
+        {
+          "conditions": {
+            "all": [
+              {
+                "type": "obligation",
+                "tag": "inner_circle",
+                "status": "active",
+                "minCount": 3
+              },
+              {
+                "type": "relationship",
+                "character": "minister",
+                "op": ">=",
+                "value": 3
+              }
+            ]
+          },
+          "lock": {
+            "mode": "hard",
+            "condition": {
+              "all": [
+                {
+                  "type": "obligation",
+                  "tag": "inner_circle",
+                  "status": "active",
+                  "minCount": 3
+                },
+                {
+                  "type": "relationship",
+                  "character": "minister",
+                  "op": ">=",
+                  "value": 3
+                }
+              ]
+            },
+            "reason": {
+              "source": "obligations",
+              "maxFlashbacks": 3
+            }
+          }
+        },
+        {
+          "conditions": {
+            "type": "obligation",
+            "tag": "inner_circle",
+            "status": "active",
+            "minCount": 2
+          },
+          "lock": {
+            "mode": "cost",
+            "condition": {
+              "type": "obligation",
+              "tag": "inner_circle",
+              "status": "active",
+              "minCount": 2
+            },
+            "unlockEffects": [
+              {
+                "type": "stat",
+                "stat": "power",
+                "add": -15
+              },
+              {
+                "type": "stat",
+                "stat": "standing",
+                "add": -3
+              }
+            ],
+            "reason": {
+              "source": "obligations",
+              "maxFlashbacks": 2
+            }
+          }
+        }
+      ]
+    },
+    "right": {
+      "text": "card.gathering_drink.right",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 1
+        },
+        {
+          "type": "relationship",
+          "character": "minister",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_drank_at_gathering",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "The card the entire architecture exists to serve — Milestone 3's test case, verbatim. Three states, one glass: the free player declines and loses one point of Standing, the middling player may buy their refusal for −15 Power (the game's largest voluntary payment, made on a HUD that has trained them for forty turns to protect that number), and the captured player watches their own hand fail — then watches *why*, in their own past choices, in their own past words. Nothing here is punishment. It is arithmetic, performed late. The lock caption is the only near-editorial line permitted in the entire game, and it is seven words of bookkeeping."
+    }
+  },
+  {
+    "id": "gathering_transport_sober",
+    "act": "gathering",
+    "type": "story",
+    "text": "card.gathering_transport_sober.text",
+    "illustration": {
+      "scene": "villa_driveway"
+    },
+    "once": true,
+    "left": {
+      "text": "card.gathering_transport_sober.left",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_self_driving",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "act",
+        "act": "incident"
+      }
+    },
+    "right": {
+      "text": "card.gathering_transport_sober.right",
+      "preview": {
+        "money": 0,
+        "standing": 0,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "money",
+          "add": -200
+        },
+        {
+          "type": "flag",
+          "flag": "flag_safe_transport",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "act",
+        "act": "incident"
+      }
+    },
+    "metadata": {
+      "designIntent": "No trap here — sober self-driving resolves to ALLY_CAUSED like every other combination except one. The card exists so the sober player *makes* a transport choice rather than being handed safety, keeping the two routes structurally symmetrical: everyone answers the same question; only one prior card changes what the answer can do."
+    }
+  },
+  {
+    "id": "gathering_transport_drunk",
+    "act": "gathering",
+    "type": "story",
+    "text": "card.gathering_transport_drunk.text",
+    "illustration": {
+      "scene": "villa_driveway"
+    },
+    "once": true,
+    "left": {
+      "text": "card.gathering_transport_drunk.left",
+      "preview": {
+        "standing": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -2
+        },
+        {
+          "type": "flag",
+          "flag": "flag_safe_transport",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "act",
+        "act": "incident"
+      },
+      "variants": [
+        {
+          "conditions": {
+            "all": [
+              {
+                "type": "flag",
+                "flag": "flag_dismissed_driver",
+                "exists": true
+              },
+              {
+                "type": "obligation",
+                "tag": "inner_circle",
+                "status": "active",
+                "minCount": 3
+              }
+            ]
+          },
+          "lock": {
+            "mode": "hard",
+            "condition": {
+              "all": [
+                {
+                  "type": "flag",
+                  "flag": "flag_dismissed_driver",
+                  "exists": true
+                },
+                {
+                  "type": "obligation",
+                  "tag": "inner_circle",
+                  "status": "active",
+                  "minCount": 3
+                }
+              ]
+            },
+            "reason": {
+              "source": "explicit",
+              "explicitSources": [
+                {
+                  "cardId": "gathering_arrival",
+                  "choice": "right"
+                },
+                {
+                  "cardId": "gathering_drink",
+                  "choice": "right"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "conditions": {
+            "type": "flag",
+            "flag": "flag_dismissed_driver",
+            "exists": true
+          },
+          "lock": {
+            "mode": "cost",
+            "condition": {
+              "type": "flag",
+              "flag": "flag_dismissed_driver",
+              "exists": true
+            },
+            "unlockEffects": [
+              {
+                "type": "stat",
+                "stat": "standing",
+                "add": -4
+              }
+            ],
+            "reason": {
+              "source": "explicit",
+              "explicitSources": [
+                {
+                  "cardId": "gathering_arrival",
+                  "choice": "right"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "right": {
+      "text": "card.gathering_transport_drunk.right",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_self_driving",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "act",
+        "act": "incident"
+      }
+    },
+    "metadata": {
+      "designIntent": "The spec's hardest constraint — \"avoid arbitrary lock without traceable cause\" — honored to the letter: both lock variants cite *explicit sources the player enacted tonight*, in this room, within the last six cards. No dice, no fate; a dismissed driver and a raised glass. The hard-locked flashback is two memories long and needs no caption. This is also the last card in the game where the stat HUD is fully visible; whatever happens next happens without numbers."
+    }
+  }
+]

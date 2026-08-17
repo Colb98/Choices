@@ -1,0 +1,214 @@
+[
+  {
+    "id": "ending_break_the_chain",
+    "priority": 1000,
+    "conditions": {
+      "all": [
+        {
+          "not": {
+            "all": [
+              { "type": "flag", "flag": "flag_drank_at_gathering", "exists": true },
+              { "type": "flag", "flag": "flag_self_driving", "exists": true }
+            ]
+          }
+        },
+        { "type": "flag", "flag": "flag_charges_allowed", "exists": true },
+        { "not": { "type": "flag", "flag": "flag_ally_protected", "exists": true } },
+        { "not": { "type": "flag", "flag": "flag_reports_removed", "exists": true } },
+        { "type": "flag", "flag": "flag_records_preserved", "exists": true }
+      ]
+    },
+    "titleKey": "ending.ending_break_the_chain.title",
+    "presentation": {
+      "sequence": [
+        { "type": "article", "articleId": "article_first_report" },
+        { "type": "text", "textKey": "ending.ending_break_the_chain.text" },
+        { "type": "memorial" },
+        { "type": "credits" }
+      ]
+    },
+    "meta": { "category": "positive" }
+  },
+  {
+    "id": "ending_accountability",
+    "priority": 900,
+    "conditions": {
+      "all": [
+        { "type": "flag", "flag": "flag_drank_at_gathering", "exists": true },
+        { "type": "flag", "flag": "flag_self_driving", "exists": true },
+        { "type": "flag", "flag": "flag_stayed_at_scene", "exists": true },
+        { "type": "flag", "flag": "flag_called_emergency", "exists": true },
+        { "type": "flag", "flag": "flag_confessed", "exists": true },
+        { "type": "flag", "flag": "flag_cooperated_with_investigation", "exists": true },
+        { "not": { "type": "flag", "flag": "flag_reports_removed", "exists": true } }
+      ]
+    },
+    "titleKey": "ending.ending_accountability.title",
+    "presentation": {
+      "sequence": [
+        { "type": "article", "articleId": "article_first_report" },
+        { "type": "text", "textKey": "ending.ending_accountability.text" },
+        { "type": "memorial" },
+        { "type": "credits" }
+      ]
+    },
+    "meta": { "category": "positive" }
+  },
+  {
+    "id": "ending_collapse",
+    "priority": 800,
+    "conditions": {
+      "all": [
+        { "type": "stat", "stat": "power", "op": ">=", "value": 70 },
+        { "type": "stat", "stat": "publicTrustActual", "op": "<=", "value": 8 },
+        { "type": "precedent", "precedent": "precedent_media_suppression", "op": ">=", "value": 2 },
+        {
+          "any": [
+            { "type": "flag", "flag": "flag_reports_removed", "exists": true },
+            { "type": "flag", "flag": "flag_concealment_started", "exists": true },
+            { "type": "flag", "flag": "flag_ally_protected", "exists": true }
+          ]
+        }
+      ]
+    },
+    "titleKey": "ending.ending_collapse.title",
+    "presentation": {
+      "sequence": [
+        { "type": "stat_glitch", "stat": "power", "finalValue": 92 },
+        { "type": "text", "textKey": "ending.ending_collapse.text" },
+        { "type": "stat_glitch", "stat": "power", "finalValue": 0 },
+        { "type": "memorial" },
+        { "type": "credits" }
+      ]
+    },
+    "meta": { "category": "negative" }
+  },
+  {
+    "id": "ending_untouchable",
+    "priority": 700,
+    "conditions": {
+      "all": [
+        { "type": "stat", "stat": "power", "op": ">=", "value": 80 },
+        { "type": "flag", "flag": "flag_reports_removed", "exists": true },
+        {
+          "any": [
+            { "type": "flag", "flag": "flag_intervention_succeeded", "exists": true },
+            { "type": "precedent", "precedent": "precedent_investigation_interference", "op": ">=", "value": 3 }
+          ]
+        }
+      ]
+    },
+    "titleKey": "ending.ending_untouchable.title",
+    "presentation": {
+      "sequence": [
+        { "type": "article", "articleId": "article_first_report" },
+        { "type": "delay", "milliseconds": 2200 },
+        { "type": "article_state", "state": "removed", "articleId": "article_first_report" },
+        { "type": "article_state", "state": "removed" },
+        { "type": "article_state", "state": "unavailable" },
+        { "type": "text", "textKey": "ending.ending_untouchable.text" },
+        { "type": "delay", "milliseconds": 1500 },
+        { "type": "memorial" },
+        { "type": "credits" }
+      ]
+    },
+    "meta": { "category": "negative" }
+  },
+  {
+    "id": "ending_protected",
+    "priority": 600,
+    "conditions": {
+      "all": [
+        { "type": "flag", "flag": "flag_drank_at_gathering", "exists": true },
+        { "type": "flag", "flag": "flag_self_driving", "exists": true },
+        {
+          "any": [
+            { "type": "flag", "flag": "flag_remained_silent", "exists": true },
+            { "type": "flag", "flag": "flag_concealment_started", "exists": true }
+          ]
+        },
+        { "type": "stat", "stat": "power", "op": ">=", "value": 50 },
+        { "type": "stat", "stat": "power", "op": "<", "value": 80 },
+        { "not": { "type": "flag", "flag": "flag_reports_removed", "exists": true } }
+      ]
+    },
+    "titleKey": "ending.ending_protected.title",
+    "presentation": {
+      "sequence": [
+        { "type": "article", "articleId": "article_first_report" },
+        { "type": "article_state", "state": "edited", "articleId": "article_first_report" },
+        { "type": "text", "textKey": "ending.ending_protected.text" },
+        { "type": "memorial" },
+        { "type": "credits" }
+      ]
+    },
+    "meta": { "category": "negative" }
+  },
+  {
+    "id": "ending_too_late",
+    "priority": 500,
+    "conditions": {
+      "all": [
+        { "type": "flag", "flag": "flag_drank_at_gathering", "exists": true },
+        { "type": "flag", "flag": "flag_self_driving", "exists": true },
+        {
+          "any": [
+            { "type": "flag", "flag": "flag_left_scene", "exists": true },
+            { "type": "flag", "flag": "flag_delayed_emergency", "exists": true }
+          ]
+        },
+        { "type": "flag", "flag": "flag_confessed", "exists": true }
+      ]
+    },
+    "titleKey": "ending.ending_too_late.title",
+    "presentation": {
+      "sequence": [
+        { "type": "article", "articleId": "article_first_report" },
+        { "type": "text", "textKey": "ending.ending_too_late.text" },
+        { "type": "memorial" },
+        { "type": "credits" }
+      ]
+    },
+    "meta": { "category": "mixed" }
+  },
+  {
+    "id": "ending_scapegoat",
+    "priority": 400,
+    "conditions": {
+      "all": [
+        {
+          "any": [
+            { "type": "flag", "flag": "flag_ally_protected", "exists": true },
+            { "type": "flag", "flag": "flag_coverup_started", "exists": true },
+            { "type": "flag", "flag": "flag_remained_silent", "exists": true }
+          ]
+        },
+        { "type": "stat", "stat": "power", "op": "<", "value": 40 }
+      ]
+    },
+    "titleKey": "ending.ending_scapegoat.title",
+    "presentation": {
+      "sequence": [
+        { "type": "article", "articleId": "article_first_report" },
+        { "type": "text", "textKey": "ending.ending_scapegoat.text" },
+        { "type": "memorial" },
+        { "type": "credits" }
+      ]
+    },
+    "meta": { "category": "negative" }
+  },
+  {
+    "id": "ending_fallback",
+    "priority": 0,
+    "conditions": { "all": [] },
+    "titleKey": "ending.ending_fallback.title",
+    "presentation": {
+      "sequence": [
+        { "type": "text", "textKey": "ending.ending_fallback.text" },
+        { "type": "memorial" },
+        { "type": "credits" }
+      ]
+    },
+    "meta": { "category": "mixed" }
+  }
+]

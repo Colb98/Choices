@@ -1,0 +1,1917 @@
+[
+  {
+    "id": "act3_regulatory_appointment",
+    "act": "power",
+    "speaker": "aide",
+    "text": "card.act3_regulatory_appointment.text",
+    "illustration": {
+      "scene": "office_shortlist",
+      "expression": "neutral"
+    },
+    "left": {
+      "text": "card.act3_regulatory_appointment.left",
+      "preview": {
+        "power": -1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 3
+        },
+        {
+          "type": "flag",
+          "flag": "flag_independent_regulator",
+          "action": "add"
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_regulatory_appointment.right",
+      "preview": {
+        "standing": 1,
+        "power": 2,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 6
+        },
+        {
+          "type": "flag",
+          "flag": "flag_loyal_regulator",
+          "action": "add"
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_loyalty_appointments",
+          "add": 1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "Act III's thesis card: in Act 0 the player *gave* a first speech; now they *staff the referee*. `flag_loyal_regulator` vs `flag_independent_regulator` silently reshapes what the Aftermath's institutions are capable of."
+    }
+  },
+  {
+    "id": "act3_protest",
+    "act": "power",
+    "text": "card.act3_protest.text",
+    "illustration": {
+      "scene": "protest_square"
+    },
+    "minActTurn": 2,
+    "left": {
+      "text": "card.act3_protest.left",
+      "preview": {
+        "standing": -1,
+        "power": -1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 4
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 1
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_protest.right",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "down_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": -4
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_public_suppression",
+          "add": 1
+        }
+      ],
+      "variants": [
+        {
+          "conditions": {
+            "type": "flag",
+            "flag": "flag_strongman_branding",
+            "exists": true
+          },
+          "text": "card.act3_protest.right.v1"
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "First card where a choice's *wording* hardens because of the player's brand: strongman campaigners don't \"restrict temporarily,\" they \"order the square cleared\" — same JSON effects, different self-image. Also the first actual-trust hit the player takes with no preview warning beyond `↓?`: the crowd doesn't send polling."
+    }
+  },
+  {
+    "id": "act3_editor_exclusive",
+    "act": "power",
+    "speaker": "editor",
+    "text": "card.act3_editor_exclusive.text",
+    "illustration": {
+      "scene": "newsroom_office",
+      "expression": "friendly"
+    },
+    "conditions": {
+      "type": "relationship",
+      "character": "editor",
+      "op": ">=",
+      "value": 1
+    },
+    "left": {
+      "text": "card.act3_editor_exclusive.left",
+      "preview": {
+        "standing": 0,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 2
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_editor_exclusive.right",
+      "preview": {
+        "standing": 2,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 5
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 2
+        },
+        {
+          "type": "relationship",
+          "character": "editor",
+          "add": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_management",
+          "add": 1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "Chain B maintenance card — small on its own, but `media_management` counts feed the 048 tier gate. The Editor's line inverts card 011: back then he chose the questions; now he's asking the player to choose the audience."
+    }
+  },
+  {
+    "id": "act3_protected_contract",
+    "act": "power",
+    "speaker": "businessman",
+    "text": "card.act3_protected_contract.text",
+    "illustration": {
+      "scene": "private_office_folder",
+      "expression": "friendly"
+    },
+    "minActTurn": 3,
+    "conditions": {
+      "type": "relationship",
+      "character": "businessman",
+      "op": ">=",
+      "value": 1
+    },
+    "left": {
+      "text": "card.act3_protected_contract.left",
+      "preview": {
+        "standing": -1,
+        "power": -1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 3
+        },
+        {
+          "type": "flag",
+          "flag": "flag_recused_from_contract",
+          "action": "add"
+        }
+      ],
+      "variants": [
+        {
+          "conditions": {
+            "type": "flag",
+            "flag": "flag_invested_protected_company",
+            "exists": true
+          },
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "standing",
+              "add": -3
+            },
+            {
+              "type": "stat",
+              "stat": "power",
+              "add": -2
+            },
+            {
+              "type": "stat",
+              "stat": "publicTrustActual",
+              "add": 3
+            },
+            {
+              "type": "stat",
+              "stat": "money",
+              "add": -80000
+            },
+            {
+              "type": "flag",
+              "flag": "flag_recused_from_contract",
+              "action": "add"
+            }
+          ]
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_protected_contract.right",
+      "preview": {
+        "standing": 1,
+        "power": 2,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 5
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_protected_business",
+          "add": 1
+        },
+        {
+          "type": "obligation_add",
+          "id": "obligation_business_contract_01",
+          "creditor": "businessman",
+          "weight": 2,
+          "tags": [
+            "business",
+            "contract",
+            "inner_circle"
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "conditions": {
+            "type": "flag",
+            "flag": "flag_invested_protected_company",
+            "exists": true
+          },
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "standing",
+              "add": 2
+            },
+            {
+              "type": "stat",
+              "stat": "power",
+              "add": 5
+            },
+            {
+              "type": "stat",
+              "stat": "money",
+              "add": 250000
+            },
+            {
+              "type": "precedent",
+              "precedent": "precedent_protected_business",
+              "add": 1
+            },
+            {
+              "type": "precedent",
+              "precedent": "precedent_conflict_of_interest",
+              "add": 1
+            },
+            {
+              "type": "obligation_add",
+              "id": "obligation_business_contract_01",
+              "creditor": "businessman",
+              "weight": 2,
+              "tags": [
+                "business",
+                "contract",
+                "inner_circle"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "Chain C link 5, where \"conflict of interest\" stops being a phrase and becomes a line item: for invested players, recusal costs $80,000 and approval pays $250,000 — a $330,000 spread on a single swipe. The DSL prices integrity precisely; the player supplies the exchange rate."
+    }
+  },
+  {
+    "id": "act3_aide_concern",
+    "act": "power",
+    "speaker": "aide",
+    "text": "card.act3_aide_concern.text",
+    "illustration": {
+      "scene": "office_evening",
+      "expression": "concerned"
+    },
+    "minActTurn": 4,
+    "left": {
+      "text": "card.act3_aide_concern.left",
+      "preview": {
+        "standing": -1,
+        "power": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 2
+        },
+        {
+          "type": "flag",
+          "flag": "flag_self_review_started",
+          "action": "add"
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_aide_concern.right",
+      "preview": {
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        },
+        {
+          "type": "relationship",
+          "character": "aide",
+          "add": -1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The only character with nothing to gain speaks once, quietly, mid-act. `flag_self_review_started` meaningfully softens the 048 leak and the Aftermath ledger; `REL aide -1` matters at card 070A, where the aide is the first phone call after a collision. The game never flags any of this."
+    }
+  },
+  {
+    "id": "act3_reformist_confrontation",
+    "act": "power",
+    "speaker": "reformist",
+    "text": "card.act3_reformist_confrontation.text",
+    "illustration": {
+      "scene": "committee_room",
+      "expression": "angry"
+    },
+    "minActTurn": 5,
+    "conditions": {
+      "all": [
+        {
+          "type": "relationship",
+          "character": "reformist",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "not": {
+            "type": "flag",
+            "flag": "flag_reformist_removed",
+            "exists": true
+          }
+        },
+        {
+          "any": [
+            {
+              "type": "precedent",
+              "precedent": "precedent_investigation_interference",
+              "op": ">=",
+              "value": 1
+            },
+            {
+              "type": "precedent",
+              "precedent": "precedent_public_suppression",
+              "op": ">=",
+              "value": 1
+            },
+            {
+              "type": "precedent",
+              "precedent": "precedent_media_regulatory_favor",
+              "op": ">=",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    "left": {
+      "text": "card.act3_reformist_confrontation.left",
+      "preview": {
+        "standing": -1,
+        "power": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -2
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_reformist_confrontation.right",
+      "preview": {
+        "standing": 1,
+        "power": 2,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 6
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_retaliation",
+          "add": 1
+        },
+        {
+          "type": "relationship",
+          "character": "reformist",
+          "add": -5
+        },
+        {
+          "type": "flag",
+          "flag": "flag_reformist_removed",
+          "action": "add"
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "Chain E ignition. The quoted line is the player's own Act 0 position handed back to them. Removal is the single largest Power purchase in the act — and it deletes the one character scripted to intervene at card 077. On removed runs, the Aftermath is measurably quieter. Silence is the consequence."
+    }
+  },
+  {
+    "id": "act3_reformist_cooperation",
+    "act": "power",
+    "speaker": "reformist",
+    "text": "card.act3_reformist_cooperation.text",
+    "illustration": {
+      "scene": "committee_room",
+      "expression": "neutral"
+    },
+    "minActTurn": 5,
+    "conditions": {
+      "all": [
+        {
+          "type": "relationship",
+          "character": "reformist",
+          "op": ">=",
+          "value": 2
+        },
+        {
+          "not": {
+            "type": "flag",
+            "flag": "flag_reformist_removed",
+            "exists": true
+          }
+        }
+      ]
+    },
+    "left": {
+      "text": "card.act3_reformist_cooperation.left",
+      "preview": {
+        "standing": -1,
+        "power": -2,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -4
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 3
+        },
+        {
+          "type": "flag",
+          "flag": "flag_final_reform_in_progress",
+          "action": "add"
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_reformist_cooperation.right",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        },
+        {
+          "type": "relationship",
+          "character": "reformist",
+          "add": -1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "Mirror of 046 for institutionalist runs — same slot in the run, opposite pressure. \"A safer moment\" is the mid-game's most honest lie: the vote (052) arrives on the beat schedule regardless, but waiting costs `flag_final_reform_in_progress`, which strengthens 052's aftermath framing. Safety was never on the calendar."
+    }
+  },
+  {
+    "id": "act3_leak_clean",
+    "act": "power",
+    "speaker": "aide",
+    "text": "card.act3_leak_clean.text",
+    "weight": 9,
+    "once": true,
+    "minActTurn": 6,
+    "conditions": {
+      "not": {
+        "any": [
+          {
+            "type": "precedent",
+            "precedent": "precedent_media_interference",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "type": "precedent",
+            "precedent": "precedent_media_management",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "type": "precedent",
+            "precedent": "precedent_media_regulatory_favor",
+            "op": ">=",
+            "value": 1
+          }
+        ]
+      }
+    },
+    "left": {
+      "text": "card.act3_leak_clean.left",
+      "preview": {
+        "standing": -1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 4
+        },
+        {
+          "type": "flag",
+          "flag": "flag_leak_documents_released",
+          "action": "add"
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_leak_clean.right",
+      "preview": {
+        "standing": 0,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 1
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The spec's \"option vocabulary itself shows escalation,\" implemented literally: on the captured tier, *releasing the truth is not on the menu* — not locked, simply absent, because the character presenting the card has changed from the aide to the Editor, and the Editor does not bring that option to meetings. The menu is the corruption meter the game refuses to display."
+    }
+  },
+  {
+    "id": "act3_leak_managed",
+    "act": "power",
+    "speaker": "aide",
+    "text": "card.act3_leak_managed.text",
+    "weight": 9,
+    "once": true,
+    "minActTurn": 6,
+    "conditions": {
+      "all": [
+        {
+          "any": [
+            {
+              "type": "precedent",
+              "precedent": "precedent_media_interference",
+              "op": ">=",
+              "value": 1
+            },
+            {
+              "type": "precedent",
+              "precedent": "precedent_media_management",
+              "op": ">=",
+              "value": 1
+            },
+            {
+              "type": "precedent",
+              "precedent": "precedent_media_regulatory_favor",
+              "op": ">=",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "not": {
+            "any": [
+              {
+                "all": [
+                  {
+                    "type": "precedent",
+                    "precedent": "precedent_media_interference",
+                    "op": ">=",
+                    "value": 1
+                  },
+                  {
+                    "type": "precedent",
+                    "precedent": "precedent_media_regulatory_favor",
+                    "op": ">=",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "precedent",
+                "precedent": "precedent_media_management",
+                "op": ">=",
+                "value": 2
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "left": {
+      "text": "card.act3_leak_managed.left",
+      "preview": {
+        "standing": -1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 3
+        },
+        {
+          "type": "flag",
+          "flag": "flag_leak_documents_released",
+          "action": "add"
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_leak_managed.right",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 1
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": -2
+        },
+        {
+          "type": "relationship",
+          "character": "editor",
+          "add": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_interference",
+          "add": 1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The spec's \"option vocabulary itself shows escalation,\" implemented literally: on the captured tier, *releasing the truth is not on the menu* — not locked, simply absent, because the character presenting the card has changed from the aide to the Editor, and the Editor does not bring that option to meetings. The menu is the corruption meter the game refuses to display."
+    }
+  },
+  {
+    "id": "act3_leak_captured",
+    "act": "power",
+    "speaker": "editor",
+    "text": "card.act3_leak_captured.text",
+    "weight": 9,
+    "once": true,
+    "minActTurn": 6,
+    "conditions": {
+      "any": [
+        {
+          "all": [
+            {
+              "type": "precedent",
+              "precedent": "precedent_media_interference",
+              "op": ">=",
+              "value": 1
+            },
+            {
+              "type": "precedent",
+              "precedent": "precedent_media_regulatory_favor",
+              "op": ">=",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_management",
+          "op": ">=",
+          "value": 2
+        }
+      ]
+    },
+    "left": {
+      "text": "card.act3_leak_captured.left",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": -3
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_management",
+          "add": 1
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_leak_captured.right",
+      "preview": {
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": -4
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_suppression",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_article_removed_leak",
+          "action": "add"
+        }
+      ],
+      "delayedEffects": [
+        {
+          "delay": {
+            "type": "turn_range",
+            "min": 2,
+            "max": 4
+          },
+          "eventId": "event_suppression_fallout"
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The spec's \"option vocabulary itself shows escalation,\" implemented literally: on the captured tier, *releasing the truth is not on the menu* — not locked, simply absent, because the character presenting the card has changed from the aide to the Editor, and the Editor does not bring that option to meetings. The menu is the corruption meter the game refuses to display."
+    }
+  },
+  {
+    "id": "act3_suppression_escalation",
+    "act": "power",
+    "type": "consequence",
+    "speaker": "editor",
+    "text": "card.act3_suppression_escalation.text",
+    "illustration": {
+      "scene": "newsroom_night",
+      "expression": "neutral"
+    },
+    "left": {
+      "text": "card.act3_suppression_escalation.left",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": -2
+        },
+        {
+          "type": "relationship",
+          "character": "editor",
+          "add": 2
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_suppression",
+          "add": 1
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_suppression_escalation.right",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": -2
+        },
+        {
+          "type": "relationship",
+          "character": "editor",
+          "add": 2
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_suppression",
+          "add": 1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The 028 pattern at terminal scale: identical effects on both choices, because saying \"last time\" changes the player's self-image and nothing else — the second suppression precedent lands either way, and `media_suppression >= 2` is what arms the Untouchable ending and the Aftermath's article-removal option. This card is the major flashback source the table promised: its history entry (and 048c's) will replay at the drink and at the ending."
+    }
+  },
+  {
+    "id": "act3_popular_policy",
+    "act": "power",
+    "text": "card.act3_popular_policy.text",
+    "illustration": {
+      "scene": "parliament_hall"
+    },
+    "minActTurn": 6,
+    "left": {
+      "text": "card.act3_popular_policy.left",
+      "preview": {
+        "power": 0,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 2
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_popular_policy.right",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "strong_up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 4
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 3
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_coercive_bargaining",
+          "add": 1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The 014/035 counterweight, final iteration: leverage produces the school meals program, faster and better than negotiation would. Three acts in, \"the right tool\" and \"the corrupt tool\" have been the same tool every time. The game has never once said so."
+    }
+  },
+  {
+    "id": "act3_minister_relative",
+    "act": "power",
+    "speaker": "minister",
+    "text": "card.act3_minister_relative.text",
+    "illustration": {
+      "scene": "ministry_office",
+      "expression": "friendly"
+    },
+    "minActTurn": 7,
+    "conditions": {
+      "type": "relationship",
+      "character": "minister",
+      "op": ">=",
+      "value": 1
+    },
+    "left": {
+      "text": "card.act3_minister_relative.left",
+      "preview": {
+        "standing": -2,
+        "power": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -5
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -2
+        },
+        {
+          "type": "relationship",
+          "character": "minister",
+          "add": -2
+        }
+      ],
+      "lock": {
+        "mode": "cost",
+        "condition": {
+          "type": "obligation",
+          "creditor": "minister",
+          "status": "active",
+          "minWeight": 2
+        },
+        "unlockEffects": [
+          {
+            "type": "stat",
+            "stat": "power",
+            "add": -4
+          },
+          {
+            "type": "relationship",
+            "character": "minister",
+            "add": -1
+          }
+        ],
+        "reason": {
+          "source": "obligations",
+          "maxFlashbacks": 2
+        }
+      }
+    },
+    "right": {
+      "text": "card.act3_minister_relative.right",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_nepotism",
+          "add": 1
+        },
+        {
+          "type": "obligation_add",
+          "id": "obligation_minister_family_01",
+          "creditor": "minister",
+          "weight": 1,
+          "tags": [
+            "political",
+            "nepotism",
+            "inner_circle"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "Third cost-lock, now guarding a hiring standard — the exact standard the player set for themselves at card 013, quoted back by the phrasing \"competent, and connected.\" The Minister's debts make even *process* expensive. Note the asymmetry: refusing costs up to −6 Power; complying costs one word and gains everything. The ladder's last rung before the Gathering."
+    }
+  },
+  {
+    "id": "act3_authority_vote",
+    "act": "power",
+    "text": "card.act3_authority_vote.text",
+    "illustration": {
+      "scene": "parliament_vote_board"
+    },
+    "left": {
+      "text": "card.act3_authority_vote.left",
+      "preview": {
+        "standing": -1,
+        "power": -3,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -8
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 4
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_investigation_independent",
+          "action": "add"
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_authority_vote.right",
+      "preview": {
+        "standing": 1,
+        "power": 2,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 5
+        },
+        {
+          "type": "flag",
+          "flag": "flag_investigation_politically_controlled",
+          "action": "add"
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The most important choice in the game outside the Incident, per the table — and the biggest single number in the DSL: −8 Power to build the only institution that will still function when the player is the subject. Both flags are terminal (no later card can flip them). The vote is deliberately free of locks: whatever the player has done, this door stays open — because the whole design's answer to \"quyền lực tha hoá\" is that the exit is institutional, not personal. Card 072/079 and Ending G cash this in."
+    }
+  },
+  {
+    "id": "act3_public_poll",
+    "act": "power",
+    "speaker": "aide",
+    "text": "card.act3_public_poll.text",
+    "illustration": {
+      "scene": "office_charts",
+      "expression": "neutral"
+    },
+    "minActTurn": 8,
+    "left": {
+      "text": "card.act3_public_poll.left",
+      "preview": {
+        "money": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "money",
+          "add": -8000
+        },
+        {
+          "type": "flag",
+          "flag": "flag_accurate_polling",
+          "action": "add"
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": -6
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_public_poll.right",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 2
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The only card in the game that can *shrink* the perceived−actual gap, and it costs money and comfort to pick. The right choice inflates the bubble the Collapse ending needs. This is the spec's \"incorrect predictions must have systemic reasons\" made purchasable: the player who never buys real polling has *chosen* their own blindfold, one card at a time.",
+      "authorNote": "ENGINE-REQ-01: left choice should use { \"type\": \"stat_converge\", \"from\": \"publicTrustPerceived\", \"to\": \"publicTrustActual\", \"fraction\": 0.75 } once implemented. The trustPerceived -6 effect is the authored fallback — approximately right on networked runs, wrong on clean runs; replace before ship.",
+      "debugTags": [
+        "TODO_ENGINE_REQ_01_stat_converge_fallback"
+      ]
+    }
+  },
+  {
+    "id": "act3_wealth_spike",
+    "act": "power",
+    "speaker": "businessman",
+    "text": "card.act3_wealth_spike.text",
+    "illustration": {
+      "scene": "private_office_folder",
+      "expression": "friendly"
+    },
+    "minActTurn": 9,
+    "conditions": {
+      "type": "flag",
+      "flag": "flag_invested_protected_company",
+      "exists": true
+    },
+    "left": {
+      "text": "card.act3_wealth_spike.left",
+      "preview": {
+        "money": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "money",
+          "add": -100000
+        },
+        {
+          "type": "relationship",
+          "character": "businessman",
+          "add": -1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_divestment_started",
+          "action": "add"
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_wealth_spike.right",
+      "preview": {
+        "money": 3,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "money",
+          "add": 400000
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_conflict_of_interest",
+          "add": 1
+        },
+        {
+          "type": "obligation_add",
+          "id": "obligation_business_dependency_01",
+          "creditor": "businessman",
+          "weight": 1,
+          "tags": [
+            "business",
+            "investment",
+            "inner_circle"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The counter can cross $1M here ($1.159M on the full route) — the number the concept doc promised on day one. Divesting *late* costs $100k and earns nothing visible; the game's honest accounting of the fact that exits get more expensive the longer you hold. \"Dependency\" as an obligation tag is exact: by now the player's net worth *is* the relationship."
+    }
+  },
+  {
+    "id": "act3_constituent_return_helped",
+    "act": "power",
+    "text": "card.act3_constituent_return_helped.text",
+    "illustration": {
+      "scene": "office_visitors"
+    },
+    "weight": 6,
+    "once": true,
+    "minActTurn": 9,
+    "conditions": {
+      "type": "flag",
+      "flag": "flag_requested_transparency_early",
+      "exists": true
+    },
+    "left": {
+      "text": "card.act3_constituent_return_helped.left",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 2
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_constituent_return_helped.right",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The table's human-scale callback, kept deliberately small (no big numbers) and deliberately late — the last card before the Gathering machinery where an ordinary citizen speaks. On the ignored branch, \"They told us to stop asking\" is the entire censorship theme at kitchen-table scale, three acts before the ending makes it national."
+    },
+    "speaker": "family_rep"
+  },
+  {
+    "id": "act3_constituent_return_ignored",
+    "act": "power",
+    "text": "card.act3_constituent_return_ignored.text",
+    "illustration": {
+      "scene": "office_visitors"
+    },
+    "weight": 6,
+    "once": true,
+    "minActTurn": 9,
+    "conditions": {
+      "not": {
+        "type": "flag",
+        "flag": "flag_requested_transparency_early",
+        "exists": true
+      }
+    },
+    "left": {
+      "text": "card.act3_constituent_return_ignored.left",
+      "preview": {
+        "standing": -1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -1
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_reopened_old_case",
+          "action": "add"
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_constituent_return_ignored.right",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": -2
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The table's human-scale callback, kept deliberately small (no big numbers) and deliberately late — the last card before the Gathering machinery where an ordinary citizen speaks. On the ignored branch, \"They told us to stop asking\" is the entire censorship theme at kitchen-table scale, three acts before the ending makes it national."
+    },
+    "speaker": "family_rep"
+  },
+  {
+    "id": "act3_minister_media_help",
+    "act": "power",
+    "speaker": "minister",
+    "text": "card.act3_minister_media_help.text",
+    "illustration": {
+      "scene": "ministry_office_night",
+      "expression": "concerned"
+    },
+    "minActTurn": 10,
+    "conditions": {
+      "type": "relationship",
+      "character": "minister",
+      "op": ">=",
+      "value": 1
+    },
+    "left": {
+      "text": "card.act3_minister_media_help.left",
+      "preview": {
+        "standing": -1,
+        "power": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -2
+        },
+        {
+          "type": "relationship",
+          "character": "minister",
+          "add": -2
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_minister_media_help.right",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 3
+        },
+        {
+          "type": "relationship",
+          "character": "minister",
+          "add": 2
+        },
+        {
+          "type": "relationship",
+          "character": "editor",
+          "add": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_suppression",
+          "add": 1
+        },
+        {
+          "type": "obligation_add",
+          "id": "obligation_minister_media_01",
+          "creditor": "minister",
+          "weight": 2,
+          "tags": [
+            "media",
+            "protection",
+            "inner_circle"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The table's \"potential major flashback source\" — and the dress rehearsal nobody announces: protecting the Minister's family assets from a story is structurally identical to what Route B will ask after the collision. Players who swipe right here have already answered card 070B; they just don't know the question has been asked yet. Priority flashback at the drink and in Route B."
+    }
+  },
+  {
+    "id": "act3_reformist_farewell_ally",
+    "act": "power",
+    "speaker": "reformist",
+    "text": "card.act3_reformist_farewell_ally.text",
+    "illustration": {
+      "scene": "committee_room",
+      "expression": "neutral"
+    },
+    "weight": 6,
+    "once": true,
+    "minActTurn": 11,
+    "conditions": {
+      "all": [
+        {
+          "type": "relationship",
+          "character": "reformist",
+          "op": ">=",
+          "value": 2
+        },
+        {
+          "not": {
+            "type": "flag",
+            "flag": "flag_reformist_removed",
+            "exists": true
+          }
+        }
+      ]
+    },
+    "left": {
+      "text": "card.act3_reformist_farewell_ally.left",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "relationship",
+          "character": "reformist",
+          "add": 1
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_reformist_farewell_ally.right",
+      "preview": {
+        "publicTrust": "unknown"
+      }
+    },
+    "metadata": {
+      "designIntent": "The table asks that her final line reflect history, not morality scoring — so the ally version hands the player a sentence they will hear again from the investigator (card 072), and the opposition version has her diagnose the whole game in one line. The removed version is silence, and the Aftermath's card 077 will hand her scripted role to the aide, diminished."
+    }
+  },
+  {
+    "id": "act3_reformist_farewell_opposition",
+    "act": "power",
+    "speaker": "reformist",
+    "text": "card.act3_reformist_farewell_opposition.text",
+    "illustration": {
+      "scene": "committee_room",
+      "expression": "disappointed"
+    },
+    "weight": 6,
+    "once": true,
+    "minActTurn": 11,
+    "conditions": {
+      "all": [
+        {
+          "type": "relationship",
+          "character": "reformist",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "not": {
+            "type": "flag",
+            "flag": "flag_reformist_removed",
+            "exists": true
+          }
+        }
+      ]
+    },
+    "left": {
+      "text": "card.act3_reformist_farewell_opposition.left",
+      "preview": {
+        "publicTrust": "unknown"
+      }
+    },
+    "right": {
+      "text": "card.act3_reformist_farewell_opposition.right",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 1
+        },
+        {
+          "type": "relationship",
+          "character": "reformist",
+          "add": -1
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The table asks that her final line reflect history, not morality scoring — so the ally version hands the player a sentence they will hear again from the investigator (card 072), and the opposition version has her diagnose the whole game in one line. The removed version is silence, and the Aftermath's card 077 will hand her scripted role to the aide, diminished."
+    }
+  },
+  {
+    "id": "act3_audit_scandal_return",
+    "act": "power",
+    "type": "consequence",
+    "speaker": "aide",
+    "text": "card.act3_audit_scandal_return.text",
+    "illustration": {
+      "scene": "office_report",
+      "expression": "serious"
+    },
+    "conditions": {
+      "type": "history",
+      "cardId": "act2_business_audit",
+      "choice": "right",
+      "exists": true
+    },
+    "left": {
+      "text": "card.act3_audit_scandal_return.left",
+      "preview": {
+        "standing": -2,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -5
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 3
+        },
+        {
+          "type": "flag",
+          "flag": "flag_owned_audit_interference",
+          "action": "add"
+        }
+      ]
+    },
+    "right": {
+      "text": "card.act3_audit_scandal_return.right",
+      "preview": {
+        "standing": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 1
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": -3
+        },
+        {
+          "type": "flag",
+          "flag": "flag_denied_audit_interference",
+          "action": "add"
+        }
+      ]
+    },
+    "metadata": {
+      "designIntent": "The Act II time bomb detonates: the \"administrative review\" surfaces with the player's routing stamp on it, provenance `act2_business_audit:right`, twelve-plus turns later — the full Milestone-2 loop demonstrated at scandal scale. `flag_denied_audit_interference` is a primary Scapegoat-ending input: a network abandons deniers first, because deniers have already written the network's alibi for it."
+    }
+  },
+  {
+    "id": "act3_gathering_invitation",
+    "act": "power",
+    "speaker": "minister",
+    "text": "card.act3_gathering_invitation.text",
+    "illustration": {
+      "scene": "invitation_card",
+      "expression": "friendly"
+    },
+    "left": {
+      "text": "card.act3_gathering_invitation.left",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        }
+      ],
+      "next": {
+        "type": "act",
+        "act": "gathering"
+      }
+    },
+    "right": {
+      "text": "card.act3_gathering_invitation.right",
+      "preview": {
+        "standing": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -2
+        }
+      ],
+      "lock": {
+        "mode": "cost",
+        "condition": {
+          "type": "obligation",
+          "tag": "inner_circle",
+          "status": "active",
+          "minCount": 2
+        },
+        "unlockEffects": [
+          {
+            "type": "stat",
+            "stat": "standing",
+            "add": -3
+          },
+          {
+            "type": "stat",
+            "stat": "power",
+            "add": -3
+          }
+        ],
+        "reason": {
+          "source": "obligations",
+          "maxFlashbacks": 3
+        }
+      },
+      "next": {
+        "type": "card",
+        "cardId": "act3_gathering_unavoidable"
+      }
+    },
+    "metadata": {
+      "designIntent": "The last cost-lock before the hard one. Refusal is genuinely possible — and genuinely useless, because 058b converts it into postponement with full transparency (per spec: no arbitrary locks, no pretending). The design contract is that the Incident always happens; this pair of cards is where the game honors that contract without cheating the player's swipe."
+    }
+  },
+  {
+    "id": "act3_gathering_unavoidable",
+    "act": "power",
+    "type": "consequence",
+    "speaker": "aide",
+    "text": "card.act3_gathering_unavoidable.text",
+    "illustration": {
+      "scene": "office_calendar",
+      "expression": "neutral"
+    },
+    "left": {
+      "text": "card.act3_gathering_unavoidable.left",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "next": {
+        "type": "act",
+        "act": "gathering"
+      }
+    },
+    "right": {
+      "text": "card.act3_gathering_unavoidable.right",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "next": {
+        "type": "act",
+        "act": "gathering"
+      }
+    },
+    "metadata": {
+      "designIntent": "Refusal was possible; absence wasn't. The private dinner reappears as an official \"working dinner,\" approved by three offices — the player's last. The game converts the refusal into a two-week delay in full view instead of silently overriding the swipe: the player's agency was real, and so is the network's. Both choices empty; the calendar has already chosen."
+    }
+  }
+]

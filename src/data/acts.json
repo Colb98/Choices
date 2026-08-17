@@ -1,0 +1,9 @@
+[
+  { "id": "entry", "order": 0, "title": "act.entry.title" },
+  { "id": "rise", "order": 1, "title": "act.rise.title" },
+  { "id": "network", "order": 2, "title": "act.network.title" },
+  { "id": "power", "order": 3, "title": "act.power.title" },
+  { "id": "gathering", "order": 4, "title": "act.gathering.title" },
+  { "id": "incident", "order": 5, "title": "act.incident.title" },
+  { "id": "aftermath", "order": 6, "title": "act.aftermath.title" }
+]

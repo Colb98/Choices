@@ -1,0 +1,76 @@
+{
+  "characters": [
+    { "id": "mentor", "nameKey": "char.mentor.name" },
+    { "id": "businessman", "nameKey": "char.businessman.name" },
+    { "id": "editor", "nameKey": "char.editor.name" },
+    { "id": "reformist", "nameKey": "char.reformist.name" },
+    { "id": "aide", "nameKey": "char.aide.name" }
+  ],
+  "flags": [
+    { "id": "flag_ambitious_public_image", "description": "Player publicly promised major change on day one." },
+    { "id": "flag_requested_transparency_early", "description": "Player pulled the full land-compensation case file." },
+    { "id": "flag_early_transparency_position", "description": "Player's first speech proposed transparent procedures." },
+    { "id": "flag_early_case_public", "description": "Player published the compensation audit findings." },
+    { "id": "flag_entered_inner_social_circle", "description": "Player attended the first private dinner." },
+    { "id": "flag_direct_business_contact", "description": "Player exchanged private contacts with the Businessman." },
+    { "id": "flag_public_reform_support", "description": "Player publicly co-sponsored procurement disclosure." },
+    { "id": "flag_self_promotional_style", "description": "Player publicly claimed sole credit for a win." },
+    { "id": "flag_loyal_committee_member", "description": "The Mentor's candidate is committee secretary." },
+    { "id": "flag_declined_first_promotion", "description": "Player declined the deputy-chair promotion." }
+  ],
+  "precedents": [
+    { "id": "precedent_political_punishment", "description": "Normalized using punishment of rivals as politics." },
+    { "id": "precedent_special_treatment", "description": "Normalized informal acceleration for connected people." },
+    { "id": "precedent_quiet_resolution", "description": "Normalized settling misconduct without publicity." },
+    { "id": "precedent_nepotism", "description": "Normalized relationship-based appointments." },
+    { "id": "precedent_administrative_override", "description": "Normalized bypassing procedure by authority." },
+    { "id": "precedent_loyalty_appointments", "description": "Normalized voting for loyalty over merit." },
+    { "id": "precedent_media_management", "description": "Normalized shaping coverage of oneself." }
+  ],
+  "events": [
+    {
+      "id": "event_constituent_case_followup",
+      "cardId": "act1_constituent_case_callback",
+      "once": true,
+      "metadata": { "description": "Chain: card 002 → 010" }
+    },
+    {
+      "id": "event_committee_vote_supported",
+      "cardId": "act1_committee_result_supported",
+      "once": true,
+      "metadata": { "description": "Chain: 015 right → 019a" }
+    },
+    {
+      "id": "event_committee_vote_refused",
+      "cardId": "act1_committee_result_refused",
+      "once": true,
+      "metadata": { "description": "Chain: 015 left → 019b" }
+    },
+    {
+      "id": "event_permit_favor_callback",
+      "cardId": "act2_protected_investment",
+      "once": true,
+      "metadata": { "description": "Forward ref — target card authored in the Act II pack (Chain C: 009 → 022). Validator must treat as unresolved-until-Act-II." }
+    }
+  ],
+  "beats": [
+    {
+      "id": "beat_act1_committee",
+      "act": "rise",
+      "cardId": "act1_committee_opportunity",
+      "earliestActTurn": 1,
+      "latestActTurn": 2,
+      "priority": 100,
+      "once": true
+    },
+    {
+      "id": "beat_act1_promotion",
+      "act": "rise",
+      "cardId": "act1_first_promotion",
+      "earliestActTurn": 10,
+      "latestActTurn": 13,
+      "priority": 100,
+      "once": true
+    }
+  ]
+}

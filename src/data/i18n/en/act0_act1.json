@@ -1,0 +1,99 @@
+{
+  "char.mentor.name": "The Mentor",
+  "char.businessman.name": "The Businessman",
+  "char.editor.name": "The Editor",
+  "char.reformist.name": "The Reformist",
+  "char.aide.name": "The Aide",
+
+  "card.act0_appointment_day.text": "Your mentor finds you right after the oath, a hand on your shoulder. \"Congratulations. People expect things from someone in your position now — starting with your first words to the press.\"",
+  "card.act0_appointment_day.left": "Keep the speech modest.",
+  "card.act0_appointment_day.right": "Promise major change.",
+
+  "card.act0_constituent_land_case.text": "A family from your district writes to you: compensation for land taken by a public project was calculated three different ways in three different documents. They are not asking for money. They are asking which number is real.",
+  "card.act0_constituent_land_case.left": "Request the complete case file.",
+  "card.act0_constituent_land_case.right": "Forward it to the local office.",
+
+  "card.act0_first_parliament_speech.text": "Your first scheduled address to the chamber. Two drafts sit on your desk — one proposes transparent complaint procedures, the other demands harsher punishment for the officials named in last month's scandal.",
+  "card.act0_first_parliament_speech.left": "Propose transparent complaint procedures.",
+  "card.act0_first_parliament_speech.right": "Demand harsher punishment for the guilty.",
+
+  "card.act0_first_interview.text": "The reporter catches you in the corridor, recorder already running. \"One question. When the rules and senior people collide — which side are you on?\"",
+  "card.act0_first_interview.left": "\"Rules should apply equally.\"",
+  "card.act0_first_interview.right": "\"Reform requires cooperation.\"",
+
+  "card.act0_mentor_advice.text": "\"You have good instincts,\" your mentor says over tea. \"But instincts don't pass votes. Relationships do. Build them first. Reform later — from a position where your refusal costs them something.\"",
+  "card.act0_mentor_advice.left": "Listen carefully.",
+  "card.act0_mentor_advice.right": "\"Independence matters more.\"",
+
+  "card.act0_private_dinner_invitation.text": "An envelope with no letterhead. A private dinner: eight names, three of which you have only ever seen on television. No agenda is mentioned. None is needed.",
+  "card.act0_private_dinner_invitation.left": "Attend.",
+  "card.act0_private_dinner_invitation.right": "Decline politely.",
+
+  "card.act1_committee_opportunity.text": "\"The Budget Oversight seat opens next week,\" your mentor says. \"The selection process is a formality — if the right person mentions your name. Shall I?\"",
+  "card.act1_committee_opportunity.left": "Let the process decide.",
+  "card.act1_committee_opportunity.right": "\"I'd appreciate the mention.\"",
+
+  "card.act1_businessman_intro.text": "At a reception, your mentor steers a man in a quiet, expensive suit toward you. \"We fund what governments are too slow to fund,\" the man says. \"And I admire people who move faster than their institutions.\"",
+  "card.act1_businessman_intro.left": "Keep the conversation formal.",
+  "card.act1_businessman_intro.right": "Exchange private contacts.",
+
+  "card.act1_businessman_glimpse.text": "Two receptions later, you see him again — the quiet, expensive suit, laughing at something a deputy from the appropriations committee has said. A fragment drifts past: \"…went through last week. I won't forget it.\" He does not look your way.",
+  "card.act1_businessman_glimpse.left": "Watch a moment longer.",
+  "card.act1_businessman_glimpse.right": "Return to your conversation.",
+
+  "card.act1_business_permit.text": "\"One permit,\" the businessman says. \"Environmental compliance — approved once, resubmitted after a form change, sitting on someone's desk for five months. Nothing illegal. Just gravity. You could remove the gravity.\"",
+  "card.act1_business_permit.left": "Let the process run its course.",
+  "card.act1_business_permit.right": "\"I'll make a call.\"",
+
+  "card.act1_constituent_case_callback.text": "The complete file arrives, heavier than expected. The audit confirms it: three valuations, two signatures that don't match, and one official who has since been promoted. Your aide waits by the door.",
+  "card.act1_constituent_case_callback.left": "Publish the findings.",
+  "card.act1_constituent_case_callback.right": "Resolve it quietly.",
+
+  "card.act1_editor_profile_offer.text": "The editor's office smells of coffee and fresh proofs. \"We're running a series on the new generation in politics. You would open it. Good photos, better questions — and I choose the questions.\"",
+  "card.act1_editor_profile_offer.left": "No special treatment.",
+  "card.act1_editor_profile_offer.right": "Accept the feature.",
+
+  "card.act1_reformist_bill_intro.text": "\"Procurement disclosure,\" the Reformist says, sliding a draft across your desk. \"Every contract above the threshold, published within thirty days. Half the chamber will hate it — the important half.\"",
+  "card.act1_reformist_bill_intro.left": "Co-sponsor it publicly.",
+  "card.act1_reformist_bill_intro.right": "Support it privately.",
+
+  "card.act1_staff_hiring.text": "Your aide flags one CV in the pile. \"The committee vice-chair's nephew. Genuinely qualified — he'd top my shortlist even without the name. But the name is on it.\"",
+  "card.act1_staff_hiring.left": "Run open recruitment.",
+  "card.act1_staff_hiring.right": "Hire the recommended candidate.",
+
+  "card.act1_local_project.text": "The district's drainage system has failed twice this month. Normal review takes a season the district doesn't have. Your committee seat can move it to the top of the queue — one signature, entirely within your authority.",
+  "card.act1_local_project.left": "Require the normal review.",
+  "card.act1_local_project.right": "Fast-track it.",
+
+  "card.act1_mentor_vote_request.text": "\"The committee elects its secretary on Thursday,\" your mentor says. \"Vote for my candidate. Reliable. Knows how things are done.\" A pause. \"I don't ask often.\"",
+  "card.act1_mentor_vote_request.left": "Vote independently.",
+  "card.act1_mentor_vote_request.right": "Support the candidate.",
+
+  "card.act1_small_reform_success.text": "Your amendment passes — small, procedural, genuinely useful. Complaint response deadlines are now binding. In the corridor, the cameras find you.",
+  "card.act1_small_reform_success.left": "Credit the committee.",
+  "card.act1_small_reform_success.right": "Take ownership of the win.",
+
+  "card.act1_business_dinner.text": "A private room above the city. The businessman orders without opening the menu. Toward the end of the evening, the waiter hovers with the bill, uncertain where to set it down.",
+  "card.act1_business_dinner.left": "Pay your own share.",
+  "card.act1_business_dinner.right": "Let him host.",
+
+  "card.act1_minor_rumor.text": "\"It's small,\" your aide says, phone in hand. \"A forum thread claims your committee seat was arranged. Two hundred comments so far. It's wrong on the details — mostly.\"",
+  "card.act1_minor_rumor.left": "Ignore it.",
+  "card.act1_minor_rumor.right": "Ask the Editor for clarifying coverage.",
+
+  "card.act1_committee_result_supported.text": "\"The vote went through,\" your aide reports. \"Your mentor's candidate is committee secretary now. He asked me to pass along that the agenda office will always find room for your items.\"",
+  "card.act1_committee_result_supported.left": "\"Good. Move our items up.\"",
+  "card.act1_committee_result_supported.right": "Keep a polite distance.",
+
+  "card.act1_committee_result_refused.text": "\"The vote went through anyway,\" your aide says. \"Without you. The new secretary read the agenda this morning — your two items moved from Thursday to 'pending review.'\"",
+  "card.act1_committee_result_refused.left": "File a formal objection.",
+  "card.act1_committee_result_refused.right": "Let it go.",
+
+  "card.act1_reformist_warning.text": "The Reformist falls into step beside you. \"You get things done. I've noticed — everyone has. Efficiency is useful. It also becomes a habit very quickly, and habits get inherited by people worse than you.\"",
+  "card.act1_reformist_warning.left": "Acknowledge the concern.",
+  "card.act1_reformist_warning.right": "Defend practical politics.",
+
+  "card.act1_first_promotion.text": "The call comes on a Tuesday: deputy chair of the committee. The official letter cites your legislative record. The unofficial version depends on who is telling it.",
+  "card.act1_first_promotion.left": "Accept.",
+  "card.act1_first_promotion.right": "Decline, for now."
+}

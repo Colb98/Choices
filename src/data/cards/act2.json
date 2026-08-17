@@ -1,0 +1,757 @@
+[
+  {
+    "id": "act2_protected_investment",
+    "act": "network",
+    "type": "consequence",
+    "speaker": "businessman",
+    "text": "card.act2_protected_investment.text",
+    "illustration": { "scene": "private_office_folder", "expression": "friendly" },
+    "left": {
+      "text": "card.act2_protected_investment.left",
+      "preview": { "money": 0, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "relationship", "character": "businessman", "add": -1 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_protected_investment.right",
+      "preview": { "money": -1, "standing": 1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": -40000 },
+        { "type": "stat", "stat": "standing", "add": 2 },
+        { "type": "relationship", "character": "businessman", "add": 1 },
+        { "type": "precedent", "precedent": "precedent_conflict_of_interest", "add": 1 },
+        { "type": "flag", "flag": "flag_invested_protected_company", "action": "add" },
+        { "type": "obligation_add", "id": "obligation_business_investment_01", "creditor": "businessman", "weight": 2, "tags": ["business", "investment", "inner_circle"] }
+      ],
+      "delayedEffects": [
+        { "delay": { "type": "turn_range", "min": 4, "max": 7 }, "eventId": "event_investment_growth" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "once": true,
+    "metadata": {
+      "designIntent": "Chain C's true hook. The permit was free; *this* is what the gratitude was for. Weight-2 obligation attached to the player's own money — from here, protecting the company is protecting themselves, and card 027 will price that precisely."
+    }
+  },
+  {
+    "id": "act2_article_delay",
+    "act": "network",
+    "type": "contextual",
+    "speaker": "aide",
+    "text": "card.act2_article_delay.text",
+    "illustration": { "scene": "office_phone", "expression": "concerned" },
+    "left": {
+      "text": "card.act2_article_delay.left",
+      "preview": { "standing": -1, "power": -1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": -3 },
+        { "type": "stat", "stat": "power", "add": -2 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 1 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_article_delay.right",
+      "preview": { "standing": 1, "power": 1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 3 },
+        { "type": "stat", "stat": "power", "add": 2 },
+        { "type": "relationship", "character": "editor", "add": 1 },
+        { "type": "relationship", "character": "minister", "add": 1 },
+        { "type": "precedent", "precedent": "precedent_media_interference", "add": 1 },
+        { "type": "obligation_add", "id": "obligation_editor_delay_01", "creditor": "editor", "weight": 1, "tags": ["media", "favor"] }
+      ],
+      "delayedEffects": [
+        { "delay": { "type": "turn_range", "min": 3, "max": 6 }, "eventId": "event_delayed_article_returns" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 10,
+    "once": true,
+    "metadata": {
+      "designIntent": "Chain B link 2. First time the player reaches *into* the press rather than posing for it. Note the double relationship gain — the Minister notices loyalty to the coalition before he has even been formally introduced (024 may come before or after; both orders read correctly)."
+    }
+  },
+  {
+    "id": "act2_minister_intro",
+    "act": "network",
+    "type": "story",
+    "speaker": "minister",
+    "text": "card.act2_minister_intro.text",
+    "illustration": { "scene": "ministry_office", "expression": "neutral" },
+    "left": {
+      "text": "card.act2_minister_intro.left",
+      "preview": { "standing": 0, "publicTrust": "unknown" },
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_minister_intro.right",
+      "preview": { "standing": 2, "power": 1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 5 },
+        { "type": "stat", "stat": "power", "add": 3 },
+        { "type": "relationship", "character": "minister", "add": 2 },
+        { "type": "flag", "flag": "flag_minister_access", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "once": true,
+    "metadata": {
+      "designIntent": "The apex predator enters. `flag_minister_access` gates card 036 (his promotion offer); without it, the player still advances via the 040 beat — the Minister's patronage is optional, his presence is not. He will pour the drink at the Gathering either way."
+    }
+  },
+  {
+    "id": "act2_investment_growth",
+    "act": "network",
+    "type": "consequence",
+    "speaker": "aide",
+    "text": "card.act2_investment_growth.text",
+    "illustration": { "scene": "office_report", "expression": "neutral" },
+    "conditions": { "type": "flag", "flag": "flag_invested_protected_company", "exists": true },
+    "left": {
+      "text": "card.act2_investment_growth.left",
+      "preview": { "money": 2, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 180000 }
+      ],
+      "delayedEffects": [
+        { "delay": { "type": "turn_range", "min": 5, "max": 8 }, "eventId": "event_investment_doubles" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_investment_growth.right",
+      "preview": { "money": 2, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 180000 },
+        { "type": "flag", "flag": "flag_discreet_accounts", "action": "add" }
+      ],
+      "delayedEffects": [
+        { "delay": { "type": "turn_range", "min": 5, "max": 8 }, "eventId": "event_investment_doubles" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "once": true,
+    "metadata": {
+      "designIntent": "The reward beat — the money counter animates hard for the first time ($9,400 → $189,400) and the game says nothing. The aide's \"I checked\" is doing the moral licensing for the player. Both choices carry the gain and the next event; the only fork is cosmetic discretion, which the Aftermath ledger will remember as anything but cosmetic."
+    }
+  },
+  {
+    "id": "act2_housing_budget",
+    "act": "network",
+    "type": "contextual",
+    "text": "card.act2_housing_budget.text",
+    "illustration": { "scene": "budget_documents" },
+    "left": {
+      "text": "card.act2_housing_budget.left",
+      "preview": { "standing": -1, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": -2 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 4 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 1 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_housing_budget.right",
+      "preview": { "standing": 1, "power": 1, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 3 },
+        { "type": "stat", "stat": "power", "add": 2 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 3 },
+        { "type": "stat", "stat": "publicTrustActual", "add": -1 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 10,
+    "once": true,
+    "metadata": {
+      "designIntent": "Pure perception-economy card, no hidden state at all — a breather that still teaches. The flagship *polls* better than the plumbing; the plumbing is where actual trust lives. Neither choice is corrupt. One of them is just invisible."
+    }
+  },
+  {
+    "id": "act2_business_audit",
+    "act": "network",
+    "type": "contextual",
+    "speaker": "businessman",
+    "text": "card.act2_business_audit.text",
+    "illustration": { "scene": "phone_call_night", "expression": "concerned" },
+    "conditions": { "type": "relationship", "character": "businessman", "op": ">=", "value": 1 },
+    "left": {
+      "text": "card.act2_business_audit.left",
+      "preview": { "standing": -1, "power": -1, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": -3 },
+        { "type": "stat", "stat": "power", "add": -2 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 2 },
+        { "type": "relationship", "character": "businessman", "add": -3 },
+        { "type": "flag", "flag": "flag_audit_allowed", "action": "add" }
+      ],
+      "delayedEffects": [
+        { "delay": { "type": "turn_range", "min": 3, "max": 5 }, "eventId": "event_audit_result_full" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_business_audit.right",
+      "preview": { "standing": 1, "power": 1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 3 },
+        { "type": "stat", "stat": "power", "add": 2 },
+        { "type": "relationship", "character": "businessman", "add": 2 },
+        { "type": "precedent", "precedent": "precedent_investigation_interference", "add": 1 },
+        { "type": "obligation_add", "id": "obligation_businessman_protection_01", "creditor": "businessman", "weight": 2, "tags": ["business", "protection", "inner_circle"] }
+      ],
+      "delayedEffects": [
+        { "delay": { "type": "turn_range", "min": 3, "max": 5 }, "eventId": "event_audit_result_managed" },
+        { "delay": { "type": "act", "act": "power", "minActTurn": 3 }, "eventId": "event_audit_scandal_return", "onConditionFail": "discard" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 10,
+    "once": true,
+    "minActTurn": 4,
+    "metadata": {
+      "designIntent": "Chain C's pivot and the pack's sharpest money-morality knot: if the player invested, \"fair\" means auditing their own wealth. The Right branch schedules *two* futures — the near one where interference works (039a), and the far one where it detonates (Act III scandal). The player can see neither. \"Reviews can be thorough, or they can be fair\" is the Businessman teaching the player his vocabulary."
+    }
+  },
+  {
+    "id": "act2_article_softened",
+    "act": "network",
+    "type": "consequence",
+    "speaker": "aide",
+    "text": "card.act2_article_softened.text",
+    "illustration": { "scene": "newspaper_page", "expression": "neutral" },
+    "left": {
+      "text": "card.act2_article_softened.left",
+      "preview": { "standing": 1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 2 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 1 },
+        { "type": "stat", "stat": "publicTrustActual", "add": -2 },
+        { "type": "relationship", "character": "editor", "add": 1 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_article_softened.right",
+      "preview": { "standing": 1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 2 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 1 },
+        { "type": "stat", "stat": "publicTrustActual", "add": -2 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "once": true,
+    "metadata": {
+      "designIntent": "Media manipulation *appears* to work: page six, no names, flowers from the deputy. The identical actual-trust bleed on both choices is the tell — the damage came from the delay itself, not from the player's attitude about it. Saying \"don't make a habit\" changes nothing except how the player feels. The precedent counter, notably, was incremented three cards ago."
+    }
+  },
+  {
+    "id": "act2_wealth_disclosure",
+    "act": "network",
+    "type": "contextual",
+    "speaker": "aide",
+    "text": "card.act2_wealth_disclosure.text",
+    "illustration": { "scene": "office_forms", "expression": "neutral" },
+    "left": {
+      "text": "card.act2_wealth_disclosure.left",
+      "preview": { "standing": -1, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": -2 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 3 },
+        { "type": "flag", "flag": "flag_financial_disclosure", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_wealth_disclosure.right",
+      "preview": { "standing": 1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 2 },
+        { "type": "precedent", "precedent": "precedent_disclosure_minimization", "add": 1 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 10,
+    "once": true,
+    "minActTurn": 5,
+    "metadata": {
+      "designIntent": "The quietest card in the act and one of the most consequential for endings: `flag_financial_disclosure` materially softens the Act III leak (card 048) and the Aftermath ledger, while `disclosure_minimization` is what turns the leak into a scandal. The aide's line about \"strictly\" is the whole legal-vs-legitimate theme in one word."
+    }
+  },
+  {
+    "id": "act2_mentor_protection",
+    "act": "network",
+    "type": "contextual",
+    "speaker": "mentor",
+    "text": "card.act2_mentor_protection.text",
+    "illustration": { "scene": "office_mentor_evening", "expression": "concerned" },
+    "left": {
+      "text": "card.act2_mentor_protection.left",
+      "preview": { "standing": -1, "power": -1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": -3 },
+        { "type": "stat", "stat": "power", "add": -2 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 2 },
+        { "type": "relationship", "character": "mentor", "add": -2 }
+      ],
+      "lock": {
+        "mode": "cost",
+        "condition": { "type": "obligation", "creditor": "mentor", "status": "active", "minWeight": 2 },
+        "unlockEffects": [
+          { "type": "stat", "stat": "power", "add": -3 },
+          { "type": "relationship", "character": "mentor", "add": -1 }
+        ],
+        "reason": { "source": "obligations", "maxFlashbacks": 2 }
+      },
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_mentor_protection.right",
+      "preview": { "standing": 1, "power": 1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 3 },
+        { "type": "stat", "stat": "power", "add": 2 },
+        { "type": "relationship", "character": "mentor", "add": 2 },
+        { "type": "precedent", "precedent": "precedent_investigation_interference", "add": 1 },
+        { "type": "obligation_resolve", "creditor": "mentor", "amount": 1, "resolution": "repaid" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 10,
+    "once": true,
+    "minActTurn": 6,
+    "metadata": {
+      "designIntent": "The 015 pattern at higher stakes — the second cost-lock of the game, now guarding a recusal instead of a vote. Repaying the Mentor's heaviest debt requires interfering with a review. The line \"before you knew me\" is deliberate: the complaint predates the player entirely, so protecting him cannot be rationalized as protecting themselves. This one is pure loyalty."
+    }
+  },
+  {
+    "id": "act2_reformist_strong_bill",
+    "act": "network",
+    "type": "contextual",
+    "speaker": "reformist",
+    "text": "card.act2_reformist_strong_bill.text",
+    "illustration": { "scene": "office_desk_draft", "expression": "neutral" },
+    "conditions": { "type": "relationship", "character": "reformist", "op": ">=", "value": 1 },
+    "left": {
+      "text": "card.act2_reformist_strong_bill.left",
+      "preview": { "standing": -1, "power": -1, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": -3 },
+        { "type": "stat", "stat": "power", "add": -2 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 4 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 1 },
+        { "type": "relationship", "character": "reformist", "add": 2 },
+        { "type": "flag", "flag": "flag_strong_procurement_reform", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_reformist_strong_bill.right",
+      "preview": { "standing": 1, "power": 1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 2 },
+        { "type": "stat", "stat": "power", "add": 2 },
+        { "type": "relationship", "character": "reformist", "add": -1 },
+        { "type": "flag", "flag": "flag_weak_procurement_reform", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 10,
+    "once": true,
+    "minActTurn": 4,
+    "metadata": {
+      "designIntent": "Chain D link 2. \"This is the idea, without the escape hatches\" quietly tests whether the player's Act I support was for transparency or for the *appearance* of transparency. On invested runs, full disclosure would eventually expose their own contract chain — the DSL doesn't know that yet, but Act III's card 044 does."
+    }
+  },
+  {
+    "id": "act2_editor_regulatory_favor",
+    "act": "network",
+    "type": "contextual",
+    "speaker": "editor",
+    "text": "card.act2_editor_regulatory_favor.text",
+    "illustration": { "scene": "newsroom_office", "expression": "concerned" },
+    "conditions": { "type": "relationship", "character": "editor", "op": ">=", "value": 1 },
+    "left": {
+      "text": "card.act2_editor_regulatory_favor.left",
+      "preview": { "standing": 0, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "relationship", "character": "editor", "add": -1 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_editor_regulatory_favor.right",
+      "preview": { "standing": 1, "power": 1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 2 },
+        { "type": "stat", "stat": "power", "add": 2 },
+        { "type": "relationship", "character": "editor", "add": 1 },
+        { "type": "precedent", "precedent": "precedent_media_regulatory_favor", "add": 1 },
+        { "type": "obligation_resolve", "creditor": "editor", "amount": 1, "resolution": "repaid" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 10,
+    "once": true,
+    "minActTurn": 5,
+    "metadata": {
+      "designIntent": "Chain B link 3 and the quiet turning point of the media arc: repaying the Editor's debt with a *regulatory* favor converts him from a vendor of coverage into a co-owner of secrets. From this card on, the Editor is not someone the player owes — he is someone the player is *entangled with*, which is what makes cards 048/049 possible. Third instance of the repay-by-corrupting pattern (015, 030, 032)."
+    }
+  },
+  {
+    "id": "act2_popularity_event",
+    "act": "network",
+    "type": "contextual",
+    "text": "card.act2_popularity_event.text",
+    "illustration": { "scene": "campaign_posters" },
+    "left": {
+      "text": "card.act2_popularity_event.left",
+      "preview": { "standing": 1, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 2 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 3 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 2 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_popularity_event.right",
+      "preview": { "standing": 2, "power": 1, "publicTrust": "strong_up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 5 },
+        { "type": "stat", "stat": "power", "add": 2 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 4 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 1 },
+        { "type": "flag", "flag": "flag_strongman_branding", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 10,
+    "once": true,
+    "minActTurn": 6,
+    "metadata": {
+      "designIntent": "`flag_strongman_branding` re-words Act III's protest card (042) and hardens the Collapse ending's framing — a strongman brand makes low actual trust more explosive. Also the cleanest demonstration yet that Perceived Trust is what campaigns are made of."
+    }
+  },
+  {
+    "id": "act2_contractor_callback",
+    "act": "network",
+    "type": "contextual",
+    "speaker": "aide",
+    "text": "card.act2_contractor_callback.text",
+    "illustration": { "scene": "office_report", "expression": "concerned" },
+    "conditions": {
+      "any": [
+        { "type": "precedent", "precedent": "precedent_administrative_override", "op": ">=", "value": 1 },
+        { "type": "precedent", "precedent": "precedent_special_treatment", "op": ">=", "value": 1 }
+      ]
+    },
+    "left": {
+      "text": "card.act2_contractor_callback.left",
+      "preview": { "standing": -2, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": -5 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 3 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": -1 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_contractor_callback.right",
+      "preview": { "standing": 1, "power": 1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 2 },
+        { "type": "stat", "stat": "power", "add": 2 },
+        { "type": "precedent", "precedent": "precedent_information_delay", "add": 1 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 8,
+    "once": true,
+    "minActTurn": 5,
+    "metadata": {
+      "designIntent": "The bill for Act I's efficiency arrives, appropriately addressed: this card only exists if the player fast-tracked or made calls. Releasing records *hurts perceived trust while raising actual trust* — honesty reads as guilt in the perception economy. That inversion is the card."
+    }
+  },
+  {
+    "id": "act2_hospital_funding",
+    "act": "network",
+    "type": "contextual",
+    "text": "card.act2_hospital_funding.text",
+    "illustration": { "scene": "hospital_wing" },
+    "conditions": { "type": "stat", "stat": "power", "op": ">=", "value": 30 },
+    "left": {
+      "text": "card.act2_hospital_funding.left",
+      "preview": { "power": 0, "publicTrust": "unknown" },
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_hospital_funding.right",
+      "preview": { "power": 1, "publicTrust": "strong_up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "power", "add": 3 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 5 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 3 },
+        { "type": "precedent", "precedent": "precedent_administrative_override", "add": 1 },
+        { "type": "flag", "flag": "flag_hospital_opened_early", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 10,
+    "once": true,
+    "minActTurn": 6,
+    "metadata": {
+      "designIntent": "The counterweight card, gated behind Power ≥ 30 so it lands *after* the player has dirtied their hands acquiring that power: the good this card does is real, and it was purchasable only with the machinery the rest of the act is indicting. `flag_hospital_opened_early` is quoted by the Accountability and Break-the-Chain endings — the game's proof that it never claimed power itself was evil."
+    }
+  },
+  {
+    "id": "act2_minister_promotion_offer",
+    "act": "network",
+    "type": "contextual",
+    "speaker": "minister",
+    "text": "card.act2_minister_promotion_offer.text",
+    "illustration": { "scene": "ministry_office", "expression": "friendly" },
+    "conditions": { "type": "flag", "flag": "flag_minister_access", "exists": true },
+    "left": {
+      "text": "card.act2_minister_promotion_offer.left",
+      "preview": { "standing": 0, "power": 0, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "relationship", "character": "minister", "add": -1 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_minister_promotion_offer.right",
+      "preview": { "standing": 2, "power": 2, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 6 },
+        { "type": "stat", "stat": "power", "add": 6 },
+        { "type": "relationship", "character": "minister", "add": 2 },
+        { "type": "obligation_add", "id": "obligation_minister_backing_01", "creditor": "minister", "weight": 2, "tags": ["promotion", "inner_circle"] }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 10,
+    "once": true,
+    "minActTurn": 8,
+    "metadata": {
+      "designIntent": "The heaviest single obligation before the Gathering, sold in the Minister's native dialect: he doesn't offer to add the player's name — he offers to *delete the other three*. Combined with `REL minister +2` this is exactly what arms the spec's drink-refusal hard lock (`inner_circle minCount 3` + `REL minister >= 3`)."
+    }
+  },
+  {
+    "id": "act2_investment_doubles",
+    "act": "network",
+    "type": "consequence",
+    "speaker": "aide",
+    "text": "card.act2_investment_doubles.text",
+    "illustration": { "scene": "office_report", "expression": "concerned" },
+    "conditions": { "type": "flag", "flag": "flag_invested_protected_company", "exists": true },
+    "left": {
+      "text": "card.act2_investment_doubles.left",
+      "preview": { "money": 3, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 320000 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_investment_doubles.right",
+      "preview": { "money": 3, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "money", "add": 320000 },
+        { "type": "flag", "flag": "flag_portfolio_valued", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "once": true,
+    "metadata": {
+      "designIntent": "The counter crosses half a million and the aide's sentence — \"wealthier than anyone who audits you\" — is the act's thesis stated as arithmetic. `flag_portfolio_valued` matters later: the Aftermath compensation ledger quotes an exact figure only if the player ever asked for one. Most won't. That's the point."
+    }
+  },
+  {
+    "id": "act2_investigation_independence",
+    "act": "network",
+    "type": "contextual",
+    "speaker": "reformist",
+    "text": "card.act2_investigation_independence.text",
+    "illustration": { "scene": "committee_room", "expression": "serious" },
+    "conditions": {
+      "any": [
+        { "type": "relationship", "character": "reformist", "op": ">=", "value": 1 },
+        { "type": "flag", "flag": "flag_public_reform_support", "exists": true }
+      ]
+    },
+    "left": {
+      "text": "card.act2_investigation_independence.left",
+      "preview": { "standing": -1, "power": -2, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": -3 },
+        { "type": "stat", "stat": "power", "add": -4 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 4 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 1 },
+        { "type": "relationship", "character": "reformist", "add": 2 },
+        { "type": "flag", "flag": "flag_supports_investigation_independence", "action": "add" }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_investigation_independence.right",
+      "preview": { "standing": 1, "power": 1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 2 },
+        { "type": "stat", "stat": "power", "add": 2 },
+        { "type": "relationship", "character": "reformist", "add": -1 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "weight": 10,
+    "once": true,
+    "minActTurn": 9,
+    "metadata": {
+      "designIntent": "Chain D keystone. The largest voluntary Power loss in the game so far (−4), purchasing something invisible: an institution the player cannot later un-build. When the Incident comes, `flag_supports_investigation_independence` is what produces the Ending G line — \"Your office has no authority over this inquiry\" — the strongest positive payoff in the entire design, and the player buys it here, blind, at full price."
+    }
+  },
+  {
+    "id": "act2_audit_result_managed",
+    "act": "network",
+    "type": "consequence",
+    "speaker": "aide",
+    "text": "card.act2_audit_result_managed.text",
+    "illustration": { "scene": "office_report", "expression": "neutral" },
+    "conditions": { "type": "history", "cardId": "act2_business_audit", "choice": "right", "exists": true },
+    "left": {
+      "text": "card.act2_audit_result_managed.left",
+      "preview": { "standing": 1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 2 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 1 },
+        { "type": "relationship", "character": "businessman", "add": 1 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_audit_result_managed.right",
+      "preview": { "standing": 1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 2 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 1 }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "once": true,
+    "metadata": {
+      "designIntent": "Interference appears to work *perfectly* — corrective notice, no referral, market relief, and the aide's single dry \"Efficient.\" What the player cannot see: `event_audit_scandal_return` is already sitting in the scheduler with an Act III trigger, provenance `act2_business_audit:right`. This card is the calm before a receipt."
+    }
+  },
+  {
+    "id": "act2_audit_result_full",
+    "act": "network",
+    "type": "consequence",
+    "speaker": "aide",
+    "text": "card.act2_audit_result_full.text",
+    "illustration": { "scene": "office_report", "expression": "serious" },
+    "conditions": { "type": "history", "cardId": "act2_business_audit", "choice": "left", "exists": true },
+    "left": {
+      "text": "card.act2_audit_result_full.left",
+      "preview": { "standing": -1, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": -2 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 3 },
+        { "type": "flag", "flag": "flag_audit_referrals_public", "action": "add" }
+      ],
+      "variants": [
+        {
+          "conditions": { "type": "flag", "flag": "flag_invested_protected_company", "exists": true },
+          "effects": [
+            { "type": "stat", "stat": "standing", "add": -2 },
+            { "type": "stat", "stat": "publicTrustActual", "add": 3 },
+            { "type": "stat", "stat": "money", "add": -120000 },
+            { "type": "flag", "flag": "flag_audit_referrals_public", "action": "add" }
+          ]
+        }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_audit_result_full.right",
+      "preview": { "standing": -1, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": -2 }
+      ],
+      "variants": [
+        {
+          "conditions": { "type": "flag", "flag": "flag_invested_protected_company", "exists": true },
+          "effects": [
+            { "type": "stat", "stat": "standing", "add": -2 },
+            { "type": "stat", "stat": "money", "add": -120000 }
+          ]
+        }
+      ],
+      "next": { "type": "scheduler" }
+    },
+    "once": true,
+    "metadata": {
+      "designIntent": "Integrity, itemized. If the player had invested *and* allowed the audit anyway, their honest choice at 027 now costs $120,000 in falling holdings — the single largest honest loss in the game, and the game presents it without one word of praise. (Money may clamp at 0 if growth hadn't fired yet; engine clamping per balance config, acceptable.) The variant-on-both-choices pattern is the sanctioned way to express \"this happens regardless of reaction, but only to investors.\""
+    }
+  },
+  {
+    "id": "act2_second_promotion",
+    "act": "network",
+    "type": "story",
+    "text": "card.act2_second_promotion.text",
+    "illustration": { "scene": "new_office_river_view" },
+    "left": {
+      "text": "card.act2_second_promotion.left",
+      "preview": { "standing": 2, "power": 2, "publicTrust": "up_uncertain" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 7 },
+        { "type": "stat", "stat": "power", "add": 6 },
+        { "type": "stat", "stat": "publicTrustPerceived", "add": 3 }
+      ],
+      "next": { "type": "act", "act": "power" }
+    },
+    "right": {
+      "text": "card.act2_second_promotion.right",
+      "preview": { "standing": 1, "power": 2, "publicTrust": "unknown" },
+      "effects": [
+        { "type": "stat", "stat": "standing", "add": 4 },
+        { "type": "stat", "stat": "power", "add": 6 },
+        { "type": "stat", "stat": "publicTrustActual", "add": 2 }
+      ],
+      "next": { "type": "act", "act": "power" }
+    },
+    "once": true,
+    "metadata": {
+      "designIntent": "Act I's promotion was a phone call the player could refuse. This one is a communiqué that mentions them in the third paragraph — there is no decline option, only a choice of posture. The ladder stopped asking. Autonomy narrows even on the way up; that asymmetry is the act's closing statement and the on-ramp to Act III's theme (*you now decide who receives the shortcuts*)."
+    }
+  },
+  {
+    "id": "act2_businessman_headline",
+    "act": "network",
+    "type": "contextual",
+    "text": "card.act2_businessman_headline.text",
+    "illustration": { "scene": "newspaper_page" },
+    "conditions": { "not": { "type": "flag", "flag": "flag_direct_business_contact", "exists": true } },
+    "left": {
+      "text": "card.act2_businessman_headline.left",
+      "preview": { "publicTrust": "unknown" },
+      "next": { "type": "scheduler" }
+    },
+    "right": {
+      "text": "card.act2_businessman_headline.right",
+      "preview": { "publicTrust": "unknown" },
+      "next": { "type": "scheduler" }
+    },
+    "weight": 5,
+    "once": true,
+    "minActTurn": 4,
+    "metadata": {
+      "designIntent": "Second ambient beat, paired with `act1_businessman_glimpse`. This is the *same port tender* that doubles the invested player's stake in card 037 — two runs, one headline, and the only variable is whether the player's money is inside it. Effects deliberately empty again. He will be at the Gathering table regardless."
+    }
+  }
+]

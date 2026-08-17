@@ -1,0 +1,26 @@
+{
+  "stats": {
+    "standing": { "min": 0, "max": 100 },
+    "power": { "min": 0, "max": 100 },
+    "publicTrustActual": { "min": 0, "max": 100 },
+    "publicTrustPerceived": { "min": 0, "max": 100 }
+  },
+  "money": { "min": 0 },
+  "relationships": { "min": -5, "max": 5 },
+  "scheduler": {
+    "recentCardWindow": 6,
+    "defaultCardWeight": 10,
+    "maxConsecutiveContextual": 5
+  },
+  "start": {
+    "stats": {
+      "money": 50000,
+      "standing": 15,
+      "power": 5,
+      "publicTrustActual": 40,
+      "publicTrustPerceived": 40
+    },
+    "act": "entry",
+    "firstCardId": "act0_appointment_day"
+  }
+}
