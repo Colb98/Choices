@@ -9,7 +9,7 @@ Scene illustrations exist only for a handful of key moments. Everything else (ph
 
 **STYLE PREFIX (prepend to all prompts):**
 
-> Minimalist flat vector illustration in the style of narrative mobile card games (Lapse-like). Muted, desaturated palette — deep navy, slate grey, warm paper beige — one restrained accent color. Clean geometric shapes, subtle grain, soft directional light, generous negative space. All human figures are FACELESS: heads are blank silhouettes or simple skin-tone shapes with NO eyes, NO mouth, NO nose, NO eyebrows. Identity is expressed only through clothing, build, posture and props. Politically neutral and fictional: no real politicians, no flags, no national symbols, no party logos, no readable text anywhere.
+> Minimalist flat vector illustration in the style of narrative mobile card games (Lapse-like). Muted, desaturated character-specific palette with two background colors and one restrained accent. Clean geometric shapes, subtle grain, soft directional light, generous negative space. All human figures are FACELESS: heads are blank silhouettes or simple skin-tone shapes with NO eyes, NO mouth, NO nose, NO eyebrows. Identity is expressed through clothing, build, posture, props, and semantic background color. Politically neutral and fictional: no real politicians, no flags, no national symbols, no party logos, no readable text anywhere.
 
 **NEGATIVE PROMPT:**
 
@@ -19,8 +19,31 @@ Scene illustrations exist only for a handful of key moments. Everything else (ph
 1. No faces, ever. One **neutral** pose per character — no expression variants.
 2. The player is never depicted. The portrait is the other person, chest-up, facing the viewer.
 3. Characters are told apart by silhouette and props only — keep each character's clothing/props identical across regenerations.
-4. Portraits: **512 × 512**, plain single-color background → `public/art/portraits/<id>.webp`
+4. Portraits: **512 × 512**, medium-dark two-tone semantic background with subtle low-contrast geometry → `public/art/portraits/<id>.webp`
    Scenes: **1024 × 1024** (square source; displayed cover-cropped into a near-square card ~440×470, so keep the key subject inside the central ~90%) → `public/art/scenes/<id>.webp`
+
+---
+
+## 0.1 CHARACTER COLOR LANGUAGE
+
+Background color communicates motivation or defining characteristic. It does not imply a party unless the narrative explicitly establishes one. Keep geometry subtle and backgrounds dark enough for the card's light choice labels.
+
+| Character | Palette | Meaning | Background motif |
+|---|---|---|---|
+| Aide | Steel blue + pale cyan | Dependable service and organization | Orderly concentric arcs |
+| Businessman | Emerald + antique gold | Private wealth, access, ambition | Ascending diagonal planes |
+| Coalition Whip | Royal purple + rust | Brokerage and coalition-building | Intersecting arcs |
+| Doctor | Healing turquoise + mint | Care and restoration | Sheltering circular halo |
+| Editor | Ink navy + copper | Scrutiny and editorial urgency | Horizontal press bands |
+| Family Representative | Terracotta + ochre | Home, dignity, grounded responsibility | Layered earth bands |
+| Foundation Director | Leaf green + muted gold | Civic growth and stewardship | Overlapping community rings |
+| Investigator | Slate blue + silver | Evidence and institutional independence | Restrained vertical bars |
+| Journalist | Ink blue + mustard | Curiosity and public illumination | Outward report rays |
+| Lawyer | Plum + parchment | Advocacy, balance, legal protection | Mirrored arches |
+| Mentor | Oxblood + antique gold | Old-guard patronage and legacy | Established halo arcs |
+| Minister | Midnight navy + cobalt | Formal authority and control | Symmetrical institutional panels |
+| Press Officer | Signal blue + coral | Communication and urgency | Outward signal bands |
+| Reformist | Teal + restrained white | Integrity and upward reform | Centered ascending beam |
 
 ---
 
