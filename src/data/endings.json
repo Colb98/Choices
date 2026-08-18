@@ -10,7 +10,7 @@
     "titleKey": "ending.ending_bankrupt.title",
     "presentation": {
       "sequence": [
-        { "type": "text", "textKey": "ending.ending_bankrupt.text" },
+        { "type": "ending_card", "artId": "ending_bankrupt", "titleKey": "ending.ending_bankrupt.title", "textKey": "ending.ending_bankrupt.text" },
         { "type": "credits" }
       ]
     },
@@ -92,8 +92,8 @@
     "presentation": {
       "sequence": [
         { "type": "stat_glitch", "stat": "power", "finalValue": 92 },
-        { "type": "text", "textKey": "ending.ending_collapse.text" },
         { "type": "stat_glitch", "stat": "power", "finalValue": 0 },
+        { "type": "ending_card", "artId": "ending_collapse", "titleKey": "ending.ending_collapse.title", "textKey": "ending.ending_collapse.text" },
         { "type": "memorial" },
         { "type": "credits" }
       ]
@@ -123,7 +123,7 @@
         { "type": "article_state", "state": "removed", "articleId": "article_first_report" },
         { "type": "article_state", "state": "removed" },
         { "type": "article_state", "state": "unavailable" },
-        { "type": "text", "textKey": "ending.ending_untouchable.text" },
+        { "type": "ending_card", "artId": "ending_untouchable", "titleKey": "ending.ending_untouchable.title", "textKey": "ending.ending_untouchable.text" },
         { "type": "delay", "milliseconds": 1500 },
         { "type": "memorial" },
         { "type": "credits" }
@@ -154,7 +154,7 @@
       "sequence": [
         { "type": "article", "articleId": "article_first_report" },
         { "type": "article_state", "state": "edited", "articleId": "article_first_report" },
-        { "type": "text", "textKey": "ending.ending_protected.text" },
+        { "type": "ending_card", "artId": "ending_protected", "titleKey": "ending.ending_protected.title", "textKey": "ending.ending_protected.text" },
         { "type": "memorial" },
         { "type": "credits" }
       ]
@@ -207,7 +207,7 @@
     "presentation": {
       "sequence": [
         { "type": "article", "articleId": "article_first_report" },
-        { "type": "text", "textKey": "ending.ending_scapegoat.text" },
+        { "type": "ending_card", "artId": "ending_scapegoat", "titleKey": "ending.ending_scapegoat.title", "textKey": "ending.ending_scapegoat.text" },
         { "type": "memorial" },
         { "type": "credits" }
       ]

@@ -18,6 +18,7 @@
   "ui.lock.caption": "这张桌上，你欠的人太多了。",
   "ui.lock.cost_hint": "仍然拒绝",
   "ui.flashback.you_chose": "你当时选择了：",
+  "ui.continue_prompt": "轻触以继续",
   "ui.tutorial.drag": "将卡牌向左或向右拖动",
   "ui.article.unavailable": "该文章暂不可用。",
   "ui.article.removed": "您请求的内容可能已被移动或删除。",

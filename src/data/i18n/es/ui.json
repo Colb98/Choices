@@ -18,6 +18,7 @@
   "ui.lock.caption": "Le debes demasiado a la gente de esta mesa.",
   "ui.lock.cost_hint": "Negarse de todos modos",
   "ui.flashback.you_chose": "ELEGISTE:",
+  "ui.continue_prompt": "Toca para continuar",
   "ui.tutorial.drag": "Arrastra la carta a la izquierda o a la derecha",
   "ui.article.unavailable": "Este artículo no está disponible.",
   "ui.article.removed": "El contenido solicitado puede haber sido movido o eliminado.",

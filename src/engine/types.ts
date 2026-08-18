@@ -453,6 +453,7 @@ export type EndingSequenceStep =
   | { type: 'article'; articleId: string }
   | { type: 'article_state'; state: 'normal' | 'edited' | 'removed' | 'unavailable' | 'archived'; articleId?: string }
   | { type: 'article_updates'; articleId: string; updateKeys: string[] }
+  | { type: 'ending_card'; artId: string; titleKey: string; textKey: string }
   | { type: 'text'; textKey: string }
   | { type: 'stat_glitch'; stat: StatName; finalValue: number }
   | { type: 'delay'; milliseconds: number }

@@ -1,10 +1,13 @@
 import Phaser from 'phaser';
 import { GAME_WIDTH, GAME_HEIGHT } from '../ui/dimensions';
 import { content, session } from '../services';
-import { hasKey, t } from '../engine/i18n';
+import { t } from '../engine/i18n';
 import type { ArticleDefinition, EndingDefinition, EndingSequenceStep } from '../engine/types';
 import { COLORS, FONT } from '../ui/format';
 import { enableHighResolutionText } from '../ui/textQuality';
+import { audio } from '../audio';
+
+const MEMORIAL_TEXT = 'In memory of the victims of the May 30, 2025 traffic collision.';
 
 /** Plays an ending's presentation sequence: articles, removals, memorial, credits. */
 export class EndingScene extends Phaser.Scene {
@@ -13,6 +16,8 @@ export class EndingScene extends Phaser.Scene {
   private articleC?: Phaser.GameObjects.Container;
   private currentArticle?: ArticleDefinition;
   private updateLineCount = 0;
+  private continuePrompt?: Phaser.GameObjects.Text;
+  private advanceCleanup?: () => void;
 
   constructor() {
     super('Ending');
@@ -28,6 +33,7 @@ export class EndingScene extends Phaser.Scene {
   create() {
     enableHighResolutionText(this);
     this.cameras.main.setBackgroundColor(COLORS.bg);
+    audio.playMusic(this, 'aftermath');
     this.runStep();
   }
 
@@ -52,18 +58,23 @@ export class EndingScene extends Phaser.Scene {
       case 'article': {
         this.currentArticle = content.articles[step.articleId];
         this.updateLineCount = 0;
+        audio.playSfx(this, 'article');
         this.renderArticle('normal');
-        this.awaitTapOrDelay(2600);
+        this.awaitInput(500);
         break;
       }
       case 'article_state': {
         this.renderArticleTransition(step.state);
-        this.awaitTapOrDelay(2400);
+        this.awaitInput(this.rm() ? 150 : 1050);
         break;
       }
       case 'article_updates': {
         this.renderUpdates(step.updateKeys);
-        this.awaitTapOrDelay(1200 + step.updateKeys.length * 1500);
+        this.awaitInput(650 + step.updateKeys.length * 1500);
+        break;
+      }
+      case 'ending_card': {
+        this.renderEndingCard(step);
         break;
       }
       case 'text': {
@@ -76,7 +87,7 @@ export class EndingScene extends Phaser.Scene {
           .setOrigin(0.5)
           .setAlpha(0);
         this.tweens.add({ targets: txt, alpha: 1, duration: this.rm() ? 0 : 500 });
-        this.time.delayedCall(2600, () => {
+        this.awaitInput(this.rm() ? 150 : 550, () => {
           this.tweens.add({
             targets: txt, alpha: 0, duration: this.rm() ? 0 : 500,
             onComplete: () => { txt.destroy(); this.next(); },
@@ -94,23 +105,7 @@ export class EndingScene extends Phaser.Scene {
         break;
       }
       case 'memorial': {
-        this.clearArticle();
-        this.cameras.main.setBackgroundColor(0x000000);
-        const memorialKey = hasKey('memorial.dedication.anonymous') ? 'memorial.dedication.anonymous' : 'ui.memorial';
-        const text = this.add
-          .text(GAME_WIDTH / 2, GAME_HEIGHT / 2, t(memorialKey), {
-            fontFamily: FONT, fontSize: '19px', color: '#cfcdc6',
-            wordWrap: { width: 420 }, align: 'center', lineSpacing: 8,
-          })
-          .setOrigin(0.5)
-          .setAlpha(0);
-        this.tweens.add({ targets: text, alpha: 1, duration: this.rm() ? 0 : 1200 });
-        this.time.delayedCall(4200, () => {
-          this.tweens.add({
-            targets: text, alpha: 0, duration: this.rm() ? 0 : 800,
-            onComplete: () => { text.destroy(); this.next(); },
-          });
-        });
+        this.renderMemorial();
         break;
       }
       case 'credits': {
@@ -125,6 +120,89 @@ export class EndingScene extends Phaser.Scene {
   private clearArticle() {
     this.articleC?.destroy();
     this.articleC = undefined;
+  }
+
+  private renderEndingCard(step: Extract<EndingSequenceStep, { type: 'ending_card' }>) {
+    this.clearArticle();
+    this.cameras.main.setBackgroundColor(COLORS.bg);
+    const c = this.add.container(0, 0);
+    const cardX = GAME_WIDTH / 2;
+    const cardY = 340;
+    const cardW = 440;
+    const cardH = 470;
+
+    const shadow = this.add.graphics();
+    shadow.fillStyle(0x000000, 0.42);
+    shadow.fillRoundedRect(cardX - cardW / 2, cardY - cardH / 2 + 10, cardW, cardH, 26);
+    const image = this.add.image(cardX, cardY, `ending:${step.artId}`);
+    const scale = Math.max(cardW / image.width, cardH / image.height);
+    image.setScale(scale);
+    const maskG = this.make.graphics({}, false);
+    maskG.fillStyle(0xffffff);
+    maskG.fillRoundedRect(cardX - cardW / 2, cardY - cardH / 2, cardW, cardH, 26);
+    image.setMask(maskG.createGeometryMask());
+
+    const title = this.add.text(cardX, 605, t(step.titleKey), {
+      fontFamily: FONT, fontSize: '28px', color: COLORS.accent,
+      fontStyle: 'bold', align: 'center', wordWrap: { width: 430 },
+    }).setOrigin(0.5, 0);
+    const narrative = this.add.text(cardX, 655, t(step.textKey), {
+      fontFamily: FONT, fontSize: '18px', color: COLORS.text,
+      align: 'center', wordWrap: { width: 425 }, lineSpacing: 6,
+    }).setOrigin(0.5, 0);
+    c.add([shadow, image, title, narrative]);
+    c.setAlpha(0);
+    this.tweens.add({ targets: c, alpha: 1, duration: this.rm() ? 0 : 550 });
+
+    this.awaitInput(this.rm() ? 150 : 600, () => {
+      this.tweens.add({
+        targets: c, alpha: 0, duration: this.rm() ? 0 : 450,
+        onComplete: () => {
+          c.destroy();
+          maskG.destroy();
+          this.next();
+        },
+      });
+    });
+  }
+
+  private renderMemorial() {
+    this.clearArticle();
+    this.cameras.main.setBackgroundColor(0x08070a);
+    const c = this.add.container(0, 0);
+    const imageX = GAME_WIDTH / 2;
+    const imageY = 340;
+    const imageW = 440;
+    const imageH = 470;
+
+    const shadow = this.add.graphics();
+    shadow.fillStyle(0x000000, 0.45);
+    shadow.fillRoundedRect(imageX - imageW / 2, imageY - imageH / 2 + 10, imageW, imageH, 26);
+    const image = this.add.image(imageX, imageY, 'scene:memorial_tree');
+    image.setScale(Math.max(imageW / image.width, imageH / image.height));
+    const maskG = this.make.graphics({}, false);
+    maskG.fillStyle(0xffffff);
+    maskG.fillRoundedRect(imageX - imageW / 2, imageY - imageH / 2, imageW, imageH, 26);
+    image.setMask(maskG.createGeometryMask());
+
+    const dedication = this.add.text(GAME_WIDTH / 2, 625, MEMORIAL_TEXT, {
+      fontFamily: FONT, fontSize: '21px', color: '#efe7d8',
+      wordWrap: { width: 420 }, align: 'center', lineSpacing: 8,
+    }).setOrigin(0.5, 0);
+    c.add([shadow, image, dedication]);
+    c.setAlpha(0);
+    this.tweens.add({ targets: c, alpha: 1, duration: this.rm() ? 0 : 1200 });
+
+    this.awaitInput(this.rm() ? 150 : 1250, () => {
+      this.tweens.add({
+        targets: c, alpha: 0, duration: this.rm() ? 0 : 800,
+        onComplete: () => {
+          c.destroy();
+          maskG.destroy();
+          this.next();
+        },
+      });
+    });
   }
 
   /** Dim newspaper key-scene art behind the article page, when it exists. */
@@ -196,6 +274,7 @@ export class EndingScene extends Phaser.Scene {
     c.add([page, loading]);
     this.articleC = c;
     this.time.delayedCall(this.rm() ? 100 : 900, () => {
+      audio.playSfx(this, 'removed');
       loading.setText(state === 'removed' ? t('ui.article.removed') : t('ui.article.unavailable'));
       loading.setWordWrapWidth(380);
       loading.setAlign('center');
@@ -242,16 +321,36 @@ export class EndingScene extends Phaser.Scene {
     });
   }
 
-  private awaitTapOrDelay(ms: number) {
+  private awaitInput(minDelayMs: number, onAdvance = () => this.next()) {
+    this.advanceCleanup?.();
     let advanced = false;
+    let armed = false;
     const go = () => {
-      if (advanced) return;
+      if (!armed || advanced) return;
       advanced = true;
-      this.input.off('pointerdown', go);
-      this.next();
+      cleanup();
+      onAdvance();
     };
-    this.time.delayedCall(ms, go);
-    this.time.delayedCall(800, () => this.input.once('pointerdown', go));
+    const cleanup = () => {
+      this.input.off('pointerdown', go);
+      this.input.keyboard?.off('keydown-SPACE', go);
+      this.input.keyboard?.off('keydown-ENTER', go);
+      this.continuePrompt?.destroy();
+      this.continuePrompt = undefined;
+      this.advanceCleanup = undefined;
+    };
+    this.advanceCleanup = cleanup;
+    this.time.delayedCall(minDelayMs, () => {
+      if (advanced) return;
+      armed = true;
+      this.continuePrompt = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 48, t('ui.continue_prompt'), {
+        fontFamily: FONT, fontSize: '14px', color: COLORS.textDim, letterSpacing: 1,
+      }).setOrigin(0.5).setDepth(100).setAlpha(0);
+      this.tweens.add({ targets: this.continuePrompt, alpha: 0.82, duration: this.rm() ? 0 : 250 });
+      this.input.on('pointerdown', go);
+      this.input.keyboard?.on('keydown-SPACE', go);
+      this.input.keyboard?.on('keydown-ENTER', go);
+    });
   }
 
   private rm(): boolean {

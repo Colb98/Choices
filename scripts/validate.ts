@@ -247,6 +247,12 @@ for (const ending of content.endings) {
       if (!content.articles[step.articleId]) err(`${where}: unknown article ${step.articleId}`);
       step.updateKeys.forEach((k) => checkKey(k, where));
     }
+    if (step.type === 'ending_card') {
+      checkKey(step.titleKey, where);
+      checkKey(step.textKey, where);
+      const art = join(process.cwd(), 'public', 'art', 'endings', `${step.artId}.webp`);
+      if (!existsSync(art)) err(`${where}: missing ending art ${art}`);
+    }
     if (step.type === 'text') checkKey(step.textKey, where);
   }
 }

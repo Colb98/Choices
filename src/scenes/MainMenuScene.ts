@@ -4,6 +4,7 @@ import { engine, persistLanguage, saves, session } from '../services';
 import { SUPPORTED_LANGUAGES, getLanguage, setLanguage, t } from '../engine/i18n';
 import { COLORS, FONT } from '../ui/format';
 import { enableHighResolutionText } from '../ui/textQuality';
+import { audio } from '../audio';
 
 export class MainMenuScene extends Phaser.Scene {
   constructor() {
@@ -13,6 +14,7 @@ export class MainMenuScene extends Phaser.Scene {
   create() {
     enableHighResolutionText(this);
     this.cameras.main.setBackgroundColor(COLORS.bg);
+    audio.playMusic(this, 'menu');
     this.buildMenu();
   }
 

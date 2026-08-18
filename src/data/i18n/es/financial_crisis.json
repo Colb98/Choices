@@ -1,7 +1,7 @@
 {
-  "card.financial_crisis_lifeline.text": "La nómina vence mañana. La cuenta no alcanza. Antes de que puedas llamar a nadie, llama la oficina del Mentor: un préstamo puente privado, sin papeleo hasta más adelante.",
+  "card.financial_crisis_lifeline.text": "La nómina vence mañana. La cuenta no alcanza. Antes de que puedas llamar a nadie, llama la oficina del Mentor: un préstamo puente privado, *sin papeleo hasta más adelante.*",
   "card.financial_crisis_lifeline.left": "Aceptar el salvavidas.",
   "card.financial_crisis_lifeline.right": "Cerrar la oficina.",
   "ending.ending_bankrupt.title": "LA OFICINA CIERRA",
-  "ending.ending_bankrupt.text": "Los últimos pagos salen por la mañana. Al mediodía, el personal carga cajas ante las cámaras. El poder no desapareció por un escándalo ni por una votación. Terminó cuando la cuenta ya no pudo mantener abiertas las puertas."
+  "ending.ending_bankrupt.text": "Los últimos pagos salen por la mañana. Al mediodía, el personal carga cajas ante las cámaras. Solo entonces entiendes que la política no deja lugar para la ingenuidad ante el precio de cada decisión. No lograste mantener las puertas abiertas. Tu mandato termina allí."
 }

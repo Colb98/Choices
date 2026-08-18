@@ -25,15 +25,15 @@
   "card.act0_mentor_advice.left": "认真听取。",
   "card.act0_mentor_advice.right": "“独立更重要。”",
 
-  "card.act0_private_dinner_invitation.text": "一只没有落款的信封。一场私人晚宴：八个名字，其中三个你只在电视上见过。没人提议程。也不需要提。",
+  "card.act0_private_dinner_invitation.text": "一只没有落款的信封。一场私人晚宴：八个名字，其中三个你只在电视上见过。没人提议程。*也不需要提。*",
   "card.act0_private_dinner_invitation.left": "赴宴。",
   "card.act0_private_dinner_invitation.right": "婉言谢绝。",
 
-  "card.act1_committee_opportunity.text": "“预算监督委员会下周有个空缺，”导师说。“遴选流程只是走个形式——只要有合适的人提一句你的名字。要我提吗？”",
+  "card.act1_committee_opportunity.text": "“预算监督委员会下周有个空缺，”导师说。“遴选流程只是走个形式——*只要有合适的人提一句你的名字。*要我提吗？”",
   "card.act1_committee_opportunity.left": "让流程自己决定。",
   "card.act1_committee_opportunity.right": "“那就有劳您了。”",
 
-  "card.act1_businessman_intro.text": "招待会上，导师把一个穿着低调却昂贵西装的男人领到你面前。“政府来不及出钱的事，我们来出钱，”那人说。“我欣赏跑得比自己的体制还快的人。”",
+  "card.act1_businessman_intro.text": "招待会上，导师把一个穿着低调却昂贵西装的男人领到你面前。“政府来不及出钱的事，我们来出钱，”那人说。“*我欣赏跑得比自己的体制还快的人。*”",
   "card.act1_businessman_intro.left": "保持公事公办。",
   "card.act1_businessman_intro.right": "交换私人联系方式。",
 
@@ -41,7 +41,7 @@
   "card.act1_businessman_glimpse.left": "多看一会儿。",
   "card.act1_businessman_glimpse.right": "回到自己的谈话中。",
 
-  "card.act1_business_permit.text": "“就一张许可证，”商人说。“环评——批过一次，因为表格改版重新提交，在某人桌上压了五个月。没什么违法的，只是惯性。而你，能消除这份惯性。”",
+  "card.act1_business_permit.text": "“就一张许可证，”商人说。“环评——批过一次，因为表格改版重新提交，在某人桌上压了五个月。没什么违法的，只是惯性。*而你，能消除这份惯性。*”",
   "card.act1_business_permit.left": "让流程照常走。",
   "card.act1_business_permit.right": "“我打个电话。”",
 
@@ -57,7 +57,7 @@
   "card.act1_reformist_bill_intro.left": "公开联署。",
   "card.act1_reformist_bill_intro.right": "私下支持。",
 
-  "card.act1_staff_hiring.text": "助理从一摞简历里抽出一份。“委员会副主任的侄子。确实有能力——就算没这层关系，也是我名单上的第一名。可这层关系就摆在那里。”",
+  "card.act1_staff_hiring.text": "助理从一摞简历里抽出一份。“委员会副主任的侄子。确实有能力——就算没这层关系，也是我名单上的第一名。*可这层关系就摆在那里。*”",
   "card.act1_staff_hiring.left": "公开招聘。",
   "card.act1_staff_hiring.right": "录用这位被推荐的人。",
 
@@ -65,7 +65,7 @@
   "card.act1_local_project.left": "按正常流程审查。",
   "card.act1_local_project.right": "特事特办。",
 
-  "card.act1_mentor_vote_request.text": "“委员会周四选秘书，”导师说。“投我的人。可靠，懂规矩。”他顿了顿。“我不常开口求人。”",
+  "card.act1_mentor_vote_request.text": "“委员会周四选秘书，”导师说。“投我的人。可靠，懂规矩。”他顿了顿。“*我不常开口求人。*”",
   "card.act1_mentor_vote_request.left": "按自己的判断投票。",
   "card.act1_mentor_vote_request.right": "支持这位人选。",
 
@@ -89,11 +89,11 @@
   "card.act1_committee_result_refused.left": "提交正式异议。",
   "card.act1_committee_result_refused.right": "算了。",
 
-  "card.act1_reformist_warning.text": "改革派与你并肩而行。“你办事很有效率。我注意到了——所有人都注意到了。效率很有用，但它也会很快变成习惯，而习惯，会被比你更糟的人继承下去。”",
+  "card.act1_reformist_warning.text": "改革派与你并肩而行。“你办事很有效率。我注意到了——所有人都注意到了。效率很有用，但它也会很快变成习惯，*而习惯，会被比你更糟的人继承下去。*”",
   "card.act1_reformist_warning.left": "接受这份提醒。",
   "card.act1_reformist_warning.right": "为务实政治辩护。",
 
-  "card.act1_first_promotion.text": "电话在一个周二打来：委员会副主任。正式函件列举了你的立法成绩。至于非正式的版本，就要看是谁在讲了。",
+  "card.act1_first_promotion.text": "电话在一个周二打来：委员会副主任。正式函件列举了你的立法成绩。*至于非正式的版本，就要看是谁在讲了。*",
   "card.act1_first_promotion.left": "接受。",
   "card.act1_first_promotion.right": "暂缓，以后再说。"
 }

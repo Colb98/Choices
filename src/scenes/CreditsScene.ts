@@ -3,6 +3,7 @@ import { GAME_WIDTH, GAME_HEIGHT } from '../ui/dimensions';
 import { hasKey, t } from '../engine/i18n';
 import { COLORS, FONT } from '../ui/format';
 import { enableHighResolutionText } from '../ui/textQuality';
+import { audio } from '../audio';
 
 export class CreditsScene extends Phaser.Scene {
   private fromEnding = false;
@@ -18,6 +19,7 @@ export class CreditsScene extends Phaser.Scene {
   create() {
     enableHighResolutionText(this);
     this.cameras.main.setBackgroundColor(0x0a0a0e);
+    audio.playMusic(this, 'menu');
     const cx = GAME_WIDTH / 2;
 
     this.add.text(cx, 200, t('ui.credits.title'), {

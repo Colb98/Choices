@@ -25,15 +25,15 @@
   "card.act0_mentor_advice.left": "Lắng nghe cẩn thận.",
   "card.act0_mentor_advice.right": "\"Độc lập quan trọng hơn.\"",
 
-  "card.act0_private_dinner_invitation.text": "Một phong bì không tiêu đề. Một bữa tối riêng tư: tám cái tên, ba trong số đó bạn mới chỉ thấy trên truyền hình. Không ai nhắc đến mục đích. Mà cũng chẳng cần.",
+  "card.act0_private_dinner_invitation.text": "Một phong bì không tiêu đề. Một bữa tối riêng tư: tám cái tên, ba trong số đó bạn mới chỉ thấy trên truyền hình. Không ai nhắc đến mục đích. *Mà cũng chẳng cần.*",
   "card.act0_private_dinner_invitation.left": "Tham dự.",
   "card.act0_private_dinner_invitation.right": "Từ chối khéo.",
 
-  "card.act1_committee_opportunity.text": "\"Ghế Giám sát Ngân sách sẽ trống vào tuần tới,\" người đỡ đầu nói. \"Quy trình tuyển chọn chỉ là hình thức thôi — nếu có đúng người nhắc đến tên cậu. Tôi nhắc nhé?\"",
+  "card.act1_committee_opportunity.text": "\"Ghế Giám sát Ngân sách sẽ trống vào tuần tới,\" người đỡ đầu nói. \"Quy trình tuyển chọn chỉ là hình thức thôi — *nếu có đúng người nhắc đến tên cậu.* Tôi nhắc nhé?\"",
   "card.act1_committee_opportunity.left": "Để quy trình tự quyết định.",
   "card.act1_committee_opportunity.right": "\"Vậy nhờ ông nhắc giúp tôi.\"",
 
-  "card.act1_businessman_intro.text": "Tại một buổi tiếp tân, người đỡ đầu dẫn đến trước mặt bạn một người đàn ông mặc bộ vest kín đáo nhưng đắt tiền. \"Chúng tôi rót vốn vào những thứ mà nhà nước làm quá chậm,\" ông ta nói. \"Và tôi quý những người đi nhanh hơn chính bộ máy của mình.\"",
+  "card.act1_businessman_intro.text": "Tại một buổi tiếp tân, người đỡ đầu dẫn đến trước mặt bạn một người đàn ông mặc bộ vest kín đáo nhưng đắt tiền. \"Chúng tôi rót vốn vào những thứ mà nhà nước làm quá chậm,\" ông ta nói. \"*Và tôi quý những người đi nhanh hơn chính bộ máy của mình.*\"",
   "card.act1_businessman_intro.left": "Giữ câu chuyện ở mức xã giao.",
   "card.act1_businessman_intro.right": "Trao đổi liên lạc riêng.",
 
@@ -41,7 +41,7 @@
   "card.act1_businessman_glimpse.left": "Đứng nhìn thêm một lát.",
   "card.act1_businessman_glimpse.right": "Quay lại câu chuyện của mình.",
 
-  "card.act1_business_permit.text": "\"Một giấy phép thôi,\" vị doanh nhân nói. \"Đánh giá môi trường — từng được duyệt một lần, phải nộp lại vì đổi biểu mẫu, rồi nằm trên bàn ai đó suốt năm tháng nay. Không có gì phạm pháp cả. Chỉ là sức ì. Mà cậu thì gỡ được sức ì đó.\"",
+  "card.act1_business_permit.text": "\"Một giấy phép thôi,\" vị doanh nhân nói. \"Đánh giá môi trường — từng được duyệt một lần, phải nộp lại vì đổi biểu mẫu, rồi nằm trên bàn ai đó suốt năm tháng nay. Không có gì phạm pháp cả. Chỉ là sức ì. *Mà cậu thì gỡ được sức ì đó.*\"",
   "card.act1_business_permit.left": "Cứ để quy trình tự chạy.",
   "card.act1_business_permit.right": "\"Để tôi gọi một cuộc.\"",
 
@@ -57,7 +57,7 @@
   "card.act1_reformist_bill_intro.left": "Công khai đồng bảo trợ.",
   "card.act1_reformist_bill_intro.right": "Ủng hộ trong âm thầm.",
 
-  "card.act1_staff_hiring.text": "Trợ lý đánh dấu một bộ hồ sơ trong chồng giấy. \"Cháu của phó chủ nhiệm ủy ban. Năng lực thật sự — không có cái tên đó thì cậu ta vẫn đứng đầu danh sách của tôi. Nhưng cái tên thì vẫn nằm đó.\"",
+  "card.act1_staff_hiring.text": "Trợ lý đánh dấu một bộ hồ sơ trong chồng giấy. \"Cháu của phó chủ nhiệm ủy ban. Năng lực thật sự — không có cái tên đó thì cậu ta vẫn đứng đầu danh sách của tôi. *Nhưng cái tên thì vẫn nằm đó.*\"",
   "card.act1_staff_hiring.left": "Tuyển dụng công khai.",
   "card.act1_staff_hiring.right": "Nhận người được gửi gắm.",
 
@@ -65,7 +65,7 @@
   "card.act1_local_project.left": "Yêu cầu thẩm định như thường lệ.",
   "card.act1_local_project.right": "Cho làm gấp.",
 
-  "card.act1_mentor_vote_request.text": "\"Thứ Năm này ủy ban bầu thư ký,\" người đỡ đầu nói. \"Bỏ phiếu cho người của tôi. Đáng tin cậy. Hiểu cách mọi việc vận hành.\" Ông ngừng một nhịp. \"Tôi không hay nhờ vả đâu.\"",
+  "card.act1_mentor_vote_request.text": "\"Thứ Năm này ủy ban bầu thư ký,\" người đỡ đầu nói. \"Bỏ phiếu cho người của tôi. Đáng tin cậy. Hiểu cách mọi việc vận hành.\" Ông ngừng một nhịp. \"*Tôi không hay nhờ vả đâu.*\"",
   "card.act1_mentor_vote_request.left": "Bỏ phiếu theo ý mình.",
   "card.act1_mentor_vote_request.right": "Ủng hộ ứng viên đó.",
 
@@ -89,11 +89,11 @@
   "card.act1_committee_result_refused.left": "Gửi kiến nghị chính thức.",
   "card.act1_committee_result_refused.right": "Cho qua.",
 
-  "card.act1_reformist_warning.text": "Nhà Cải Cách sải bước song song với bạn. \"Anh làm được việc. Tôi để ý rồi — mà ai cũng để ý cả. Sự hiệu quả rất hữu ích. Nhưng nó cũng thành thói quen rất nhanh, và thói quen thì sẽ được kế thừa bởi những kẻ tệ hơn anh.\"",
+  "card.act1_reformist_warning.text": "Nhà Cải Cách sải bước song song với bạn. \"Anh làm được việc. Tôi để ý rồi — mà ai cũng để ý cả. Sự hiệu quả rất hữu ích. Nhưng nó cũng thành thói quen rất nhanh, và *thói quen thì sẽ được kế thừa bởi những kẻ tệ hơn anh.*\"",
   "card.act1_reformist_warning.left": "Ghi nhận lời nhắc.",
   "card.act1_reformist_warning.right": "Bảo vệ lối làm chính trị thực dụng.",
 
-  "card.act1_first_promotion.text": "Cuộc gọi đến vào một sáng thứ Ba: phó chủ nhiệm ủy ban. Văn bản chính thức viện dẫn thành tích lập pháp của bạn. Còn phiên bản không chính thức thì tuỳ vào người kể.",
+  "card.act1_first_promotion.text": "Cuộc gọi đến vào một sáng thứ Ba: phó chủ nhiệm ủy ban. Văn bản chính thức viện dẫn thành tích lập pháp của bạn. *Còn phiên bản không chính thức thì tuỳ vào người kể.*",
   "card.act1_first_promotion.left": "Nhận.",
   "card.act1_first_promotion.right": "Khoan đã, để sau."
 }

@@ -25,15 +25,15 @@
   "card.act0_mentor_advice.left": "Listen carefully.",
   "card.act0_mentor_advice.right": "\"Independence matters more.\"",
 
-  "card.act0_private_dinner_invitation.text": "An envelope with no letterhead. A private dinner: eight names, three of which you have only ever seen on television. No agenda is mentioned. None is needed.",
+  "card.act0_private_dinner_invitation.text": "An envelope with no letterhead. A private dinner: eight names, three of which you have only ever seen on television. No agenda is mentioned. *None is needed.*",
   "card.act0_private_dinner_invitation.left": "Attend.",
   "card.act0_private_dinner_invitation.right": "Decline politely.",
 
-  "card.act1_committee_opportunity.text": "\"The Budget Oversight seat opens next week,\" your mentor says. \"The selection process is a formality — if the right person mentions your name. Shall I?\"",
+  "card.act1_committee_opportunity.text": "\"The Budget Oversight seat opens next week,\" your mentor says. \"The selection process is a formality — *if the right person mentions your name.* Shall I?\"",
   "card.act1_committee_opportunity.left": "Let the process decide.",
   "card.act1_committee_opportunity.right": "\"I'd appreciate the mention.\"",
 
-  "card.act1_businessman_intro.text": "At a reception, your mentor steers a man in a quiet, expensive suit toward you. \"We fund what governments are too slow to fund,\" the man says. \"And I admire people who move faster than their institutions.\"",
+  "card.act1_businessman_intro.text": "At a reception, your mentor steers a man in a quiet, expensive suit toward you. \"We fund what governments are too slow to fund,\" the man says. \"*And I admire people who move faster than their institutions.*\"",
   "card.act1_businessman_intro.left": "Keep the conversation formal.",
   "card.act1_businessman_intro.right": "Exchange private contacts.",
 
@@ -41,7 +41,7 @@
   "card.act1_businessman_glimpse.left": "Watch a moment longer.",
   "card.act1_businessman_glimpse.right": "Return to your conversation.",
 
-  "card.act1_business_permit.text": "\"One permit,\" the businessman says. \"Environmental compliance — approved once, resubmitted after a form change, sitting on someone's desk for five months. Nothing illegal. Just gravity. You could remove the gravity.\"",
+  "card.act1_business_permit.text": "\"One permit,\" the businessman says. \"Environmental compliance — approved once, resubmitted after a form change, sitting on someone's desk for five months. Nothing illegal. Just gravity. *You could remove the gravity.*\"",
   "card.act1_business_permit.left": "Let the process run its course.",
   "card.act1_business_permit.right": "\"I'll make a call.\"",
 
@@ -57,7 +57,7 @@
   "card.act1_reformist_bill_intro.left": "Co-sponsor it publicly.",
   "card.act1_reformist_bill_intro.right": "Support it privately.",
 
-  "card.act1_staff_hiring.text": "Your aide flags one CV in the pile. \"The committee vice-chair's nephew. Genuinely qualified — he'd top my shortlist even without the name. But the name is on it.\"",
+  "card.act1_staff_hiring.text": "Your aide flags one CV in the pile. \"The committee vice-chair's nephew. Genuinely qualified — he'd top my shortlist even without the name. *But the name is on it.*\"",
   "card.act1_staff_hiring.left": "Run open recruitment.",
   "card.act1_staff_hiring.right": "Hire the recommended candidate.",
 
@@ -65,7 +65,7 @@
   "card.act1_local_project.left": "Require the normal review.",
   "card.act1_local_project.right": "Fast-track it.",
 
-  "card.act1_mentor_vote_request.text": "\"The committee elects its secretary on Thursday,\" your mentor says. \"Vote for my candidate. Reliable. Knows how things are done.\" A pause. \"I don't ask often.\"",
+  "card.act1_mentor_vote_request.text": "\"The committee elects its secretary on Thursday,\" your mentor says. \"Vote for my candidate. Reliable. Knows how things are done.\" A pause. \"*I don't ask often.*\"",
   "card.act1_mentor_vote_request.left": "Vote independently.",
   "card.act1_mentor_vote_request.right": "Support the candidate.",
 
@@ -89,11 +89,11 @@
   "card.act1_committee_result_refused.left": "File a formal objection.",
   "card.act1_committee_result_refused.right": "Let it go.",
 
-  "card.act1_reformist_warning.text": "The Reformist falls into step beside you. \"You get things done. I've noticed — everyone has. Efficiency is useful. It also becomes a habit very quickly, and habits get inherited by people worse than you.\"",
+  "card.act1_reformist_warning.text": "The Reformist falls into step beside you. \"You get things done. I've noticed — everyone has. Efficiency is useful. It also becomes a habit very quickly, and *habits get inherited by people worse than you.*\"",
   "card.act1_reformist_warning.left": "Acknowledge the concern.",
   "card.act1_reformist_warning.right": "Defend practical politics.",
 
-  "card.act1_first_promotion.text": "The call comes on a Tuesday: deputy chair of the committee. The official letter cites your legislative record. The unofficial version depends on who is telling it.",
+  "card.act1_first_promotion.text": "The call comes on a Tuesday: deputy chair of the committee. The official letter cites your legislative record. *The unofficial version depends on who is telling it.*",
   "card.act1_first_promotion.left": "Accept.",
   "card.act1_first_promotion.right": "Decline, for now."
 }
