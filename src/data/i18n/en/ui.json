@@ -19,7 +19,7 @@
   "ui.lock.cost_hint": "Refuse anyway",
   "ui.flashback.you_chose": "YOU CHOSE:",
   "ui.continue_prompt": "Tap to continue",
-  "ui.tutorial.drag": "Drag the card left or right",
+  "ui.tutorial.drag": "← Swipe or drag to choose →",
   "ui.article.unavailable": "This article is unavailable.",
   "ui.article.removed": "The content you requested may have been moved or deleted.",
   "ui.article.loading": "Loading...",

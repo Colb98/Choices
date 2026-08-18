@@ -19,7 +19,7 @@
   "ui.lock.cost_hint": "仍然拒绝",
   "ui.flashback.you_chose": "你当时选择了：",
   "ui.continue_prompt": "轻触以继续",
-  "ui.tutorial.drag": "将卡牌向左或向右拖动",
+  "ui.tutorial.drag": "← 滑动或拖动以选择 →",
   "ui.article.unavailable": "该文章暂不可用。",
   "ui.article.removed": "您请求的内容可能已被移动或删除。",
   "ui.article.loading": "加载中……",

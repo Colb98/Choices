@@ -19,7 +19,7 @@
   "ui.lock.cost_hint": "Vẫn từ chối",
   "ui.flashback.you_chose": "BẠN ĐÃ CHỌN:",
   "ui.continue_prompt": "Chạm để tiếp tục",
-  "ui.tutorial.drag": "Kéo thẻ sang trái hoặc phải",
+  "ui.tutorial.drag": "← Vuốt hoặc kéo để lựa chọn →",
   "ui.article.unavailable": "Bài viết này hiện không khả dụng.",
   "ui.article.removed": "Nội dung bạn yêu cầu có thể đã bị chuyển hoặc xoá.",
   "ui.article.loading": "Đang tải...",

@@ -134,6 +134,8 @@ export class GameScene extends Phaser.Scene {
   private leftLabel!: Phaser.GameObjects.Text;
   private rightLabel!: Phaser.GameObjects.Text;
   private continueLabel!: Phaser.GameObjects.Text;
+  private tutorialText!: Phaser.GameObjects.Text;
+  private tutorialTween?: Phaser.Tweens.Tween;
 
   private dragging = false;
   private dragStart = { x: 0, y: 0 };
@@ -823,10 +825,22 @@ export class GameScene extends Phaser.Scene {
     }).setOrigin(0.5, 0).setAlpha(0)
       .setShadow(0, 2, 'rgba(0,0,0,0.55)', 4, false, true);
 
-    this.cardC.add([shadow, fallback, this.artImage, hitTarget, this.leftLabel, this.rightLabel, this.continueLabel, this.lockIcon]);
+    this.tutorialText = this.add.text(0, CARD_H / 2 - 18, '', {
+      fontFamily: FONT, fontSize: '14px', color: COLORS.text,
+      backgroundColor: 'rgba(10, 10, 14, 0.72)',
+      padding: { x: 13, y: 7 },
+      letterSpacing: 0.5,
+    }).setOrigin(0.5, 1).setAlpha(0)
+      .setShadow(0, 1, 'rgba(0,0,0,0.65)', 3, false, true);
+
+    this.cardC.add([
+      shadow, fallback, this.artImage, hitTarget,
+      this.leftLabel, this.rightLabel, this.continueLabel, this.tutorialText, this.lockIcon,
+    ]);
 
     hitTarget.on('dragstart', (pointer: Phaser.Input.Pointer) => {
       if (this.busy) return;
+      this.hideTutorial();
       this.dragging = true;
       this.dragStart = { x: pointer.x, y: pointer.y };
     });
@@ -891,6 +905,7 @@ export class GameScene extends Phaser.Scene {
     }
     this.leftLabel.setAlpha(CHOICE_BASE_ALPHA);
     this.rightLabel.setAlpha(CHOICE_BASE_ALPHA);
+    this.showTutorialIfNeeded();
 
     this.dragOffset = { x: fromDirection * -GAME_WIDTH, y: 0 };
     this.applyCardTransform();
@@ -923,6 +938,29 @@ export class GameScene extends Phaser.Scene {
   private setChoiceText(label: Phaser.GameObjects.Text, text: string) {
     label.setFontSize(21).setText(text);
     if (label.height > 145) label.setFontSize(18);
+  }
+
+  private showTutorialIfNeeded() {
+    this.hideTutorial();
+    if (this.state.history.length > 0 || this.isContinue()) return;
+
+    this.tutorialText.setText(t('ui.tutorial.drag')).setAlpha(0.82);
+    if (this.reducedMotion()) return;
+
+    this.tutorialTween = this.tweens.add({
+      targets: this.tutorialText,
+      x: { from: -6, to: 6 },
+      duration: 900,
+      ease: 'Sine.inOut',
+      yoyo: true,
+      repeat: -1,
+    });
+  }
+
+  private hideTutorial() {
+    this.tutorialTween?.stop();
+    this.tutorialTween = undefined;
+    this.tutorialText?.setX(0).setAlpha(0);
   }
 
   /**
@@ -1037,6 +1075,7 @@ export class GameScene extends Phaser.Scene {
 
   private tryKeyboard(side: 'left' | 'right') {
     if (this.busy) return;
+    this.hideTutorial();
     if (this.isContinue()) {
       this.commit('left', false);
       return;
@@ -1075,6 +1114,7 @@ export class GameScene extends Phaser.Scene {
         this.hidePreviewArrows();
         this.leftLabel.setAlpha(CHOICE_BASE_ALPHA);
         this.rightLabel.setAlpha(CHOICE_BASE_ALPHA);
+        this.showTutorialIfNeeded();
       },
     });
   }
