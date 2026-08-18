@@ -1,3 +1,4 @@
+import { hashSeed } from './rng';
 import type {
   AllCondition,
   AnyCondition,
@@ -116,6 +117,12 @@ function evaluatePrimitive(state: GameState, c: Condition, explain?: string[]): 
       explain?.push(`seen ${c.cardId}: ${r ? 'PASS' : 'FAIL'} (${n})`);
       return r;
     }
+    case 'seed_bucket': {
+      const v = seedBucket(state.run.seed, c.buckets);
+      const r = v === c.bucket;
+      explain?.push(`seed_bucket ${c.bucket}/${c.buckets}: ${r ? 'PASS' : 'FAIL'} (${v})`);
+      return r;
+    }
     case 'promise': {
       const n = matchingPromises(state, c).length;
       const r = n >= (c.minCount ?? 1);
@@ -125,6 +132,12 @@ function evaluatePrimitive(state: GameState, c: Condition, explain?: string[]): 
       return r;
     }
   }
+}
+
+/** Which of `buckets` this run's seed falls into (salted so it decorrelates from the RNG stream). */
+export function seedBucket(seed: string, buckets: number): number {
+  const n = Math.max(1, Math.floor(buckets));
+  return hashSeed(`bucket:${seed}`) % n;
 }
 
 export function matchingPromises(state: GameState, c: PromiseCondition) {

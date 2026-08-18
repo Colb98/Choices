@@ -100,7 +100,17 @@
       "next": { "type": "scheduler" }
     },
     "once": true,
-    "metadata": { "designIntent": "The apex predator enters. `flag_minister_access` gates card 036 (his promotion offer); without it, the player still advances via the 040 beat — the Minister's patronage is optional, his presence is not. He will pour the drink at the Gathering either way." }
+    "metadata": { "designIntent": "The apex predator enters. `flag_minister_access` gates card 036 (his promotion offer); without it, the player still advances via the 040 beat — the Minister's patronage is optional, his presence is not. He will pour the drink at the Gathering either way. REPLAY: the Minister opens with who vouched for you — or with the fact that nobody did." },
+    "textVariants": [
+      {
+        "conditions": { "type": "relationship", "character": "mentor", "op": ">=", "value": 3 },
+        "text": "card.act2_minister_intro.text.v_referred"
+      },
+      {
+        "conditions": { "type": "relationship", "character": "mentor", "op": "<=", "value": 0 },
+        "text": "card.act2_minister_intro.text.v_cold"
+      }
+    ]
   },
   {
     "id": "act2_investment_growth",
@@ -171,7 +181,17 @@
     },
     "weight": 10,
     "once": true,
-    "metadata": { "designIntent": "Pure perception-economy card, no hidden state at all — a breather that still teaches. The flagship *polls* better than the plumbing; the plumbing is where actual trust lives. Neither choice is corrupt. One of them is just invisible." }
+    "metadata": { "designIntent": "Pure perception-economy card, no hidden state at all — a breather that still teaches. The flagship *polls* better than the plumbing; the plumbing is where actual trust lives. Neither choice is corrupt. One of them is just invisible. REPLAY: the flagship-vs-plumbing choice recalls the Act I drainage decision — you fast-tracked it, or you made it wait for review." },
+    "textVariants": [
+      {
+        "conditions": { "type": "history", "cardId": "act1_local_project", "choice": "right", "exists": true },
+        "text": "card.act2_housing_budget.text.v_fasttrack"
+      },
+      {
+        "conditions": { "type": "history", "cardId": "act1_local_project", "choice": "left", "exists": true },
+        "text": "card.act2_housing_budget.text.v_reviewed"
+      }
+    ]
   },
   {
     "id": "act2_business_audit",
@@ -748,7 +768,17 @@
       "next": { "type": "act", "act": "power" }
     },
     "once": true,
-    "metadata": { "designIntent": "Act I's promotion was a phone call the player could refuse. This one is a communiqué that mentions them in the third paragraph — there is no decline option, only a choice of posture. The ladder stopped asking. Autonomy narrows even on the way up; that asymmetry is the act's closing statement and the on-ramp to Act III's theme (*you now decide who receives the shortcuts*)." }
+    "metadata": { "designIntent": "Act I's promotion was a phone call the player could refuse. This one is a communiqué that mentions them in the third paragraph — there is no decline option, only a choice of posture. The ladder stopped asking. Autonomy narrows even on the way up; that asymmetry is the act's closing statement and the on-ramp to Act III's theme (*you now decide who receives the shortcuts*). REPLAY: the communiqué carries the Minister's hand, or — rarer than the office — nobody you owe." },
+    "textVariants": [
+      {
+        "conditions": { "type": "relationship", "character": "minister", "op": ">=", "value": 2 },
+        "text": "card.act2_second_promotion.text.v_by_minister"
+      },
+      {
+        "conditions": { "type": "precedent", "precedent": "*", "op": "==", "value": 0 },
+        "text": "card.act2_second_promotion.text.v_earned"
+      }
+    ]
   },
   {
     "id": "act2_businessman_headline",

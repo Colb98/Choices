@@ -18,16 +18,18 @@ export class EndingScene extends Phaser.Scene {
   private updateLineCount = 0;
   private continuePrompt?: Phaser.GameObjects.Text;
   private advanceCleanup?: () => void;
+  private newlyDiscovered = false;
 
   constructor() {
     super('Ending');
   }
 
-  init(data: { endingId: string }) {
+  init(data: { endingId: string; newlyDiscovered?: boolean }) {
     const e = content.endings.find((x) => x.id === data.endingId);
     if (!e) throw new Error(`Unknown ending ${data.endingId}`);
     this.ending = e;
     this.stepIndex = 0;
+    this.newlyDiscovered = data.newlyDiscovered ?? false;
   }
 
   create() {
@@ -46,7 +48,7 @@ export class EndingScene extends Phaser.Scene {
   private runStep() {
     const steps = this.ending.presentation.sequence;
     if (this.stepIndex >= steps.length) {
-      this.scene.start('Credits', { fromEnding: true });
+      this.scene.start('Credits', { fromEnding: true, endingId: this.ending.id, newlyDiscovered: this.newlyDiscovered });
       return;
     }
     const step = steps[this.stepIndex];
@@ -113,7 +115,7 @@ export class EndingScene extends Phaser.Scene {
         break;
       }
       case 'credits': {
-        this.scene.start('Credits', { fromEnding: true, endingId: this.ending.id });
+        this.scene.start('Credits', { fromEnding: true, endingId: this.ending.id, newlyDiscovered: this.newlyDiscovered });
         break;
       }
     }

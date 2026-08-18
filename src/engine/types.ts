@@ -58,7 +58,8 @@ export type Condition =
   | TurnCondition
   | ActCondition
   | SeenCardCondition
-  | PromiseCondition;
+  | PromiseCondition
+  | SeedBucketCondition;
 
 export type CompareOp = '>' | '>=' | '<' | '<=' | '==' | '!=';
 
@@ -149,6 +150,19 @@ export interface PromiseCondition {
   promise?: PromiseId;
   status?: PromiseStatus | 'kept' | 'any';
   minCount?: number;
+}
+
+/**
+ * Deterministic per-run variety without touching outcomes: the run seed is
+ * hashed into one of `buckets` and this passes when it lands in `bucket`.
+ * Stable across reload (derived from the seed, not the RNG stream). Use it to
+ * pick which of several equivalent scenes fills a slot — never to decide what
+ * a choice does.
+ */
+export interface SeedBucketCondition {
+  type: 'seed_bucket';
+  buckets: number;
+  bucket: number;
 }
 
 // ---------------------------------------------------------------------------

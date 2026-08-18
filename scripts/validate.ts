@@ -60,6 +60,12 @@ function checkCondition(expr: ConditionExpression | undefined, where: string) {
   for (const c of collectConditions(expr, 'promise')) {
     if (c.promise && !content.promises[c.promise]) err(`${where}: unknown promise in condition: ${c.promise}`);
   }
+  for (const c of collectConditions(expr, 'seed_bucket')) {
+    if (!Number.isInteger(c.buckets) || c.buckets < 2) err(`${where}: seed_bucket needs an integer buckets >= 2`);
+    if (!Number.isInteger(c.bucket) || c.bucket < 0 || c.bucket >= c.buckets) {
+      err(`${where}: seed_bucket bucket ${c.bucket} out of range 0..${c.buckets - 1}`);
+    }
+  }
   for (const c of collectConditions(expr, 'relationship')) {
     if (!content.characters[c.character]) err(`${where}: unknown character in condition: ${c.character}`);
   }
@@ -279,6 +285,30 @@ for (const beat of content.beats) {
     beat.earliestActTurn > beat.latestActTurn
   ) {
     err(`beat ${beat.id}: earliestActTurn > latestActTurn`);
+  }
+}
+
+// ---------------------------------------------------------------- seeded slots
+
+// Beats that share an act and act-turn and select by seed_bucket must
+// partition the buckets, so exactly one alternative fires in every run.
+{
+  const slots = new Map<string, { buckets: number; seen: Set<number>; ids: string[] }>();
+  for (const beat of content.beats) {
+    const sb = collectConditions(beat.conditions, 'seed_bucket');
+    if (sb.length !== 1) continue;
+    const key = `${beat.act}@${beat.earliestActTurn ?? 0}`;
+    const slot = slots.get(key) ?? { buckets: sb[0].buckets, seen: new Set<number>(), ids: [] };
+    if (slot.buckets !== sb[0].buckets) err(`beat ${beat.id}: seed_bucket buckets (${sb[0].buckets}) differ from the other alternatives at ${key} (${slot.buckets})`);
+    if (slot.seen.has(sb[0].bucket)) err(`beat ${beat.id}: seed_bucket ${sb[0].bucket} already claimed at ${key}`);
+    slot.seen.add(sb[0].bucket);
+    slot.ids.push(beat.id);
+    slots.set(key, slot);
+  }
+  for (const [key, slot] of slots) {
+    for (let b = 0; b < slot.buckets; b++) {
+      if (!slot.seen.has(b)) err(`seeded slot ${key}: no beat claims bucket ${b} of ${slot.buckets} (${slot.ids.join(', ')})`);
+    }
   }
 }
 

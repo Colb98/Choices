@@ -16,6 +16,7 @@
     "test:public-trust": "tsx scripts/test-public-trust.ts",
     "test:promises": "tsx scripts/test-promises.ts",
     "test:dilemmas": "tsx scripts/test-dilemmas.ts",
+    "test:replay": "tsx scripts/test-replay.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

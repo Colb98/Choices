@@ -447,6 +447,14 @@ if (corruptMoney < 1_000_000_000) {
   console.error(`ERROR: optimized corruption should exceed $1B (median $${Math.round(corruptMoney).toLocaleString('en-US')})`);
   process.exit(1);
 }
+// The safety-net ending must stay rare: every run that reaches the aftermath
+// should land in an authored fate.
+const completedRuns = Object.values(strategyStats).reduce((sum, s) => sum + s.completed, 0);
+const fallbackRate = (endingCounts.ending_fallback ?? 0) / Math.max(1, completedRuns);
+if (fallbackRate > 0.02) {
+  console.error(`ERROR: ending_fallback reached in ${(fallbackRate * 100).toFixed(1)}% of runs (must stay under 2%)`);
+  process.exit(1);
+}
 if (recordInvariantViolations > 0) {
   console.error(`ERROR: ${recordInvariantViolations} run(s) reached the controlled investigation while keeping a pledge without passing 052b`);
   process.exit(1);

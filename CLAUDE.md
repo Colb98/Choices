@@ -7,7 +7,7 @@ Card-swipe narrative game (Phaser 3 + TypeScript + Vite), portrait 540×960, bro
 - `npm run dev` — dev server (port 5180)
 - `npm run validate` — narrative data validator (run after ANY data change; build runs it too)
 - `npm run simulate [runsPerStrategy]` — headless bot playthroughs (softlocks, ending reachability, incident coverage, economy guards, The Record invariants)
-- `npm run test:promises` / `npm run test:dilemmas` (plus `test:economy`, `test:gathering`, `test:timeline`, `test:standing-power`, `test:public-trust`) — targeted engine/content checks
+- `npm run test:promises` / `npm run test:dilemmas` / `npm run test:replay` (plus `test:economy`, `test:gathering`, `test:timeline`, `test:standing-power`, `test:public-trust`) — targeted engine/content checks
 - `node scripts/smoke-record.mjs` — Playwright visual smoke of the witness overlay, continue cards, 052b and the ending ledger (needs `npm run dev`)
 - `npm run build` — validate + typecheck + vite build
 
@@ -30,5 +30,6 @@ Card-swipe narrative game (Phaser 3 + TypeScript + Vite), portrait 540×960, bro
 - HUD shows `publicTrustPerceived`, not actual.
 - **The Record** (`promises` state, `promise_make/break/honor` effects, `promise` condition): a promise is only made by an active idealistic choice; breaking one is never locked and never priced — the engine returns a `witness` on the commit and the UI shows the player's own words; a card that can break a promise plays identically for a player who never made it; no promise mechanics on `incident`/`aftermath` cards; every ending renders `record_ledger`. Validator + `test-promises` + simulate enforce all of this.
 - **`continue` cards** (`interaction: 'continue'`): author `left` only (loader mirrors it), no lock, no promise effects; they are the same turn continued — no turn/act-turn/story-time/economy advance. Use them for setup and consequence beats, never to fake a decision.
-- Card `textVariants` pick the body key by state (first match wins); flashbacks still use the base `text`.
+- Card `textVariants` pick the body key by state (first match wins); history records the key that was shown, so flashbacks and The Record quote the card as it read then.
+- **Replay variety comes from state, never dice.** `seed_bucket` (hash of the run seed, reload-stable, independent of the RNG stream) may only choose *which* of several equivalent scenes fills a slot — validator requires slot alternatives to partition the buckets. Act 0 = `appointment_day` → 4 pledge scenes in seeded order + 2 seeded slots (act-turns 2, 4) → `private_dinner_invitation` (act-turn 7). `ending_fallback` is a safety net: simulate fails if it exceeds 2% of runs; every aftermath state must resolve to an authored ending. Ending progress (`ui/endings.ts`) counts listed endings only and never teases bankruptcy.
 - Debug overlay: F1 in the Game scene.

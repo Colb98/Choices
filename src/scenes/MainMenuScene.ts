@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { GAME_WIDTH, GAME_HEIGHT } from '../ui/dimensions';
-import { engine, persistLanguage, saves, session } from '../services';
+import { content, engine, persistLanguage, saves, session } from '../services';
+import { discoveredCount, listedEndings } from '../ui/endings';
 import { SUPPORTED_LANGUAGES, getLanguage, setLanguage, t } from '../engine/i18n';
 import { COLORS, FONT } from '../ui/format';
 import { enableHighResolutionText } from '../ui/textQuality';
@@ -60,6 +61,21 @@ export class MainMenuScene extends Phaser.Scene {
       persistLanguage(next.code);
       this.buildMenu();
     }, true);
+
+    // Endings discovered — the reason to play again, stated once, quietly.
+    if (session.meta.completedRuns > 0) {
+      this.add
+        .text(cx, GAME_HEIGHT - 96, t('ui.menu.endings', [
+          String(discoveredCount(content, session.meta)),
+          String(listedEndings(content).length),
+        ]), {
+          fontFamily: FONT,
+          fontSize: '13px',
+          color: COLORS.textDim,
+          letterSpacing: 1,
+        })
+        .setOrigin(0.5);
+    }
 
     // Hidden quote: small, static, unhighlighted, only after first completion.
     if (session.meta.quoteUnlocked) {

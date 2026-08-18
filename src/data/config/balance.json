@@ -25,7 +25,7 @@
       "power": 30,
       "publicTrustPerceived": 4
     },
-    "civicIncomePerActualTrust": 100,
+    "civicIncomePerActualTrust": 90,
     "leverageCapitalCharacters": ["mentor", "businessman", "editor", "minister"],
     "leverageWeights": {
       "capitalRelationship": 1,

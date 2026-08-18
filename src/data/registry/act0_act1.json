@@ -16,7 +16,17 @@
     { "id": "flag_public_reform_support", "description": "Player publicly co-sponsored procurement disclosure." },
     { "id": "flag_self_promotional_style", "description": "Player publicly claimed sole credit for a win." },
     { "id": "flag_loyal_committee_member", "description": "The Mentor's candidate is committee secretary." },
-    { "id": "flag_declined_first_promotion", "description": "Player declined the deputy-chair promotion." }
+    { "id": "flag_declined_first_promotion", "description": "Player declined the deputy-chair promotion." },
+    { "id": "flag_kept_inherited_staff", "description": "Player kept the predecessor's office staff on day one." },
+    { "id": "flag_brought_own_staff", "description": "Player replaced the inherited office staff with their own people." },
+    { "id": "flag_met_first_petition", "description": "Player received the first delegation unscheduled, before the party breakfast." },
+    { "id": "flag_petition_scheduled", "description": "Player had the first delegation scheduled through the office." },
+    { "id": "flag_first_photo_constituency", "description": "Player took the first official photograph at the constituency office." },
+    { "id": "flag_first_photo_ministry", "description": "Player took the first official photograph with the Mentor in the ministry atrium." },
+    { "id": "flag_read_full_briefing", "description": "Player read the full transition briefing." },
+    { "id": "flag_read_briefing_summary", "description": "Player read only the Aide's summary of the transition briefing." },
+    { "id": "flag_predecessor_context", "description": "Player took the predecessor's call and inherited their reading of the room." },
+    { "id": "flag_declined_predecessor", "description": "Player declined the predecessor's offer of context." }
   ],
   "precedents": [
     { "id": "precedent_political_punishment", "description": "Normalized using punishment of rivals as politics." },
@@ -54,23 +64,74 @@
     }
   ],
   "beats": [
+    { "id": "beat_act1_committee", "act": "rise", "cardId": "act1_committee_opportunity", "earliestActTurn": 1, "latestActTurn": 2, "priority": 100, "once": true },
+    { "id": "beat_act1_promotion", "act": "rise", "cardId": "act1_first_promotion", "earliestActTurn": 10, "latestActTurn": 13, "priority": 100, "once": true },
     {
-      "id": "beat_act1_committee",
-      "act": "rise",
-      "cardId": "act1_committee_opportunity",
-      "earliestActTurn": 1,
+      "id": "beat_act0_slot_a_staff",
+      "act": "entry",
+      "cardId": "act0_inherited_staff",
+      "earliestActTurn": 2,
       "latestActTurn": 2,
       "priority": 100,
-      "once": true
+      "once": true,
+      "conditions": { "type": "seed_bucket", "buckets": 3, "bucket": 0 }
     },
     {
-      "id": "beat_act1_promotion",
-      "act": "rise",
-      "cardId": "act1_first_promotion",
-      "earliestActTurn": 10,
-      "latestActTurn": 13,
+      "id": "beat_act0_slot_a_petition",
+      "act": "entry",
+      "cardId": "act0_first_petition",
+      "earliestActTurn": 2,
+      "latestActTurn": 2,
       "priority": 100,
-      "once": true
+      "once": true,
+      "conditions": { "type": "seed_bucket", "buckets": 3, "bucket": 1 }
+    },
+    {
+      "id": "beat_act0_slot_a_photo",
+      "act": "entry",
+      "cardId": "act0_ministry_photo",
+      "earliestActTurn": 2,
+      "latestActTurn": 2,
+      "priority": 100,
+      "once": true,
+      "conditions": { "type": "seed_bucket", "buckets": 3, "bucket": 2 }
+    },
+    {
+      "id": "beat_act0_slot_b_binder",
+      "act": "entry",
+      "cardId": "act0_briefing_binder",
+      "earliestActTurn": 4,
+      "latestActTurn": 4,
+      "priority": 100,
+      "once": true,
+      "conditions": { "type": "seed_bucket", "buckets": 2, "bucket": 0 }
+    },
+    {
+      "id": "beat_act0_slot_b_predecessor",
+      "act": "entry",
+      "cardId": "act0_predecessor_call",
+      "earliestActTurn": 4,
+      "latestActTurn": 4,
+      "priority": 100,
+      "once": true,
+      "conditions": { "type": "seed_bucket", "buckets": 2, "bucket": 1 }
+    },
+    {
+      "id": "beat_act0_dinner",
+      "act": "entry",
+      "cardId": "act0_private_dinner_invitation",
+      "earliestActTurn": 7,
+      "latestActTurn": 9,
+      "priority": 100,
+      "once": true,
+      "conditions": {
+        "all": [
+          { "type": "seen_card", "cardId": "act0_constituent_land_case" },
+          { "type": "seen_card", "cardId": "act0_first_parliament_speech" },
+          { "type": "seen_card", "cardId": "act0_first_interview" },
+          { "type": "seen_card", "cardId": "act0_mentor_advice" }
+        ]
+      }
     }
   ]
 }

@@ -31,8 +31,12 @@
           }
         },
         { "type": "flag", "flag": "flag_charges_allowed", "exists": true },
-        { "not": { "type": "flag", "flag": "flag_ally_protected", "exists": true } },
-        { "not": { "type": "flag", "flag": "flag_reports_removed", "exists": true } },
+        {
+          "not": { "type": "flag", "flag": "flag_ally_protected", "exists": true }
+        },
+        {
+          "not": { "type": "flag", "flag": "flag_reports_removed", "exists": true }
+        },
         { "type": "flag", "flag": "flag_records_preserved", "exists": true }
       ]
     },
@@ -59,7 +63,9 @@
         { "type": "flag", "flag": "flag_called_emergency", "exists": true },
         { "type": "flag", "flag": "flag_confessed", "exists": true },
         { "type": "flag", "flag": "flag_cooperated_with_investigation", "exists": true },
-        { "not": { "type": "flag", "flag": "flag_reports_removed", "exists": true } }
+        {
+          "not": { "type": "flag", "flag": "flag_reports_removed", "exists": true }
+        }
       ]
     },
     "titleKey": "ending.ending_accountability.title",
@@ -151,7 +157,9 @@
         },
         { "type": "stat", "stat": "power", "op": ">=", "value": 50 },
         { "type": "stat", "stat": "power", "op": "<", "value": 80 },
-        { "not": { "type": "flag", "flag": "flag_reports_removed", "exists": true } }
+        {
+          "not": { "type": "flag", "flag": "flag_reports_removed", "exists": true }
+        }
       ]
     },
     "titleKey": "ending.ending_protected.title",
@@ -215,6 +223,103 @@
       "sequence": [
         { "type": "article", "articleId": "article_first_report" },
         { "type": "ending_card", "artId": "ending_scapegoat", "titleKey": "ending.ending_scapegoat.title", "textKey": "ending.ending_scapegoat.text" },
+        { "type": "record_ledger" },
+        { "type": "memorial" },
+        { "type": "credits" }
+      ]
+    },
+    "meta": { "category": "negative" }
+  },
+  {
+    "id": "ending_open_file",
+    "priority": 300,
+    "conditions": {
+      "all": [
+        {
+          "not": {
+            "all": [
+              { "type": "flag", "flag": "flag_drank_at_gathering", "exists": true },
+              { "type": "flag", "flag": "flag_self_driving", "exists": true }
+            ]
+          }
+        },
+        { "type": "flag", "flag": "flag_charges_allowed", "exists": true },
+        {
+          "not": { "type": "flag", "flag": "flag_ally_protected", "exists": true }
+        }
+      ]
+    },
+    "titleKey": "ending.ending_open_file.title",
+    "presentation": {
+      "sequence": [
+        { "type": "text", "textKey": "ending.ending_open_file.text" },
+        { "type": "record_ledger" },
+        { "type": "memorial" },
+        { "type": "credits" }
+      ]
+    },
+    "meta": { "category": "mixed" }
+  },
+  {
+    "id": "ending_arrangement",
+    "priority": 250,
+    "conditions": {
+      "all": [
+        {
+          "not": {
+            "all": [
+              { "type": "flag", "flag": "flag_drank_at_gathering", "exists": true },
+              { "type": "flag", "flag": "flag_self_driving", "exists": true }
+            ]
+          }
+        }
+      ]
+    },
+    "titleKey": "ending.ending_arrangement.title",
+    "presentation": {
+      "sequence": [
+        { "type": "text", "textKey": "ending.ending_arrangement.text" },
+        { "type": "record_ledger" },
+        { "type": "memorial" },
+        { "type": "credits" }
+      ]
+    },
+    "meta": { "category": "negative" }
+  },
+  {
+    "id": "ending_statement",
+    "priority": 200,
+    "conditions": {
+      "all": [
+        { "type": "flag", "flag": "flag_drank_at_gathering", "exists": true },
+        { "type": "flag", "flag": "flag_self_driving", "exists": true },
+        { "type": "flag", "flag": "flag_confessed", "exists": true }
+      ]
+    },
+    "titleKey": "ending.ending_statement.title",
+    "presentation": {
+      "sequence": [
+        { "type": "text", "textKey": "ending.ending_statement.text" },
+        { "type": "record_ledger" },
+        { "type": "memorial" },
+        { "type": "credits" }
+      ]
+    },
+    "meta": { "category": "mixed" }
+  },
+  {
+    "id": "ending_settled",
+    "priority": 150,
+    "conditions": {
+      "all": [
+        { "type": "flag", "flag": "flag_drank_at_gathering", "exists": true },
+        { "type": "flag", "flag": "flag_self_driving", "exists": true }
+      ]
+    },
+    "titleKey": "ending.ending_settled.title",
+    "presentation": {
+      "sequence": [
+        { "type": "text", "textKey": "ending.ending_settled.text" },
         { "type": "record_ledger" },
         { "type": "memorial" },
         { "type": "credits" }

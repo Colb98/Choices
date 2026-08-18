@@ -1239,11 +1239,13 @@ export class GameScene extends Phaser.Scene {
     this.showMoneyDelta(this.state.stats.money - hudBefore.money);
 
     if (result.endingId) {
-      const meta = saves.recordCompletion(result.endingId);
+      const endingId = result.endingId;
+      const newlyDiscovered = !session.meta.discoveredEndings.includes(endingId);
+      const meta = saves.recordCompletion(endingId);
       session.meta = meta;
       saves.clearRun();
       this.time.delayedCall(this.reducedMotion() ? 0 : 600, () => {
-        this.scene.start('Ending', { endingId: result.endingId });
+        this.scene.start('Ending', { endingId, newlyDiscovered });
       });
       return;
     }

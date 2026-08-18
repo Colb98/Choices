@@ -34,8 +34,7 @@
         }
       ],
       "next": {
-        "type": "card",
-        "cardId": "act0_constituent_land_case"
+        "type": "scheduler"
       }
     },
     "right": {
@@ -71,18 +70,17 @@
         }
       ],
       "next": {
-        "type": "card",
-        "cardId": "act0_constituent_land_case"
+        "type": "scheduler"
       }
     },
     "metadata": {
-      "designIntent": "Teach preview UI. Seed the perceived/actual trust gap on turn 1: promises inflate perception more than reality. `flag_ambitious_public_image` is referenced by Act II media cards (\"Whatever happened to the big change?\")."
+      "designIntent": "Teach preview UI. Seed the perceived/actual trust gap on turn 1: promises inflate perception more than reality. `flag_ambitious_public_image` is referenced by Act II media cards (\"Whatever happened to the big change?\"). REPLAY: Act 0 is no longer a fixed chain — this card opens, the four pledge scenes arrive in seeded order from the entry pool, two seed-chosen 'first days' scenes fill act-turns 2 and 4, and the dinner invitation closes at act-turn 7."
     }
   },
   {
     "id": "act0_constituent_land_case",
     "act": "entry",
-    "type": "story",
+    "type": "contextual",
     "text": "card.act0_constituent_land_case.text",
     "illustration": {
       "scene": "office_letters"
@@ -118,12 +116,17 @@
             "max": 7
           },
           "eventId": "event_constituent_case_followup",
-          "onConditionFail": "discard"
+          "onConditionFail": "retry_later",
+          "conditionsAtTrigger": {
+            "not": {
+              "type": "act",
+              "act": "entry"
+            }
+          }
         }
       ],
       "next": {
-        "type": "card",
-        "cardId": "act0_first_parliament_speech"
+        "type": "scheduler"
       }
     },
     "right": {
@@ -133,18 +136,18 @@
         "publicTrust": "unknown"
       },
       "next": {
-        "type": "card",
-        "cardId": "act0_first_parliament_speech"
+        "type": "scheduler"
       }
     },
     "metadata": {
-      "designIntent": "Responsible action = more work, delayed payoff. The scheduled event lands early in Act I (card 010). Right is not punished — silence is the realistic default and its cost is invisible."
-    }
+      "designIntent": "Responsible action = more work, delayed payoff. The scheduled event lands early in Act I (card 010). Right is not punished — silence is the realistic default and its cost is invisible. REPLAY: now drawn from the entry pool as early as act-turn 1, so the follow-up waits (retry_later) until Act I has begun rather than landing inside the opening."
+    },
+    "weight": 10
   },
   {
     "id": "act0_first_parliament_speech",
     "act": "entry",
-    "type": "story",
+    "type": "contextual",
     "text": "card.act0_first_parliament_speech.text",
     "illustration": {
       "scene": "parliament_podium",
@@ -190,8 +193,7 @@
         }
       ],
       "next": {
-        "type": "card",
-        "cardId": "act0_first_interview"
+        "type": "scheduler"
       }
     },
     "right": {
@@ -234,18 +236,18 @@
         }
       ],
       "next": {
-        "type": "card",
-        "cardId": "act0_first_interview"
+        "type": "scheduler"
       }
     },
     "metadata": {
       "designIntent": "Both options are crowd-pleasers; the right one is *more* popular and grants Power — punishment politics pays better than procedure politics. First precedent of the run, invisible."
-    }
+    },
+    "weight": 10
   },
   {
     "id": "act0_first_interview",
     "act": "entry",
-    "type": "story",
+    "type": "contextual",
     "text": "card.act0_first_interview.text",
     "illustration": {
       "scene": "corridor_press"
@@ -284,8 +286,7 @@
         }
       ],
       "next": {
-        "type": "card",
-        "cardId": "act0_mentor_advice"
+        "type": "scheduler"
       }
     },
     "right": {
@@ -313,19 +314,19 @@
         }
       ],
       "next": {
-        "type": "card",
-        "cardId": "act0_mentor_advice"
+        "type": "scheduler"
       }
     },
     "metadata": {
       "designIntent": "First alignment fork: public principle vs. establishment signal. Neither is corrupt. The Right answer is what every real politician says — and it is genuinely how things pass."
     },
-    "speaker": "journalist"
+    "speaker": "journalist",
+    "weight": 10
   },
   {
     "id": "act0_mentor_advice",
     "act": "entry",
-    "type": "story",
+    "type": "contextual",
     "speaker": "mentor",
     "text": "card.act0_mentor_advice.text",
     "illustration": {
@@ -352,8 +353,7 @@
         }
       ],
       "next": {
-        "type": "card",
-        "cardId": "act0_private_dinner_invitation"
+        "type": "scheduler"
       }
     },
     "right": {
@@ -389,13 +389,13 @@
         }
       ],
       "next": {
-        "type": "card",
-        "cardId": "act0_private_dinner_invitation"
+        "type": "scheduler"
       }
     },
     "metadata": {
       "designIntent": "The Mentor's thesis is the game's thesis, inverted: he is *right* that relationships pass reforms. The game never argues with him. It just remembers."
-    }
+    },
+    "weight": 10
   },
   {
     "id": "act0_private_dinner_invitation",
@@ -459,8 +459,26 @@
       }
     },
     "metadata": {
-      "designIntent": "End of Act 0. Attending creates no obligation — deliberately. The room costs nothing to enter. That is the point of the room."
-    }
+      "designIntent": "End of Act 0. Attending creates no obligation — deliberately. The room costs nothing to enter. That is the point of the room. REPLAY: the envelope reads differently to the player who told the Mentor independence mattered more, and to the one who told the press reform requires cooperation."
+    },
+    "textVariants": [
+      {
+        "conditions": {
+          "type": "promise",
+          "promise": "promise_independence"
+        },
+        "text": "card.act0_private_dinner_invitation.text.v_independent"
+      },
+      {
+        "conditions": {
+          "type": "history",
+          "cardId": "act0_first_interview",
+          "choice": "right",
+          "exists": true
+        },
+        "text": "card.act0_private_dinner_invitation.text.v_cooperative"
+      }
+    ]
   },
   {
     "id": "act1_committee_opportunity",
@@ -531,8 +549,26 @@
       }
     },
     "metadata": {
-      "designIntent": "Chain A root. The first real obligation of the run, priced generously: +6 Standing for one word. Refusing costs nothing visible — only the Mentor's warmth."
-    }
+      "designIntent": "Chain A root. The first real obligation of the run, priced generously: +6 Standing for one word. Refusing costs nothing visible — only the Mentor's warmth. REPLAY: the Mentor frames the seat through the player's first speech — the big-change promise, or the modest one."
+    },
+    "textVariants": [
+      {
+        "conditions": {
+          "type": "promise",
+          "promise": "promise_major_change"
+        },
+        "text": "card.act1_committee_opportunity.text.v_promised"
+      },
+      {
+        "conditions": {
+          "type": "history",
+          "cardId": "act0_appointment_day",
+          "choice": "left",
+          "exists": true
+        },
+        "text": "card.act1_committee_opportunity.text.v_modest"
+      }
+    ]
   },
   {
     "id": "act1_businessman_intro",
@@ -1788,7 +1824,344 @@
       }
     },
     "metadata": {
-      "designIntent": "Act I closes on the run's largest stat jump, sourced ambiguously on purpose (\"the unofficial version depends on who is telling it\"). The variant obligation is weight 2 — the heaviest debt so far — attached to the most flattering moment so far. Declining is rare but must stay viable (Standing −3, not a death sentence) and is remembered by Act II wording."
+      "designIntent": "Act I closes on the run's largest stat jump, sourced ambiguously on purpose (\"the unofficial version depends on who is telling it\"). The variant obligation is weight 2 — the heaviest debt so far — attached to the most flattering moment so far. Declining is rare but must stay viable (Standing −3, not a death sentence) and is remembered by Act II wording. REPLAY: the unofficial version of the promotion is spelled out by state — two other names in it, or for once the same story as the letter."
+    },
+    "textVariants": [
+      {
+        "conditions": {
+          "type": "precedent",
+          "precedent": "*",
+          "op": ">=",
+          "value": 2
+        },
+        "text": "card.act1_first_promotion.text.v_networked"
+      },
+      {
+        "conditions": {
+          "all": [
+            {
+              "type": "precedent",
+              "precedent": "*",
+              "op": "==",
+              "value": 0
+            },
+            {
+              "type": "stat",
+              "stat": "publicTrustActual",
+              "op": ">=",
+              "value": 60
+            }
+          ]
+        },
+        "text": "card.act1_first_promotion.text.v_clean"
+      }
+    ]
+  },
+  {
+    "id": "act0_inherited_staff",
+    "act": "entry",
+    "type": "story",
+    "text": "card.act0_inherited_staff.text",
+    "once": true,
+    "left": {
+      "text": "card.act0_inherited_staff.left",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 1
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_kept_inherited_staff",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act0_inherited_staff.right",
+      "preview": {
+        "standing": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -1
+        },
+        {
+          "type": "relationship",
+          "character": "aide",
+          "add": 2
+        },
+        {
+          "type": "flag",
+          "flag": "flag_brought_own_staff",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "ACT 0 slot A (seed bucket 0/3): first-day logistics. Keeping the predecessor's machine is faster and buys the room's goodwill; bringing your own people costs a week and earns the Aide. Both small, both remembered."
+    },
+    "speaker": "aide"
+  },
+  {
+    "id": "act0_first_petition",
+    "act": "entry",
+    "type": "story",
+    "text": "card.act0_first_petition.text",
+    "once": true,
+    "left": {
+      "text": "card.act0_first_petition.left",
+      "preview": {
+        "standing": -1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -1
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 2
+        },
+        {
+          "type": "flag",
+          "flag": "flag_met_first_petition",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act0_first_petition.right",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_petition_scheduled",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "ACT 0 slot A (seed bucket 1/3): procedure vs compassion in miniature. Seeing them now costs the party breakfast; scheduling them properly is what everyone else does. Neither is corrupt."
+    }
+  },
+  {
+    "id": "act0_ministry_photo",
+    "act": "entry",
+    "type": "story",
+    "text": "card.act0_ministry_photo.text",
+    "once": true,
+    "left": {
+      "text": "card.act0_ministry_photo.left",
+      "preview": {
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 1
+        },
+        {
+          "type": "relationship",
+          "character": "mentor",
+          "add": -1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_first_photo_constituency",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act0_ministry_photo.right",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "relationship",
+          "character": "mentor",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_first_photo_ministry",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "ACT 0 slot A (seed bucket 2/3): the first photograph decides which room you belong to. The atrium with the Mentor is the establishment signal; the constituency office is the other one."
+    },
+    "speaker": "press_officer"
+  },
+  {
+    "id": "act0_briefing_binder",
+    "act": "entry",
+    "type": "story",
+    "text": "card.act0_briefing_binder.text",
+    "once": true,
+    "left": {
+      "text": "card.act0_briefing_binder.left",
+      "preview": {
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 1
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_read_full_briefing",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act0_briefing_binder.right",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 1
+        },
+        {
+          "type": "relationship",
+          "character": "aide",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_read_briefing_summary",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "ACT 0 slot B (seed bucket 0/2): the binder nobody reads. Reading it is a small, private form of power; the summary is what the Aide wrote for you, and reading only that is the first delegation of your judgment."
+    },
+    "speaker": "aide"
+  },
+  {
+    "id": "act0_predecessor_call",
+    "act": "entry",
+    "type": "story",
+    "text": "card.act0_predecessor_call.text",
+    "once": true,
+    "left": {
+      "text": "card.act0_predecessor_call.left",
+      "preview": {
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_predecessor_context",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act0_predecessor_call.right",
+      "preview": {
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_declined_predecessor",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "ACT 0 slot B (seed bucket 1/2): the predecessor offers 'context'. Taking the call inherits a map of the room and, quietly, its assumptions; declining keeps your view your own and costs you the map."
     }
   }
 ]

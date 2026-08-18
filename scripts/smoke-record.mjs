@@ -116,5 +116,21 @@ for (let i = 0; i < 12; i++) {
   await page.waitForTimeout(2600);
 }
 
+// 5. Act 0 opening: swipe through the first four screens of a fresh run and record the order.
+await page.evaluate(() => localStorage.removeItem('choices.run'));
+await page.reload({ waitUntil: 'load' });
+await page.waitForTimeout(1200);
+await page.mouse.click(gx(270), gy(420)); // NEW GAME (no save → first button)
+await page.waitForTimeout(900);
+const opening = [];
+for (let i = 0; i < 4; i++) {
+  save = await page.evaluate(() => JSON.parse(localStorage.getItem('choices.run')));
+  opening.push(save.state.run.currentCardId);
+  if (i === 2) await page.screenshot({ path: `${OUT}/08_act0_slot_a.png` });
+  await swipe(i % 2 === 0 ? -1 : +1);
+  await page.waitForTimeout(700);
+}
+console.log('opening order:', opening.join(' > '));
+
 console.log('errors:', errors.length ? errors : 'none');
 await browser.close();

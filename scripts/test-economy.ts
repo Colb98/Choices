@@ -46,19 +46,19 @@ for (const card of Object.values(content.cards)) {
   assert.equal(leverageScore(state, content.balance), 4.5);
   assert.equal(breakdown.capitalRelationshipPoints, 3);
   assert.equal(breakdown.precedentPoints, 2);
-  assert.equal(breakdown.civicIncome, 1_333);
+  assert.equal(breakdown.civicIncome, 1_200);
   assert.equal(breakdown.leverageIncome, 450);
   assert.equal(breakdown.precedentExposureCost, 5_000);
   assert.equal(
     breakdown.total,
-    breakdown.institutionalIncome + 1_333 + 450 - breakdown.baseTurnCost - 5_000,
+    breakdown.institutionalIncome + 1_200 + 450 - breakdown.baseTurnCost - 5_000,
   );
 }
 
 {
   const state = engine.newRun('preview');
   const card = engine.currentCard(state);
-  assert.equal(engine.projectMoneyDelta(state, card, 'left'), 4035);
+  assert.equal(engine.projectMoneyDelta(state, card, 'left'), 3635);
   assert.equal(engine.resolveChoice(state, card, 'left').preview?.money, 1);
 }
 
@@ -102,19 +102,24 @@ for (const card of Object.values(content.cards)) {
   assert.equal(cost.baseTurnCost, 500);
   assert.equal(cost.activeObligationCost, 300);
   assert.equal(cost.institutionalIncome, 535);
-  assert.equal(cost.civicIncome, 4000);
-  assert.equal(cost.total, 3735);
+  assert.equal(cost.civicIncome, 3600);
+  assert.equal(cost.total, 3335);
 }
 
 {
   const state = engine.newRun('rescue-then-bankruptcy');
-  const intendedNext = 'act0_constituent_land_case';
+  // An explicitly routed choice (052 RIGHT while holding the transparency
+  // pledge routes to 052b) so the lifeline has a story to interrupt and resume.
+  const intendedNext = 'act3_authority_vote_betrayal';
+  state.run.currentAct = 'power';
+  state.run.currentCardId = 'act3_authority_vote';
+  state.promises.push({ id: 'promise_transparency', madeAt: { cardId: 'act0_first_parliament_speech', choice: 'left', turn: 1 }, status: 'held' });
   state.stats.money = 1;
   state.stats.standing = 0;
   state.stats.power = 0;
   state.stats.publicTrustActual = 0;
   state.stats.publicTrustPerceived = 0;
-  engine.commitChoice(state, 'left');
+  engine.commitChoice(state, 'right');
 
   assert.equal(state.run.currentCardId, economy.rescue.cardId, 'first insolvency should force the lifeline');
   assert.equal(state.narrative.financialResumeCardId, intendedNext, 'the interrupted route should be retained');
