@@ -15,8 +15,15 @@ assert.equal(formatCompactMoney(1_341_364_449), '$1.34B');
 assert.equal(formatSignedMoney(12_134_624_820), '+$12.1B');
 
 // Every authored decision in a pressure act has deterministic cash flow,
-// unless the card explicitly opts out (incident and crisis interruptions do).
+// unless the card explicitly opts out (incident and crisis interruptions do)
+// or is a `continue` beat (the same turn, continued — never a charged turn).
 for (const card of Object.values(content.cards)) {
+  if (card.interaction === 'continue') {
+    const state = engine.newRun(`coverage-${card.id}`);
+    state.run.currentAct = card.act;
+    assert.equal(engine.getEconomyBreakdown(state, card).total, 0, `${card.id}: continue beats consume no runway`);
+    continue;
+  }
   if (!economy.pressureActs.includes(card.act) || card.tags?.includes('economy_exempt')) continue;
   const state = engine.newRun(`coverage-${card.id}`);
   state.run.currentAct = card.act;

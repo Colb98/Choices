@@ -13,9 +13,11 @@ import type {
   EventDefinition,
   FlagDefinition,
   PrecedentDefinition,
+  PromiseDefinition,
   RegistryFragment,
   StoryBeatDefinition,
 } from '../src/engine/types';
+import { normalizeCard } from '../src/engine/cards';
 
 const DATA = join(import.meta.dirname, '../src/data');
 
@@ -35,7 +37,7 @@ export function loadContentNode(): ContentBundle {
   for (const { file, data } of readDir<CardDefinition[]>(join(DATA, 'cards'))) {
     for (const card of data) {
       if (cards[card.id]) throw new Error(`Duplicate card id ${card.id} (in ${file})`);
-      cards[card.id] = card;
+      cards[card.id] = normalizeCard(card);
     }
   }
 
@@ -45,8 +47,13 @@ export function loadContentNode(): ContentBundle {
   const flags: Record<string, FlagDefinition> = {};
   const precedents: Record<string, PrecedentDefinition> = {};
   const articles: Record<string, ArticleDefinition> = {};
+  const promises: Record<string, PromiseDefinition> = {};
 
   for (const { file, data } of readDir<RegistryFragment>(join(DATA, 'registry'))) {
+    for (const p of data.promises ?? []) {
+      if (promises[p.id]) throw new Error(`Duplicate promise id ${p.id} (in ${file})`);
+      promises[p.id] = p;
+    }
     for (const e of data.events ?? []) {
       if (events[e.id]) throw new Error(`Duplicate event id ${e.id} (in ${file})`);
       events[e.id] = e;
@@ -70,6 +77,7 @@ export function loadContentNode(): ContentBundle {
     characters,
     flags,
     precedents,
+    promises,
     acts: readJson<ActDefinition[]>(join(DATA, 'acts.json')),
     balance: readJson<BalanceConfig>(join(DATA, 'config', 'balance.json')),
   };

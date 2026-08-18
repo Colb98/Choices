@@ -11,6 +11,7 @@
     "presentation": {
       "sequence": [
         { "type": "ending_card", "artId": "ending_bankrupt", "titleKey": "ending.ending_bankrupt.title", "textKey": "ending.ending_bankrupt.text" },
+        { "type": "record_ledger" },
         { "type": "credits" }
       ]
     },
@@ -40,6 +41,7 @@
       "sequence": [
         { "type": "article", "articleId": "article_first_report" },
         { "type": "text", "textKey": "ending.ending_break_the_chain.text" },
+        { "type": "record_ledger" },
         { "type": "memorial" },
         { "type": "credits" }
       ]
@@ -65,6 +67,7 @@
       "sequence": [
         { "type": "article", "articleId": "article_first_report" },
         { "type": "text", "textKey": "ending.ending_accountability.text" },
+        { "type": "record_ledger" },
         { "type": "memorial" },
         { "type": "credits" }
       ]
@@ -94,6 +97,7 @@
         { "type": "stat_glitch", "stat": "power", "finalValue": 92 },
         { "type": "stat_glitch", "stat": "power", "finalValue": 0 },
         { "type": "ending_card", "artId": "ending_collapse", "titleKey": "ending.ending_collapse.title", "textKey": "ending.ending_collapse.text" },
+        { "type": "record_ledger" },
         { "type": "memorial" },
         { "type": "credits" }
       ]
@@ -125,6 +129,7 @@
         { "type": "article_state", "state": "unavailable" },
         { "type": "ending_card", "artId": "ending_untouchable", "titleKey": "ending.ending_untouchable.title", "textKey": "ending.ending_untouchable.text" },
         { "type": "delay", "milliseconds": 1500 },
+        { "type": "record_ledger" },
         { "type": "memorial" },
         { "type": "credits" }
       ]
@@ -155,6 +160,7 @@
         { "type": "article", "articleId": "article_first_report" },
         { "type": "article_state", "state": "edited", "articleId": "article_first_report" },
         { "type": "ending_card", "artId": "ending_protected", "titleKey": "ending.ending_protected.title", "textKey": "ending.ending_protected.text" },
+        { "type": "record_ledger" },
         { "type": "memorial" },
         { "type": "credits" }
       ]
@@ -182,6 +188,7 @@
       "sequence": [
         { "type": "article", "articleId": "article_first_report" },
         { "type": "text", "textKey": "ending.ending_too_late.text" },
+        { "type": "record_ledger" },
         { "type": "memorial" },
         { "type": "credits" }
       ]
@@ -208,6 +215,7 @@
       "sequence": [
         { "type": "article", "articleId": "article_first_report" },
         { "type": "ending_card", "artId": "ending_scapegoat", "titleKey": "ending.ending_scapegoat.title", "textKey": "ending.ending_scapegoat.text" },
+        { "type": "record_ledger" },
         { "type": "memorial" },
         { "type": "credits" }
       ]
@@ -222,6 +230,7 @@
     "presentation": {
       "sequence": [
         { "type": "text", "textKey": "ending.ending_fallback.text" },
+        { "type": "record_ledger" },
         { "type": "memorial" },
         { "type": "credits" }
       ]

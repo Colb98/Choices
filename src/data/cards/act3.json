@@ -29,6 +29,10 @@
           "type": "flag",
           "flag": "flag_independent_regulator",
           "action": "add"
+        },
+        {
+          "type": "promise_honor",
+          "promise": "promise_equal_rules"
         }
       ]
     },
@@ -59,6 +63,10 @@
           "type": "precedent",
           "precedent": "precedent_loyalty_appointments",
           "add": 1
+        },
+        {
+          "type": "promise_break",
+          "promise": "promise_equal_rules"
         }
       ]
     },
@@ -264,29 +272,88 @@
         {
           "conditions": {
             "all": [
-              { "type": "stat", "stat": "power", "op": ">=", "value": 60 },
-              { "type": "flag", "flag": "flag_invested_protected_company", "exists": true }
+              {
+                "type": "stat",
+                "stat": "power",
+                "op": ">=",
+                "value": 60
+              },
+              {
+                "type": "flag",
+                "flag": "flag_invested_protected_company",
+                "exists": true
+              }
             ]
           },
           "text": "card.act3_protected_contract.left.powerful_invested",
-          "preview": { "money": -3, "standing": 1, "power": -2, "publicTrust": "strong_up_uncertain" },
+          "preview": {
+            "money": -3,
+            "standing": 1,
+            "power": -2,
+            "publicTrust": "strong_up_uncertain"
+          },
           "effects": [
-            { "type": "stat", "stat": "money", "add": -80000 },
-            { "type": "stat", "stat": "standing", "add": 2 },
-            { "type": "stat", "stat": "power", "add": -6 },
-            { "type": "stat", "stat": "publicTrustActual", "add": 5 },
-            { "type": "flag", "flag": "flag_recused_from_contract", "action": "add" }
+            {
+              "type": "stat",
+              "stat": "money",
+              "add": -80000
+            },
+            {
+              "type": "stat",
+              "stat": "standing",
+              "add": 2
+            },
+            {
+              "type": "stat",
+              "stat": "power",
+              "add": -6
+            },
+            {
+              "type": "stat",
+              "stat": "publicTrustActual",
+              "add": 5
+            },
+            {
+              "type": "flag",
+              "flag": "flag_recused_from_contract",
+              "action": "add"
+            }
           ]
         },
         {
-          "conditions": { "type": "stat", "stat": "power", "op": ">=", "value": 60 },
+          "conditions": {
+            "type": "stat",
+            "stat": "power",
+            "op": ">=",
+            "value": 60
+          },
           "text": "card.act3_protected_contract.left.powerful",
-          "preview": { "standing": 1, "power": -2, "publicTrust": "strong_up_uncertain" },
+          "preview": {
+            "standing": 1,
+            "power": -2,
+            "publicTrust": "strong_up_uncertain"
+          },
           "effects": [
-            { "type": "stat", "stat": "standing", "add": 2 },
-            { "type": "stat", "stat": "power", "add": -6 },
-            { "type": "stat", "stat": "publicTrustActual", "add": 5 },
-            { "type": "flag", "flag": "flag_recused_from_contract", "action": "add" }
+            {
+              "type": "stat",
+              "stat": "standing",
+              "add": 2
+            },
+            {
+              "type": "stat",
+              "stat": "power",
+              "add": -6
+            },
+            {
+              "type": "stat",
+              "stat": "publicTrustActual",
+              "add": 5
+            },
+            {
+              "type": "flag",
+              "flag": "flag_recused_from_contract",
+              "action": "add"
+            }
           ]
         },
         {
@@ -541,6 +608,10 @@
           "type": "stat",
           "stat": "power",
           "add": -2
+        },
+        {
+          "type": "promise_honor",
+          "promise": "promise_equal_rules"
         }
       ]
     },
@@ -576,12 +647,56 @@
           "type": "flag",
           "flag": "flag_reformist_removed",
           "action": "add"
+        },
+        {
+          "type": "promise_break",
+          "promise": "promise_equal_rules"
+        },
+        {
+          "type": "promise_break",
+          "promise": "promise_transparency"
+        },
+        {
+          "type": "promise_break",
+          "promise": "promise_independence"
         }
       ]
     },
     "metadata": {
-      "designIntent": "Chain E ignition. The quoted line is the player's own Act 0 position handed back to them. Removal is the single largest Power purchase in the act — and it deletes the one character scripted to intervene at card 077. On removed runs, the Aftermath is measurably quieter. Silence is the consequence."
-    }
+      "designIntent": "Chain E ignition. The quoted line is the player's own Act 0 position handed back to them. Removal is the single largest Power purchase in the act — and it deletes the one character scripted to intervene at card 077. On removed runs, the Aftermath is measurably quieter. Silence is the consequence. THE RECORD: the Reformist quotes the player's most load-bearing held pledge verbatim (equality > transparency > independence); if the player never pledged anything she names the absence instead (v_none). RIGHT breaks the quoted words on the same swipe she is speaking them — for the fallen idealist the game hands back their inaugural sentence as they delete the person who remembers it; for the lifelong cynic it is quieter and worse: there was never a sentence to betray. Two players, one card, opposite wounds."
+    },
+    "textVariants": [
+      {
+        "conditions": {
+          "type": "promise",
+          "promise": "promise_equal_rules"
+        },
+        "text": "card.act3_reformist_confrontation.text.v_equality"
+      },
+      {
+        "conditions": {
+          "type": "promise",
+          "promise": "promise_transparency"
+        },
+        "text": "card.act3_reformist_confrontation.text.v_transparency"
+      },
+      {
+        "conditions": {
+          "type": "promise",
+          "promise": "promise_independence"
+        },
+        "text": "card.act3_reformist_confrontation.text.v_independence"
+      },
+      {
+        "conditions": {
+          "not": {
+            "type": "promise",
+            "status": "any"
+          }
+        },
+        "text": "card.act3_reformist_confrontation.text.v_none"
+      }
+    ]
   },
   {
     "id": "act3_reformist_cooperation",
@@ -637,6 +752,10 @@
           "type": "flag",
           "flag": "flag_final_reform_in_progress",
           "action": "add"
+        },
+        {
+          "type": "promise_honor",
+          "promise": "promise_major_change"
         }
       ]
     },
@@ -662,6 +781,10 @@
           "type": "relationship",
           "character": "reformist",
           "add": -1
+        },
+        {
+          "type": "promise_break",
+          "promise": "promise_major_change"
         }
       ]
     },
@@ -972,6 +1095,10 @@
           "type": "flag",
           "flag": "flag_article_removed_leak",
           "action": "add"
+        },
+        {
+          "type": "promise_break",
+          "promise": "promise_transparency"
         }
       ],
       "delayedEffects": [
@@ -1182,6 +1309,10 @@
           "type": "relationship",
           "character": "minister",
           "add": -2
+        },
+        {
+          "type": "promise_honor",
+          "promise": "promise_equal_rules"
         }
       ],
       "lock": {
@@ -1243,6 +1374,10 @@
             "nepotism",
             "inner_circle"
           ]
+        },
+        {
+          "type": "promise_break",
+          "promise": "promise_equal_rules"
         }
       ]
     },
@@ -1289,19 +1424,64 @@
           "type": "flag",
           "flag": "flag_investigation_independent",
           "action": "add"
+        },
+        {
+          "type": "promise_honor",
+          "promise": "promise_transparency"
+        },
+        {
+          "type": "promise_honor",
+          "promise": "promise_independence"
         }
       ],
       "variants": [
         {
-          "conditions": { "type": "stat", "stat": "power", "op": ">=", "value": 60 },
+          "conditions": {
+            "type": "stat",
+            "stat": "power",
+            "op": ">=",
+            "value": 60
+          },
           "text": "card.act3_authority_vote.left.powerful",
-          "preview": { "standing": 2, "power": -3, "publicTrust": "strong_up" },
+          "preview": {
+            "standing": 2,
+            "power": -3,
+            "publicTrust": "strong_up"
+          },
           "effects": [
-            { "type": "stat", "stat": "standing", "add": 5 },
-            { "type": "stat", "stat": "power", "add": -20 },
-            { "type": "stat", "stat": "publicTrustActual", "add": 7 },
-            { "type": "stat", "stat": "publicTrustPerceived", "add": 4 },
-            { "type": "flag", "flag": "flag_investigation_independent", "action": "add" }
+            {
+              "type": "stat",
+              "stat": "standing",
+              "add": 5
+            },
+            {
+              "type": "stat",
+              "stat": "power",
+              "add": -20
+            },
+            {
+              "type": "stat",
+              "stat": "publicTrustActual",
+              "add": 7
+            },
+            {
+              "type": "stat",
+              "stat": "publicTrustPerceived",
+              "add": 4
+            },
+            {
+              "type": "flag",
+              "flag": "flag_investigation_independent",
+              "action": "add"
+            },
+            {
+              "type": "promise_honor",
+              "promise": "promise_transparency"
+            },
+            {
+              "type": "promise_honor",
+              "promise": "promise_independence"
+            }
           ]
         }
       ]
@@ -1329,10 +1509,47 @@
           "flag": "flag_investigation_politically_controlled",
           "action": "add"
         }
+      ],
+      "variants": [
+        {
+          "conditions": {
+            "any": [
+              {
+                "type": "promise",
+                "promise": "promise_transparency"
+              },
+              {
+                "type": "promise",
+                "promise": "promise_independence"
+              }
+            ]
+          },
+          "preview": {
+            "standing": 1,
+            "power": 2,
+            "publicTrust": "unknown"
+          },
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "standing",
+              "add": 2
+            },
+            {
+              "type": "stat",
+              "stat": "power",
+              "add": 5
+            }
+          ],
+          "next": {
+            "type": "card",
+            "cardId": "act3_authority_vote_betrayal"
+          }
+        }
       ]
     },
     "metadata": {
-      "designIntent": "The most important choice in the game outside the Incident, per the table — and the biggest single number in the DSL: −8 Power to build the only institution that will still function when the player is the subject. Both flags are terminal (no later card can flip them). The vote is deliberately free of locks: whatever the player has done, this door stays open — because the whole design's answer to \"quyền lực tha hoá\" is that the exit is institutional, not personal. Card 072/079 and Ending G cash this in."
+      "designIntent": "The most important choice in the game outside the Incident, per the table — and the biggest single number in the DSL: −8 Power to build the only institution that will still function when the player is the subject. Both flags are terminal (no later card can flip them). The vote is deliberately free of locks: whatever the player has done, this door stays open — because the whole design's answer to \"quyền lực tha hoá\" is that the exit is institutional, not personal. Card 072/079 and Ending G cash this in. THE RECORD: when the player still holds the transparency or independence pledge, RIGHT defers the flag to 052b (The Vote Against Yourself) — abstain at a Power cost and keep the word, or cast the vote and break it. Neither path is locked; only the free-and-clean combination is gone."
     }
   },
   {
@@ -1550,6 +1767,10 @@
           "type": "flag",
           "flag": "flag_reopened_old_case",
           "action": "add"
+        },
+        {
+          "type": "promise_honor",
+          "promise": "promise_constituents"
         }
       ]
     },
@@ -1563,6 +1784,10 @@
           "type": "stat",
           "stat": "publicTrustActual",
           "add": -2
+        },
+        {
+          "type": "promise_break",
+          "promise": "promise_constituents"
         }
       ]
     },

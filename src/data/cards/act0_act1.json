@@ -64,6 +64,10 @@
           "type": "flag",
           "flag": "flag_ambitious_public_image",
           "action": "add"
+        },
+        {
+          "type": "promise_make",
+          "promise": "promise_major_change"
         }
       ],
       "next": {
@@ -100,6 +104,10 @@
           "type": "flag",
           "flag": "flag_requested_transparency_early",
           "action": "add"
+        },
+        {
+          "type": "promise_make",
+          "promise": "promise_constituents"
         }
       ],
       "delayedEffects": [
@@ -175,6 +183,10 @@
           "type": "flag",
           "flag": "flag_early_transparency_position",
           "action": "add"
+        },
+        {
+          "type": "promise_make",
+          "promise": "promise_transparency"
         }
       ],
       "next": {
@@ -265,6 +277,10 @@
           "type": "relationship",
           "character": "reformist",
           "add": 1
+        },
+        {
+          "type": "promise_make",
+          "promise": "promise_equal_rules"
         }
       ],
       "next": {
@@ -366,6 +382,10 @@
           "type": "relationship",
           "character": "reformist",
           "add": 1
+        },
+        {
+          "type": "promise_make",
+          "promise": "promise_independence"
         }
       ],
       "next": {
@@ -758,11 +778,31 @@
             "publicTrust": "strong_up_uncertain"
           },
           "effects": [
-            { "type": "stat", "stat": "standing", "add": 2 },
-            { "type": "stat", "stat": "power", "add": -6 },
-            { "type": "stat", "stat": "publicTrustActual", "add": 6 },
-            { "type": "stat", "stat": "publicTrustPerceived", "add": 4 },
-            { "type": "flag", "flag": "flag_early_case_public", "action": "add" }
+            {
+              "type": "stat",
+              "stat": "standing",
+              "add": 2
+            },
+            {
+              "type": "stat",
+              "stat": "power",
+              "add": -6
+            },
+            {
+              "type": "stat",
+              "stat": "publicTrustActual",
+              "add": 6
+            },
+            {
+              "type": "stat",
+              "stat": "publicTrustPerceived",
+              "add": 4
+            },
+            {
+              "type": "flag",
+              "flag": "flag_early_case_public",
+              "action": "add"
+            }
           ]
         }
       ],
@@ -1013,6 +1053,10 @@
           "type": "precedent",
           "precedent": "precedent_nepotism",
           "add": 1
+        },
+        {
+          "type": "promise_break",
+          "promise": "promise_equal_rules"
         }
       ],
       "next": {
@@ -1119,6 +1163,10 @@
           "type": "relationship",
           "character": "mentor",
           "add": -2
+        },
+        {
+          "type": "promise_honor",
+          "promise": "promise_independence"
         }
       ],
       "lock": {
@@ -1194,6 +1242,10 @@
           "creditor": "mentor",
           "amount": 1,
           "resolution": "repaid"
+        },
+        {
+          "type": "promise_break",
+          "promise": "promise_independence"
         }
       ],
       "delayedEffects": [

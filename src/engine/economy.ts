@@ -17,8 +17,14 @@ export interface EconomyBreakdown {
   total: number;
 }
 
+/**
+ * Exempt cards consume no operating runway. `continue` beats are exempt by
+ * nature: a setup or consequence screen is the same turn continued, not a new
+ * one — see the pacing addendum §32 (informational interaction is not a
+ * political commitment).
+ */
 function isExempt(card: CardDefinition): boolean {
-  return card.tags?.includes('economy_exempt') ?? false;
+  return card.interaction === 'continue' || (card.tags?.includes('economy_exempt') ?? false);
 }
 
 /**

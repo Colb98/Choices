@@ -3,6 +3,10 @@ import type {
   Effect,
   GameState,
   Obligation,
+  PromiseDefinition,
+  PromiseDomain,
+  PromiseId,
+  PromiseState,
   ResolvedEffectRecord,
 } from './types';
 
@@ -12,6 +16,42 @@ export interface EffectApplication {
   obligationsResolved: string[];
   flagsAdded: string[];
   flagsRemoved: string[];
+  promisesMade: PromiseId[];
+  promisesBroken: PromiseId[];
+  promisesHonored: PromiseId[];
+}
+
+/**
+ * The Record's domain priority. Equality first because it is the game's
+ * load-bearing pledge — the one the political thesis rests on. Used both to
+ * resolve `'highest_held'` targets and to pick which pledge the witness shows
+ * when one swipe breaks several.
+ */
+export const PROMISE_DOMAIN_PRIORITY: PromiseDomain[] = [
+  'equality',
+  'constituents',
+  'transparency',
+  'independence',
+  'reform',
+];
+
+export function promisePriority(domain: PromiseDomain | undefined): number {
+  const idx = domain ? PROMISE_DOMAIN_PRIORITY.indexOf(domain) : -1;
+  return idx < 0 ? PROMISE_DOMAIN_PRIORITY.length : idx;
+}
+
+/** Unbroken promises (held or honored), highest domain priority first (ties: earliest made first). */
+export function heldPromisesByPriority(
+  state: GameState,
+  promises: Record<PromiseId, PromiseDefinition>,
+): PromiseState[] {
+  return (state.promises ?? [])
+    .filter((p) => p.status !== 'broken')
+    .sort(
+      (a, b) =>
+        promisePriority(promises[a.id]?.domain) - promisePriority(promises[b.id]?.domain) ||
+        a.madeAt.turn - b.madeAt.turn,
+    );
 }
 
 function clamp(v: number, min: number, max: number): number {
@@ -26,7 +66,12 @@ export function applyEffects(
   state: GameState,
   effects: Effect[] | undefined,
   balance: BalanceConfig,
-  context: { sourceCardId: string; sourceChoice: 'left' | 'right' },
+  context: {
+    sourceCardId: string;
+    sourceChoice: 'left' | 'right';
+    /** Promise registry; required to resolve `'highest_held'` targets. */
+    promises?: Record<PromiseId, PromiseDefinition>;
+  },
 ): EffectApplication {
   const app: EffectApplication = {
     records: [],
@@ -34,8 +79,18 @@ export function applyEffects(
     obligationsResolved: [],
     flagsAdded: [],
     flagsRemoved: [],
+    promisesMade: [],
+    promisesBroken: [],
+    promisesHonored: [],
   };
   if (!effects) return app;
+
+  const resolvePromiseTarget = (target: PromiseId | 'highest_held'): PromiseState | undefined => {
+    if (target === 'highest_held') {
+      return heldPromisesByPriority(state, context.promises ?? {})[0];
+    }
+    return (state.promises ?? []).find((p) => p.id === target);
+  };
 
   effects.forEach((effect, index) => {
     switch (effect.type) {
@@ -158,6 +213,40 @@ export function applyEffects(
           state.narrative.activeThreads = active.filter((t) => t !== effect.thread);
         }
         app.records.push({ type: 'thread', target: effect.thread, after: effect.action, sourceEffectIndex: index });
+        break;
+      }
+      case 'promise_make': {
+        // A promise is only made once; re-pledging the same words is not a
+        // second promise. It is recorded at the card that made it, in the
+        // player's own words, so it can be thrown back verbatim.
+        state.promises ??= [];
+        if (!state.promises.some((p) => p.id === effect.promise)) {
+          state.promises.push({
+            id: effect.promise,
+            madeAt: { cardId: context.sourceCardId, choice: context.sourceChoice, turn: state.run.turn },
+            status: 'held',
+          });
+          app.promisesMade.push(effect.promise);
+          app.records.push({ type: 'promise_make', target: effect.promise, after: 'held', sourceEffectIndex: index });
+        }
+        break;
+      }
+      case 'promise_break':
+      case 'promise_honor': {
+        // Never a lock, never priced. Only an unbroken promise can be broken,
+        // and only a plainly held one can be honored; a card that can break a
+        // promise plays identically for a player who never made it — no
+        // witness, no trace.
+        const target = resolvePromiseTarget(effect.promise);
+        if (!target || target.status === 'broken') break;
+        if (effect.type === 'promise_honor' && target.status !== 'held') break;
+        const before = target.status;
+        const after = effect.type === 'promise_break' ? 'broken' : 'honored_under_pressure';
+        target.status = after;
+        target.resolvedTurn = state.run.turn;
+        target.resolvedByCardId = context.sourceCardId;
+        (effect.type === 'promise_break' ? app.promisesBroken : app.promisesHonored).push(target.id);
+        app.records.push({ type: effect.type, target: target.id, before, after, sourceEffectIndex: index });
         break;
       }
     }

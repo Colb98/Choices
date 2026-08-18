@@ -3,7 +3,7 @@ import { GAME_WIDTH, GAME_HEIGHT } from '../ui/dimensions';
 import { content, engine, saves, session } from '../services';
 import { runwayRatio } from '../engine/economy';
 import { getLanguage, hasKey, t } from '../engine/i18n';
-import type { LockState } from '../engine/engine';
+import type { LockState, WitnessItem } from '../engine/engine';
 import type { CardDefinition, ChoicePreview, GameState, TrustTrend } from '../engine/types';
 import { COLORS, FONT, formatMoney, formatSignedMoney } from '../ui/format';
 import { enableHighResolutionText } from '../ui/textQuality';
@@ -45,6 +45,13 @@ const MONEY_TEXT_COLOR = 0xfff5e8;
 const MONEY_CRITICAL_COLOR = 0xd66a6a;
 /** Choices are nearly invisible until you drag toward them; opaque at commit threshold. */
 const CHOICE_BASE_ALPHA = 0.00;
+/** A continue card's single action is always legible: it is not a commitment to hide behind a drag. */
+const CONTINUE_LABEL_ALPHA = 0.85;
+/** Continue cards commit on a shorter drag, or a plain tap. */
+const CONTINUE_COMMIT_DIST = 60;
+const TAP_DIST = 14;
+/** The Record's witness hold: no button, no skip. Long enough to read one sentence twice. */
+const WITNESS_HOLD_MS = 1600;
 const ARROW_UP = '▲';
 const ARROW_DOWN = '▼';
 
@@ -126,6 +133,7 @@ export class GameScene extends Phaser.Scene {
   // Choices
   private leftLabel!: Phaser.GameObjects.Text;
   private rightLabel!: Phaser.GameObjects.Text;
+  private continueLabel!: Phaser.GameObjects.Text;
 
   private dragging = false;
   private dragStart = { x: 0, y: 0 };
@@ -808,7 +816,14 @@ export class GameScene extends Phaser.Scene {
     }).setOrigin(0, 0).setAlpha(CHOICE_BASE_ALPHA)
       .setShadow(0, 2, 'rgba(0,0,0,0.55)', 4, false, true);
 
-    this.cardC.add([shadow, fallback, this.artImage, hitTarget, this.leftLabel, this.rightLabel, this.lockIcon]);
+    // Continue cards: one centered action, visible at rest, no fake pair.
+    this.continueLabel = this.add.text(0, -CARD_H / 2 + 18, '', {
+      fontFamily: FONT, fontSize: '19px', color: COLORS.text, fontStyle: 'italic',
+      wordWrap: { width: 360 }, align: 'center',
+    }).setOrigin(0.5, 0).setAlpha(0)
+      .setShadow(0, 2, 'rgba(0,0,0,0.55)', 4, false, true);
+
+    this.cardC.add([shadow, fallback, this.artImage, hitTarget, this.leftLabel, this.rightLabel, this.continueLabel, this.lockIcon]);
 
     hitTarget.on('dragstart', (pointer: Phaser.Input.Pointer) => {
       if (this.busy) return;
@@ -832,6 +847,17 @@ export class GameScene extends Phaser.Scene {
     this.input.keyboard?.on('keydown-RIGHT', () => this.tryKeyboard('right'));
     this.input.keyboard?.on('keydown-D', () => this.tryKeyboard('right'));
     this.input.keyboard?.on('keydown-F1', () => this.toggleDebug());
+    this.input.keyboard?.on('keydown-SPACE', () => this.tryContinueKey());
+    this.input.keyboard?.on('keydown-ENTER', () => this.tryContinueKey());
+  }
+
+  private isContinue(): boolean {
+    return engine.isContinueCard(this.currentCard());
+  }
+
+  private tryContinueKey() {
+    if (this.busy || !this.isContinue()) return;
+    this.commit('left', false);
   }
 
   private currentCard(): CardDefinition {
@@ -843,7 +869,7 @@ export class GameScene extends Phaser.Scene {
     audio.playGameMusic(this, this.state.run.currentAct);
     const speaker = card.speaker ? t(content.characters[card.speaker]?.nameKey ?? `char.${card.speaker}.name`) : '';
     this.speakerText.setText(speaker);
-    this.renderRichBody(t(card.text));
+    this.renderRichBody(t(engine.resolveCardTextKey(this.state, card)));
     this.anchorCardToPanelBottom();
     this.updateCardArt(card);
     this.updateTimeline();
@@ -853,8 +879,16 @@ export class GameScene extends Phaser.Scene {
 
     const left = engine.resolveChoice(this.state, card, 'left');
     const right = engine.resolveChoice(this.state, card, 'right');
-    this.setChoiceText(this.leftLabel, this.choiceLabel(t(left.textKey), engine.getLockState(this.state, card, 'left')));
-    this.setChoiceText(this.rightLabel, this.choiceLabel(t(right.textKey), engine.getLockState(this.state, card, 'right')));
+    if (engine.isContinueCard(card)) {
+      // One action, always readable, no preview: this screen is not a commitment.
+      this.setChoiceText(this.leftLabel, '');
+      this.setChoiceText(this.rightLabel, '');
+      this.continueLabel.setText(`${t(left.textKey)}  ›`).setAlpha(CONTINUE_LABEL_ALPHA);
+    } else {
+      this.continueLabel.setText('').setAlpha(0);
+      this.setChoiceText(this.leftLabel, this.choiceLabel(t(left.textKey), engine.getLockState(this.state, card, 'left')));
+      this.setChoiceText(this.rightLabel, this.choiceLabel(t(right.textKey), engine.getLockState(this.state, card, 'right')));
+    }
     this.leftLabel.setAlpha(CHOICE_BASE_ALPHA);
     this.rightLabel.setAlpha(CHOICE_BASE_ALPHA);
 
@@ -952,6 +986,11 @@ export class GameScene extends Phaser.Scene {
     this.applyCardTransform();
 
     const abs = Math.abs(shownX);
+    if (this.isContinue()) {
+      // Lighter interaction: no stat preview, no side to read.
+      this.hidePreviewArrows();
+      return;
+    }
     // Nearly invisible at rest, fully opaque exactly at the commit threshold —
     // reading a choice requires committing to the drag.
     const labelA = CHOICE_BASE_ALPHA + Phaser.Math.Clamp(abs / COMMIT_DIST, 0, 1) * (1 - CHOICE_BASE_ALPHA);
@@ -969,6 +1008,17 @@ export class GameScene extends Phaser.Scene {
 
   private onDragEnd() {
     const dx = this.dragOffset.x;
+    const dy = this.dragOffset.y;
+    if (this.isContinue()) {
+      // A tap or a short drag either way advances; both sides are the same words.
+      const tapped = Math.abs(dx) < TAP_DIST && Math.abs(dy) < TAP_DIST;
+      if (tapped || Math.abs(dx) >= CONTINUE_COMMIT_DIST) {
+        this.commit(dx < 0 ? 'left' : 'right', false);
+      } else {
+        this.returnCard();
+      }
+      return;
+    }
     const side: 'left' | 'right' = dx < 0 ? 'left' : 'right';
     const lock = engine.getLockState(this.state, this.currentCard(), side);
 
@@ -987,6 +1037,10 @@ export class GameScene extends Phaser.Scene {
 
   private tryKeyboard(side: 'left' | 'right') {
     if (this.busy) return;
+    if (this.isContinue()) {
+      this.commit('left', false);
+      return;
+    }
     const lock = engine.getLockState(this.state, this.currentCard(), side);
     if (lock.kind === 'hard') {
       audio.playSfx(this, 'lock');
@@ -1140,13 +1194,18 @@ export class GameScene extends Phaser.Scene {
       this.returnCard();
       return;
     }
+    const isContinue = engine.isContinueCard(card);
     audio.playSfx(this, 'choicePaper');
 
+    // Continue cards slide off short and quiet — no dramatic commit for a
+    // screen that was never a decision.
     const proxy = { x: this.dragOffset.x, y: this.dragOffset.y, a: 1 };
     this.tweens.add({
       targets: proxy,
-      x: dir * GAME_WIDTH, y: this.dragOffset.y + 40, a: 0.35,
-      duration: this.reducedMotion() ? 0 : 280,
+      x: dir * (isContinue ? GAME_WIDTH * 0.7 : GAME_WIDTH),
+      y: this.dragOffset.y + (isContinue ? 10 : 40),
+      a: isContinue ? 0.2 : 0.35,
+      duration: this.reducedMotion() ? 0 : isContinue ? 200 : 280,
       ease: 'Cubic.in',
       onUpdate: () => {
         this.dragOffset = { x: proxy.x, y: proxy.y };
@@ -1158,29 +1217,93 @@ export class GameScene extends Phaser.Scene {
         this.hidePreviewArrows();
         this.leftLabel.setAlpha(CHOICE_BASE_ALPHA);
         this.rightLabel.setAlpha(CHOICE_BASE_ALPHA);
-        this.updateHud(true, hudBefore);
-        this.showMoneyDelta(this.state.stats.money - hudBefore.money);
-
-        if (result.endingId) {
-          const meta = saves.recordCompletion(result.endingId);
-          session.meta = meta;
-          saves.clearRun();
-          this.time.delayedCall(this.reducedMotion() ? 0 : 600, () => {
-            this.scene.start('Ending', { endingId: result.endingId });
-          });
-          return;
-        }
-
-        saves.saveRun(this.state, getLanguage());
-
-        if (this.state.run.currentAct !== actBefore) {
-          this.time.delayedCall(1200, () => {
-            this.showActInterstitial(() => this.showCard(dir as 1 | -1));
-          });
+        this.continueLabel.setAlpha(0);
+        // The Record: the player's own words land on top of the act, before
+        // the numbers move. Not a lock — the swipe has already happened.
+        if (result.witness) {
+          this.playWitness(result.witness, () => this.afterCommit(result, hudBefore, actBefore, dir));
         } else {
-          this.showCard(dir as 1 | -1);
+          this.afterCommit(result, hudBefore, actBefore, dir);
         }
       },
+    });
+  }
+
+  private afterCommit(
+    result: { endingId?: string },
+    hudBefore: HudSnapshot,
+    actBefore: string,
+    dir: number,
+  ) {
+    this.updateHud(true, hudBefore);
+    this.showMoneyDelta(this.state.stats.money - hudBefore.money);
+
+    if (result.endingId) {
+      const meta = saves.recordCompletion(result.endingId);
+      session.meta = meta;
+      saves.clearRun();
+      this.time.delayedCall(this.reducedMotion() ? 0 : 600, () => {
+        this.scene.start('Ending', { endingId: result.endingId });
+      });
+      return;
+    }
+
+    saves.saveRun(this.state, getLanguage());
+
+    if (this.state.run.currentAct !== actBefore) {
+      this.time.delayedCall(1200, () => {
+        this.showActInterstitial(() => this.showCard(dir as 1 | -1));
+      });
+    } else {
+      this.showCard(dir as 1 | -1);
+    }
+  }
+
+  // --------------------------------------------------------------- witness
+
+  /**
+   * ENGINE-REQ-04. Fired by a `promise_break` on a held promise. Not a lock:
+   * no unlock cost, no back-out, no button. The scene dims and the pledge is
+   * rendered in the voice of the card where it was made, under "YOU SAID:".
+   * Held ~1.6s, then play continues. Reduced Motion: hard cut, same hold.
+   */
+  private playWitness(item: WitnessItem, done: () => void) {
+    this.busy = true;
+    const rm = this.reducedMotion();
+    const overlay = this.add.rectangle(GAME_WIDTH / 2, GAME_HEIGHT / 2, GAME_WIDTH, GAME_HEIGHT, 0x000000, rm ? 0.92 : 0)
+      .setDepth(50).setInteractive();
+    const prefix = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 92, t('promise.witness.prefix'), {
+      fontFamily: FONT, fontSize: '15px', color: COLORS.accent, letterSpacing: 4,
+    }).setOrigin(0.5).setDepth(52).setAlpha(rm ? 1 : 0);
+    // Same typeface and framing as the narrative body where the words were first said.
+    const pledge = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 20, t(item.pledgeKey), {
+      fontFamily: FONT, fontSize: '23px', color: COLORS.text, fontStyle: 'italic',
+      wordWrap: { width: 420 }, align: 'center', lineSpacing: 8,
+    }).setOrigin(0.5).setDepth(52).setAlpha(rm ? 1 : 0);
+    const rule = this.add.rectangle(GAME_WIDTH / 2, GAME_HEIGHT / 2 + pledge.height / 2 + 24, 60, 1, 0xf0b84b, 0.7)
+      .setDepth(52).setAlpha(rm ? 1 : 0);
+    const originCard = content.cards[item.madeAtCardId];
+    const originName = originCard?.speaker
+      ? t(content.characters[originCard.speaker]?.nameKey ?? `char.${originCard.speaker}.name`)
+      : '';
+    const origin = this.add.text(GAME_WIDTH / 2, rule.y + 22, originName ? t('promise.witness.origin', [originName]) : '', {
+      fontFamily: FONT, fontSize: '13px', color: COLORS.textDim, letterSpacing: 1,
+    }).setOrigin(0.5).setDepth(52).setAlpha(rm ? 1 : 0);
+
+    audio.playSfx(this, 'flash');
+    if (!rm) {
+      this.tweens.add({ targets: overlay, fillAlpha: 0.9, duration: 260 });
+      this.tweens.add({ targets: [prefix, pledge, rule, origin], alpha: 1, duration: 320, delay: 180 });
+    }
+    const objects = [overlay, prefix, pledge, rule, origin];
+    this.time.delayedCall(WITNESS_HOLD_MS + (rm ? 0 : 400), () => {
+      const finish = () => {
+        objects.forEach((o) => o.destroy());
+        this.busy = false;
+        done();
+      };
+      if (rm) finish();
+      else this.tweens.add({ targets: objects, alpha: 0, duration: 260, onComplete: finish });
     });
   }
 
@@ -1243,6 +1366,7 @@ export class GameScene extends Phaser.Scene {
         relationships: s.relationships,
         precedents: s.precedents,
         obligations: s.obligations.filter((o) => o.status === 'active').map((o) => `${o.id} (${o.creditor} w${o.weight})`),
+        promises: (s.promises ?? []).map((p) => `${p.id}: ${p.status} (@${p.madeAt.cardId})`),
         queued: pendingEvents.map((e) => `${e.eventId}@${e.triggerAtTurn ?? e.triggerAct}`),
         beatsDone: s.narrative.completedBeats,
       },

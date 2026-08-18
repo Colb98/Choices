@@ -1,0 +1,34 @@
+{
+  "promises": [
+    {
+      "id": "promise_equal_rules",
+      "pledgeKey": "promise.equal_rules.pledge",
+      "domain": "equality",
+      "description": "P1 — made at act0_first_interview LEFT. The spine of the game: the one the political thesis rests on."
+    },
+    {
+      "id": "promise_transparency",
+      "pledgeKey": "promise.transparency.pledge",
+      "domain": "transparency",
+      "description": "P2 — made at act0_first_parliament_speech LEFT (transparent complaint procedures)."
+    },
+    {
+      "id": "promise_constituents",
+      "pledgeKey": "promise.constituents.pledge",
+      "domain": "constituents",
+      "description": "P3 — made at act0_constituent_land_case LEFT (pull the full file)."
+    },
+    {
+      "id": "promise_major_change",
+      "pledgeKey": "promise.major_change.pledge",
+      "domain": "reform",
+      "description": "P4 — made at act0_appointment_day RIGHT. The brand promise, not the principle; available to the loud early player, not the modest one."
+    },
+    {
+      "id": "promise_independence",
+      "pledgeKey": "promise.independence.pledge",
+      "domain": "independence",
+      "description": "P5 — made at act0_mentor_advice RIGHT (\"Independence matters more.\")."
+    }
+  ]
+}

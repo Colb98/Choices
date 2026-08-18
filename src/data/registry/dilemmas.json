@@ -1,0 +1,37 @@
+{
+  "flags": [
+    { "id": "flag_queue_call_made", "description": "Player used office influence to move a constituent's father up a surgical list." },
+    { "id": "flag_queue_letter_sent", "description": "Player answered the surgical-list plea with the standard letter." },
+    { "id": "flag_case_public", "description": "Player let the appointment-network file publish whole, witnesses' names inside." },
+    { "id": "flag_witness_protection_started", "description": "Player sealed the appointment-network file for thirty days to protect three witnesses first." },
+    { "id": "flag_whistleblowers_wary", "description": "A witness was exposed after publication; future whistleblowers cooperate less." },
+    { "id": "flag_sealed_material_lost", "description": "Sealed material in politically controlled custody went missing." },
+    { "id": "flag_grandfathered_appointments", "description": "Recruitment reform applied only from the next cycle; exceptional hires kept." },
+    { "id": "flag_no_appointment_exceptions", "description": "Recruitment reform applied retroactively to all exceptional hires." },
+    { "id": "flag_health_transition_period", "description": "Minister's clinic network kept operating ninety days under supervision." },
+    { "id": "flag_health_network_suspended", "description": "Minister's clinic network suspended immediately." },
+    { "id": "flag_financial_records_frozen", "description": "Clinic-network financial records frozen and secured." },
+    { "id": "flag_records_consolidated", "description": "Clinic-network payment records were 'consolidated' during the transition period." },
+    { "id": "flag_full_file_public", "description": "The complete incident file, private sections included, was published." },
+    { "id": "flag_private_records_sealed", "description": "The victim's private records were sealed at the family's request." }
+  ],
+  "precedents": [
+    { "id": "precedent_queue_intervention", "description": "Office influence moved an individual ahead of a public queue." },
+    { "id": "precedent_information_withholding", "description": "Public material was sealed temporarily by decision of the player's office." },
+    { "id": "precedent_transition_exception", "description": "A reform was applied only forwards, grandfathering existing arrangements." },
+    { "id": "precedent_operational_exception", "description": "A compromised institution was kept operating under supervision instead of suspended." }
+  ],
+  "events": [
+    { "id": "event_queue_callback", "cardId": "dil_queue_callback", "once": true,
+      "metadata": { "description": "Moral-inversion callback for the surgical-list dilemma; text and effects vary by which side was taken." } },
+    { "id": "event_witness_aftermath", "cardId": "dil_witness_aftermath", "once": true,
+      "metadata": { "description": "Callback for the witness-safety dilemma: publication with/without protection capacity, sealing under independent/captured custody." } },
+    { "id": "event_reform_callback", "cardId": "dil_reform_callback", "once": true,
+      "metadata": { "description": "Callback for the retroactive-reform dilemma: the transition window exploited, or the transitional harm arriving." } },
+    { "id": "event_clinics_callback", "cardId": "dil_clinics_callback", "once": true,
+      "metadata": { "description": "Callback for the clinic-network dilemma: records kept or consolidated, clinics closing, ministry retaliation." } }
+  ],
+  "beats": [
+    { "id": "beat_aftermath_privacy", "act": "aftermath", "cardId": "dil_privacy_setup", "earliestActTurn": 4, "latestActTurn": 4, "priority": 101, "once": true }
+  ]
+}

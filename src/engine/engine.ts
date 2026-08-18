@@ -5,7 +5,7 @@ import {
   moneyTrend,
   projectedMoneyDelta as calculateProjectedMoneyDelta,
 } from './economy';
-import { applyEffects } from './effects';
+import { applyEffects, heldPromisesByPriority, promisePriority } from './effects';
 import { Rng, hashSeed, makeRunSeed } from './rng';
 import { cardStoryAdvanceDays, storyElapsedDays, storyYear } from './timeline';
 import type {
@@ -22,6 +22,9 @@ import type {
   GameState,
   NarrativeSelectionResult,
   NextDirective,
+  PromiseId,
+  PromiseState,
+  PromiseStatus,
   ScheduledEvent,
 } from './types';
 
@@ -49,10 +52,44 @@ export type LockState =
   | { kind: 'cost'; unlockEffects: Effect[]; flashbacks: FlashbackItem[] }
   | { kind: 'hard'; flashbacks: FlashbackItem[] };
 
+/**
+ * The Record's witness: fired when a swipe breaks a held promise. Not a lock —
+ * the swipe has already happened; the player's own words arrive as it resolves.
+ * When one swipe breaks several promises, only the highest-priority pledge is
+ * witnessed (never a stack).
+ */
+export interface WitnessItem {
+  promiseId: PromiseId;
+  /** i18n key of the pledge, quotable */
+  pledgeKey: string;
+  madeAtCardId: string;
+  madeAtChoice: 'left' | 'right';
+}
+
 export interface CommitResult {
   entry: ChoiceHistoryEntry;
   next?: NarrativeSelectionResult;
   endingId?: string;
+  witness?: WitnessItem;
+}
+
+/** The moment a promise's fate was decided — the card and the swipe, quotable like a flashback. */
+export interface LedgerMoment {
+  cardId: string;
+  turn: number;
+  /** i18n key of the card body as it read then */
+  cardTextKey: string;
+  /** i18n key of the option the player picked */
+  choiceTextKey?: string;
+  choice?: 'left' | 'right';
+}
+
+export interface LedgerLine {
+  promiseId: PromiseId;
+  pledgeKey: string;
+  status: PromiseStatus;
+  /** Present for broken and honored promises: where, and with which choice. */
+  moment?: LedgerMoment;
 }
 
 export class NarrativeEngine {
@@ -81,6 +118,7 @@ export class NarrativeEngine {
       relationships: {},
       precedents: {},
       obligations: [],
+      promises: [],
       history: [],
       scheduledEvents: [],
       seenCards: {},
@@ -103,6 +141,71 @@ export class NarrativeEngine {
   currentCard(state: GameState): CardDefinition {
     if (!state.run.currentCardId) throw new Error('No current card');
     return this.card(state.run.currentCardId);
+  }
+
+  /** Card body key for the current state: first matching `textVariants` entry, else `text`. */
+  resolveCardTextKey(state: GameState, card: CardDefinition): string {
+    const variant = card.textVariants?.find((v) => evaluateCondition(state, v.conditions));
+    return variant?.text ?? card.text;
+  }
+
+  isContinueCard(card: CardDefinition): boolean {
+    return card.interaction === 'continue';
+  }
+
+  // -------------------------------------------------------------------------
+  // The Record
+
+  /**
+   * Every promise the run ever made, in the order made, with its fate — and,
+   * for a broken or honored one, the exact card and swipe that decided it, so
+   * the ending can hand the moment back the way a lock flashback does.
+   */
+  promiseLedger(state: GameState): LedgerLine[] {
+    return (state.promises ?? []).map((p) => {
+      const line: LedgerLine = {
+        promiseId: p.id,
+        pledgeKey: this.content.promises[p.id]?.pledgeKey ?? `promise.${p.id}.pledge`,
+        status: p.status,
+      };
+      if (p.status !== 'held' && p.resolvedByCardId) {
+        const list = p.status === 'broken' ? 'promisesBroken' : 'promisesHonored';
+        const entry =
+          state.history.find((h) => h.cardId === p.resolvedByCardId && (h[list] ?? []).includes(p.id)) ??
+          state.history.find((h) => h.cardId === p.resolvedByCardId && h.turn === p.resolvedTurn) ??
+          state.history.find((h) => h.cardId === p.resolvedByCardId);
+        const card = this.content.cards[p.resolvedByCardId];
+        line.moment = {
+          cardId: p.resolvedByCardId,
+          turn: entry?.turn ?? p.resolvedTurn ?? 0,
+          cardTextKey: entry?.cardTextKey ?? card?.text ?? '',
+          choiceTextKey: entry?.choiceTextKey,
+          choice: entry?.choice,
+        };
+      }
+      return line;
+    });
+  }
+
+  heldPromises(state: GameState): PromiseState[] {
+    return heldPromisesByPriority(state, this.content.promises);
+  }
+
+  private pickWitness(state: GameState, brokenIds: PromiseId[]): WitnessItem | undefined {
+    if (brokenIds.length === 0) return undefined;
+    const ranked = [...brokenIds].sort(
+      (a, b) =>
+        promisePriority(this.content.promises[a]?.domain) - promisePriority(this.content.promises[b]?.domain),
+    );
+    const id = ranked[0];
+    const promise = state.promises.find((p) => p.id === id);
+    if (!promise) return undefined;
+    return {
+      promiseId: id,
+      pledgeKey: this.content.promises[id]?.pledgeKey ?? `promise.${id}.pledge`,
+      madeAtCardId: promise.madeAt.cardId,
+      madeAtChoice: promise.madeAt.choice,
+    };
   }
 
   getEconomyBreakdown(state: GameState, card: CardDefinition = this.currentCard(state)) {
@@ -227,7 +330,7 @@ export class NarrativeEngine {
         return {
           cardId: s.cardId,
           choice: s.choice,
-          cardTextKey: card?.text ?? '',
+          cardTextKey: entry?.cardTextKey ?? card?.text ?? '',
           choiceTextKey: entry?.choiceTextKey,
           turn: s.turn,
         };
@@ -244,6 +347,7 @@ export class NarrativeEngine {
   ): CommitResult {
     const card = this.currentCard(state);
     const choice = this.resolveChoice(state, card, side);
+    const cardTextKey = this.resolveCardTextKey(state, card);
     const lockState = this.getLockState(state, card, side);
     if (lockState.kind === 'hard') {
       throw new Error(`Choice ${card.id}:${side} is hard-locked`);
@@ -253,7 +357,7 @@ export class NarrativeEngine {
     }
 
     const rng = new Rng(state.rngState);
-    const context = { sourceCardId: card.id, sourceChoice: side };
+    const context = { sourceCardId: card.id, sourceChoice: side, promises: this.content.promises };
 
     const effects: Effect[] = [...(choice.effects ?? [])];
     if (lockState.kind === 'cost' && opts.payCost) {
@@ -272,8 +376,10 @@ export class NarrativeEngine {
       storyElapsedDays(state, this.content.balance) +
       cardStoryAdvanceDays(state, this.content.balance, card);
 
+    const isContinue = card.interaction === 'continue';
     const hitFinancialFloor =
       isFinancialPressureAct(state, this.content.balance) &&
+      !isContinue &&
       !(card.tags?.includes('economy_exempt') ?? false) &&
       state.stats.money <= this.content.balance.money.min;
     let forceFinancialRescue = false;
@@ -329,6 +435,7 @@ export class NarrativeEngine {
       cardId: card.id,
       choice: side,
       choiceTextKey: choice.textKey,
+      cardTextKey,
       paidCost: lockState.kind === 'cost' ? true : undefined,
       timestamp: Date.now(),
       effectsApplied: app.records,
@@ -337,8 +444,12 @@ export class NarrativeEngine {
       flagsAdded: app.flagsAdded,
       flagsRemoved: app.flagsRemoved,
       scheduledEventIds: scheduledIds,
+      promisesMade: app.promisesMade.length ? app.promisesMade : undefined,
+      promisesBroken: app.promisesBroken.length ? app.promisesBroken : undefined,
+      promisesHonored: app.promisesHonored.length ? app.promisesHonored : undefined,
     };
     state.history.push(entry);
+    const witness = this.pickWitness(state, app.promisesBroken);
 
     state.seenCards[card.id] = (state.seenCards[card.id] ?? 0) + 1;
     state.narrative.recentCards.push(card.id);
@@ -347,8 +458,14 @@ export class NarrativeEngine {
       state.narrative.recentCards = state.narrative.recentCards.slice(-window);
     }
 
-    state.run.turn += 1;
-    state.run.actTurn += 1;
+    // A continue beat does not spend a turn: setup → decision is one decision,
+    // and a consequence beat is the decision's tail. Acts are paced in
+    // act-turns by their beat ladders, so this keeps a two-card dilemma from
+    // displacing two ordinary turns of play (and of economy).
+    if (!isContinue) {
+      state.run.turn += 1;
+      state.run.actTurn += 1;
+    }
 
     // Explicit routing
     let endingNow = false;
@@ -402,15 +519,15 @@ export class NarrativeEngine {
       state.run.completed = true;
       state.run.endingId = ending.id;
       state.run.currentCardId = undefined;
-      return { entry, endingId: ending.id };
+      return { entry, endingId: ending.id, witness };
     }
 
     const selection = this.getNextCard(state);
     if (selection.source === 'ending') {
-      return { entry, endingId: state.run.endingId };
+      return { entry, endingId: state.run.endingId, witness };
     }
     state.run.currentCardId = selection.cardId;
-    return { entry, next: selection };
+    return { entry, next: selection, witness };
   }
 
   private enterAct(state: GameState, act: string) {

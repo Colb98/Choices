@@ -55,7 +55,10 @@ function checkCondition(expr: ConditionExpression | undefined, where: string) {
     if (!content.flags[c.flag]) err(`${where}: unknown flag in condition: ${c.flag}`);
   }
   for (const c of collectConditions(expr, 'precedent')) {
-    if (!content.precedents[c.precedent]) err(`${where}: unknown precedent in condition: ${c.precedent}`);
+    if (c.precedent !== '*' && !content.precedents[c.precedent]) err(`${where}: unknown precedent in condition: ${c.precedent}`);
+  }
+  for (const c of collectConditions(expr, 'promise')) {
+    if (c.promise && !content.promises[c.promise]) err(`${where}: unknown promise in condition: ${c.promise}`);
   }
   for (const c of collectConditions(expr, 'relationship')) {
     if (!content.characters[c.character]) err(`${where}: unknown character in condition: ${c.character}`);
@@ -116,9 +119,21 @@ function checkEffects(effects: Effect[] | undefined, where: string) {
       case 'obligation_resolve':
         if (e.creditor && !content.characters[e.creditor]) err(`${where}: unknown creditor: ${e.creditor}`);
         break;
+      case 'promise_make':
+        if (!content.promises[e.promise]) err(`${where}: unknown promise in effect: ${e.promise}`);
+        break;
+      case 'promise_break':
+      case 'promise_honor':
+        if (e.promise !== 'highest_held' && !content.promises[e.promise]) {
+          err(`${where}: unknown promise in effect: ${e.promise}`);
+        }
+        break;
     }
   }
 }
+
+const hasPromiseEffect = (effects: Effect[] | undefined, ...types: Effect['type'][]) =>
+  (effects ?? []).some((e) => types.includes(e.type));
 
 function checkDelayed(delayed: DelayedEffect[] | undefined, where: string) {
   for (const d of delayed ?? []) {
@@ -138,6 +153,15 @@ function checkChoicePart(c: ChoiceDefinition | ChoiceVariant, where: string, isV
   else if (!isVariant) err(`${where}: missing text key`);
   checkEffects(c.effects, where);
   checkDelayed(c.delayedEffects, where);
+  // THE RECORD — no-lock invariant: breaking a promise is never locked and
+  // never priced. A choice that breaks a promise may not itself be locked, and
+  // no promise mechanic may ride on an unlock price.
+  if (hasPromiseEffect(c.effects, 'promise_break') && c.lock) {
+    err(`${where}: promise_break on a locked choice (The Record never locks; see System Pack §1 rule 2)`);
+  }
+  if (hasPromiseEffect(c.lock?.unlockEffects, 'promise_make', 'promise_break', 'promise_honor')) {
+    err(`${where}: promise effects inside unlockEffects (a promise is never priced)`);
+  }
   if (c.lock) {
     checkCondition(c.lock.condition, `${where} (lock)`);
     checkEffects(c.lock.unlockEffects, `${where} (unlockEffects)`);
@@ -195,8 +219,39 @@ for (const card of Object.values(content.cards)) {
   checkKey(card.text, where);
   if (card.title) checkKey(card.title, where);
   checkCondition(card.conditions, where);
+  for (const [i, v] of (card.textVariants ?? []).entries()) {
+    checkKey(v.text, `${where} textVariants[${i}]`);
+    checkCondition(v.conditions, `${where} textVariants[${i}]`);
+  }
+  if (card.interaction && card.interaction !== 'decision' && card.interaction !== 'continue') {
+    err(`${where}: unknown interaction ${String(card.interaction)}`);
+  }
+  if (card.interaction === 'continue') {
+    // One progression action, no fake Left/Right pair. The loader mirrors
+    // `left` to `right`; if an author wrote both they must be the same words.
+    if (card.right !== card.left && JSON.stringify(card.right) !== JSON.stringify(card.left)) {
+      err(`${where}: continue card must not author a divergent right choice (write only 'left')`);
+    }
+    if (card.left.lock) err(`${where}: continue card cannot be locked`);
+    if (hasPromiseEffect(card.left.effects, 'promise_break', 'promise_make')) {
+      err(`${where}: continue card cannot make or break a promise (a promise is only made/broken by an active choice)`);
+    }
+    if (!card.left.next && (card.left.effects ?? []).some((e) => e.type === 'stat' && e.stat !== 'money')) {
+      warn(`${where}: continue card moves a visible stat; setup/consequence beats should stay light`);
+    }
+  }
   checkChoice(card.left, `${where} left`);
-  checkChoice(card.right, `${where} right`);
+  if (card.interaction !== 'continue') checkChoice(card.right, `${where} right`);
+  // THE RECORD touches no card after the collision: after the woman is on the
+  // asphalt the reckoning is about minutes, not promises.
+  if (card.act === 'incident' || card.act === 'aftermath') {
+    for (const side of [card.left, card.right]) {
+      const all = [side.effects, ...(side.variants ?? []).map((v) => v.effects)];
+      if (all.some((effs) => hasPromiseEffect(effs, 'promise_make', 'promise_break', 'promise_honor'))) {
+        err(`${where}: promise mechanics after the collision (act ${card.act})`);
+      }
+    }
+  }
   if (
     card.metadata?.storyTimeAdvanceDays !== undefined &&
     (!Number.isFinite(card.metadata.storyTimeAdvanceDays) || card.metadata.storyTimeAdvanceDays < 0)
@@ -255,6 +310,34 @@ for (const ending of content.endings) {
     }
     if (step.type === 'text') checkKey(step.textKey, where);
   }
+}
+
+// ---------------------------------------------------------------- the record
+
+for (const p of Object.values(content.promises)) {
+  checkKey(p.pledgeKey, `promise ${p.id}`);
+  let made = 0;
+  let breakable = 0;
+  for (const card of Object.values(content.cards)) {
+    for (const side of [card.left, card.right]) {
+      for (const effs of [side.effects, ...(side.variants ?? []).map((v) => v.effects)]) {
+        for (const e of effs ?? []) {
+          if (e.type === 'promise_make' && e.promise === p.id) made++;
+          if (e.type === 'promise_break' && (e.promise === p.id || e.promise === 'highest_held')) breakable++;
+        }
+      }
+    }
+  }
+  if (made === 0) err(`promise ${p.id}: never made by any choice`);
+  if (breakable === 0) warn(`promise ${p.id}: no choice can break it (dead weight in the ledger)`);
+}
+for (const ending of content.endings) {
+  const ledgers = ending.presentation.sequence.filter((s) => s.type === 'record_ledger').length;
+  if (ledgers === 0) warn(`ending ${ending.id}: no record_ledger step (The Record renders in every ending)`);
+  if (ledgers > 1) err(`ending ${ending.id}: more than one record_ledger step`);
+}
+for (const key of ['promise.witness.prefix', 'record.header', 'record.kept', 'record.kept_costly', 'record.broken', 'record.empty']) {
+  checkKey(key, 'the record');
 }
 
 // ---------------------------------------------------------------- articles
@@ -385,7 +468,7 @@ if (!content.flags[economy.rescue.bankruptcyFlag]) {
 
 // ---------------------------------------------------------------- report
 
-console.log(`Validated: ${cardIds.size} cards, ${Object.keys(content.events).length} events, ${content.beats.length} beats, ${content.endings.length} endings, ${Object.keys(content.articles).length} articles, ${Object.keys(content.characters).length} characters, ${Object.keys(content.flags).length} flags, ${Object.keys(content.precedents).length} precedents, languages: ${Object.keys(i18n).join(', ')}`);
+console.log(`Validated: ${cardIds.size} cards, ${Object.keys(content.events).length} events, ${content.beats.length} beats, ${content.endings.length} endings, ${Object.keys(content.articles).length} articles, ${Object.keys(content.characters).length} characters, ${Object.keys(content.flags).length} flags, ${Object.keys(content.precedents).length} precedents, ${Object.keys(content.promises).length} promises, languages: ${Object.keys(i18n).join(', ')}`);
 
 if (warnings.length) {
   console.log(`\n${warnings.length} warning(s):`);

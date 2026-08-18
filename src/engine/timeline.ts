@@ -16,6 +16,9 @@ export function cardStoryAdvanceDays(
   balance: BalanceConfig,
   card: CardDefinition,
 ): number {
+  // A continue beat is the same screen, continued — no story time passes
+  // unless the author says otherwise.
+  if (card.interaction === 'continue' && card.metadata?.storyTimeAdvanceDays === undefined) return 0;
   return card.metadata?.storyTimeAdvanceDays
     ?? balance.timeline.defaultCardAdvanceDays[state.run.currentAct]
     ?? 0;

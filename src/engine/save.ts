@@ -35,9 +35,14 @@ export class SaveManager {
   }
 
   private migrateRun(data: SaveData): SaveData | undefined {
-    if (data.version === CURRENT_SAVE_VERSION) return data;
-    // No older versions shipped; unknown versions are discarded.
-    return undefined;
+    if (data.version !== CURRENT_SAVE_VERSION) {
+      // No older versions shipped; unknown versions are discarded.
+      return undefined;
+    }
+    // Additive fields introduced after v1 shipped: backfill so older saves in
+    // the same version continue seamlessly (an empty Record is a valid Record).
+    data.state.promises ??= [];
+    return data;
   }
 
   loadMeta(): MetaSave {

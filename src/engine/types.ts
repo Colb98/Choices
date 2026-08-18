@@ -13,6 +13,7 @@ export type ObligationId = string;
 export type PrecedentId = string;
 export type ActId = string;
 export type NarrativeThreadId = string;
+export type PromiseId = string;
 
 // ---------------------------------------------------------------------------
 // Stats
@@ -56,7 +57,8 @@ export type Condition =
   | HistoryCondition
   | TurnCondition
   | ActCondition
-  | SeenCardCondition;
+  | SeenCardCondition
+  | PromiseCondition;
 
 export type CompareOp = '>' | '>=' | '<' | '<=' | '==' | '!=';
 
@@ -93,7 +95,8 @@ export interface RelationshipCondition {
 
 export interface PrecedentCondition {
   type: 'precedent';
-  precedent: PrecedentId;
+  /** A precedent id, or '*' for the sum of every precedent the run has set. */
+  precedent: PrecedentId | '*';
   op: CompareOp;
   value: number;
 }
@@ -135,6 +138,19 @@ export interface SeenCardCondition {
   maxCount?: number;
 }
 
+/**
+ * The Record. Matches promises the player has made. `status` defaults to
+ * 'kept' (held or honored under pressure — i.e. not yet broken); 'any'
+ * matches every promise ever made regardless of fate. With no `promise`,
+ * counts every matching promise; `minCount` defaults to 1.
+ */
+export interface PromiseCondition {
+  type: 'promise';
+  promise?: PromiseId;
+  status?: PromiseStatus | 'kept' | 'any';
+  minCount?: number;
+}
+
 // ---------------------------------------------------------------------------
 // Effects
 
@@ -147,7 +163,10 @@ export type Effect =
   | PrecedentEffect
   | ObligationEffect
   | ObligationResolveEffect
-  | NarrativeThreadEffect;
+  | NarrativeThreadEffect
+  | PromiseMakeEffect
+  | PromiseBreakEffect
+  | PromiseHonorEffect;
 
 export interface StatEffect {
   type: 'stat';
@@ -215,6 +234,36 @@ export interface NarrativeThreadEffect {
   type: 'thread';
   thread: NarrativeThreadId;
   action: 'activate' | 'complete' | 'cancel';
+}
+
+/**
+ * The Record — recorded only by an active idealistic choice, never assigned.
+ * No-op if the promise was already made this run.
+ */
+export interface PromiseMakeEffect {
+  type: 'promise_make';
+  promise: PromiseId;
+}
+
+/**
+ * Declares that taking this choice breaks a promise IF it is held. Never a
+ * lock, never priced: the swipe stays free; the game only witnesses it. No-op
+ * when the promise was never made or is already broken. `'highest_held'`
+ * targets the held promise with the highest domain priority.
+ */
+export interface PromiseBreakEffect {
+  type: 'promise_break';
+  promise: PromiseId | 'highest_held';
+}
+
+/**
+ * The mirror case: the player refused corruption at real cost. held →
+ * honored_under_pressure. An honored promise can still be broken later — the
+ * ledger then reads "broken"; keeping your word once is not keeping it.
+ */
+export interface PromiseHonorEffect {
+  type: 'promise_honor';
+  promise: PromiseId | 'highest_held';
 }
 
 // ---------------------------------------------------------------------------
@@ -359,15 +408,33 @@ export interface CardMetadata {
   debugTags?: string[];
 }
 
+/** State-dependent card body; the first matching variant wins, else `text`. */
+export interface CardTextVariant {
+  conditions: ConditionExpression;
+  /** i18n key */
+  text: string;
+}
+
+/**
+ * `decision` (default): a real Left/Right choice with previews and effects.
+ * `continue`: a single progression action — one authored choice (`left`), no
+ * fake pair; the loader mirrors it to `right` so the engine sees both sides.
+ * Presented without stat preview or commit weight so the player learns that
+ * not every interaction is a political commitment.
+ */
+export type CardInteraction = 'decision' | 'continue';
+
 export interface CardDefinition {
   id: CardId;
   act: ActId;
   type?: CardType;
+  interaction?: CardInteraction;
   speaker?: CharacterId;
   /** i18n key */
   title?: string;
   /** i18n key, e.g. card.act0_appointment_day.text */
   text: string;
+  textVariants?: CardTextVariant[];
   illustration?: IllustrationRef;
   background?: string;
   left: ChoiceDefinition;
@@ -400,6 +467,28 @@ export interface Obligation {
   resolvedByCardId?: CardId;
 }
 
+// ---------------------------------------------------------------------------
+// The Record (promises)
+
+export type PromiseDomain = 'equality' | 'transparency' | 'constituents' | 'reform' | 'independence';
+export type PromiseStatus = 'held' | 'broken' | 'honored_under_pressure';
+
+export interface PromiseDefinition {
+  id: PromiseId;
+  /** i18n key of the pledge — the exact words, quotable, thrown back verbatim */
+  pledgeKey: string;
+  domain: PromiseDomain;
+  description?: string;
+}
+
+export interface PromiseState {
+  id: PromiseId;
+  madeAt: { cardId: CardId; choice: 'left' | 'right'; turn: number };
+  status: PromiseStatus;
+  resolvedTurn?: number;
+  resolvedByCardId?: CardId;
+}
+
 export interface ResolvedEffectRecord {
   type: string;
   target?: string;
@@ -414,6 +503,8 @@ export interface ChoiceHistoryEntry {
   choice: 'left' | 'right';
   /** i18n key of the chosen option, so flashbacks render in current language */
   choiceTextKey: string;
+  /** i18n key of the card body as it read at the time (text variant resolved), for flashbacks and The Record */
+  cardTextKey?: string;
   /** true when a cost-lock was paid to take this choice */
   paidCost?: boolean;
   timestamp: number;
@@ -423,6 +514,9 @@ export interface ChoiceHistoryEntry {
   flagsAdded: FlagId[];
   flagsRemoved: FlagId[];
   scheduledEventIds: string[];
+  promisesMade?: PromiseId[];
+  promisesBroken?: PromiseId[];
+  promisesHonored?: PromiseId[];
 }
 
 // ---------------------------------------------------------------------------
@@ -458,6 +552,7 @@ export type EndingSequenceStep =
   | { type: 'stat_glitch'; stat: StatName; finalValue: number }
   | { type: 'delay'; milliseconds: number }
   | { type: 'memorial' }
+  | { type: 'record_ledger' }
   | { type: 'credits' };
 
 export interface EndingPresentation {
@@ -540,6 +635,8 @@ export interface GameState {
   relationships: Record<CharacterId, number>;
   precedents: Record<PrecedentId, number>;
   obligations: Obligation[];
+  /** The Record: every promise made this run, in the order made. */
+  promises: PromiseState[];
   history: ChoiceHistoryEntry[];
   scheduledEvents: ScheduledEvent[];
   seenCards: Record<CardId, number>;
@@ -595,6 +692,7 @@ export interface RegistryFragment {
   events?: EventDefinition[];
   beats?: StoryBeatDefinition[];
   articles?: ArticleDefinition[];
+  promises?: PromiseDefinition[];
 }
 
 export interface BalanceConfig {
@@ -675,6 +773,7 @@ export interface ContentBundle {
   characters: Record<CharacterId, CharacterDefinition>;
   flags: Record<FlagId, FlagDefinition>;
   precedents: Record<PrecedentId, PrecedentDefinition>;
+  promises: Record<PromiseId, PromiseDefinition>;
   acts: ActDefinition[];
   balance: BalanceConfig;
 }

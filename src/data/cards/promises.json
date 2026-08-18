@@ -1,0 +1,151 @@
+[
+  {
+    "id": "act_echo_inaugural",
+    "act": "network",
+    "type": "contextual",
+    "text": "card.act_echo_inaugural.text",
+    "illustration": {
+      "scene": "parliament_podium"
+    },
+    "once": true,
+    "weight": 6,
+    "minActTurn": 2,
+    "conditions": {
+      "all": [
+        {
+          "type": "promise"
+        },
+        {
+          "type": "precedent",
+          "precedent": "*",
+          "op": ">=",
+          "value": 1
+        }
+      ]
+    },
+    "left": {
+      "text": "card.act_echo_inaugural.left",
+      "preview": {
+        "standing": -1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 2
+        },
+        {
+          "type": "promise_honor",
+          "promise": "highest_held"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act_echo_inaugural.right",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "up"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 2
+        },
+        {
+          "type": "promise_break",
+          "promise": "highest_held"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "CARD 016b — The Same Podium. Not a corruption node, a mirror. The player returns to the exact podium of their first speech and is asked, plainly, whether they still mean the thing they said there. LEFT costs Standing to reaffirm (honoring a promise under pressure is now expensive); RIGHT is the soft, popular betrayal — no scandal, no obligation, just quietly saying the newer thing. The witness fires on RIGHT with the player's own first line. Appears only for players holding at least one promise who have already set at least one precedent; the pure cynic never sees this podium."
+    }
+  },
+  {
+    "id": "act3_authority_vote_betrayal",
+    "act": "power",
+    "type": "story",
+    "text": "card.act3_authority_vote_betrayal.text",
+    "illustration": {
+      "scene": "parliament_vote_board"
+    },
+    "once": true,
+    "tags": [
+      "economy_exempt"
+    ],
+    "left": {
+      "text": "card.act3_authority_vote_betrayal.left",
+      "preview": {
+        "standing": -1,
+        "power": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -2
+        },
+        {
+          "type": "flag",
+          "flag": "flag_investigation_politically_controlled",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.act3_authority_vote_betrayal.right",
+      "preview": {
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "flag",
+          "flag": "flag_investigation_politically_controlled",
+          "action": "add"
+        },
+        {
+          "type": "promise_break",
+          "promise": "promise_transparency"
+        },
+        {
+          "type": "promise_break",
+          "promise": "promise_independence"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "storyTimeAdvanceDays": 0,
+      "designIntent": "CARD 052b — The Vote Against Yourself. The mandatory betrayal node the whole Record was built for, honored honestly: it is not a lock. Fires only as the confirmation beat of 052 RIGHT, and only for a player who still holds the transparency or independence pledge. The player who wants the controlled outcome can still get it by abstaining (hands clean, room wins anyway) at a Power cost, or by casting the vote and breaking the word outright. What is removed is the ability to reach the fully-controlled outcome AND keep the promise AND pay nothing — the exact combination the game refuses to sell. For a player holding neither promise this card never appears; 052 RIGHT is just a vote."
+    }
+  }
+]

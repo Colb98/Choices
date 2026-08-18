@@ -14,6 +14,8 @@
     "test:timeline": "tsx scripts/test-timeline.ts",
     "test:standing-power": "tsx scripts/test-standing-power.ts",
     "test:public-trust": "tsx scripts/test-public-trust.ts",
+    "test:promises": "tsx scripts/test-promises.ts",
+    "test:dilemmas": "tsx scripts/test-dilemmas.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

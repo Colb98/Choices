@@ -259,6 +259,11 @@ const trustStoryVisits: Record<string, number> = Object.fromEntries(
     .map((id) => [id, 0]),
 );
 const strategyEndings: Record<string, Record<string, number>> = {};
+// The Record: witnesses fired and ledger shape, per strategy; plus the
+// mandatory-node invariant (System Pack QA #3).
+const recordStats: Record<string, { witnesses: number; made: number; broken: number; honored: number; echo: number; vote052b: number }> = {};
+let recordInvariantViolations = 0;
+let zeroPromiseRunsWithWitness = 0;
 const strategyStats: Record<string, {
   completed: number;
   bankrupt: number;
@@ -275,6 +280,7 @@ const strategyStats: Record<string, {
 
 for (const [name, strategy] of Object.entries(strategies)) {
   strategyEndings[name] = {};
+  recordStats[name] = { witnesses: 0, made: 0, broken: 0, honored: 0, echo: 0, vote052b: 0 };
   strategyStats[name] = {
     completed: 0, bankrupt: 0, turns: [], finalMoney: [], finalLeverage: [], betrayedWeight: [],
     precedentFootprint: [], actualTrust: [], perceivedTrust: [],
@@ -296,7 +302,8 @@ for (const [name, strategy] of Object.entries(strategies)) {
           if (k === 'cost') lockObservations.cost++;
         }
         const { side, payCost } = strategy(engine, state, botRng);
-        engine.commitChoice(state, side, { payCost });
+        const result = engine.commitChoice(state, side, { payCost });
+        if (result.witness) recordStats[name].witnesses++;
       }
       if (!state.run.completed) {
         console.error(`FAIL [${name}#${i}] run did not complete within ${MAX_TURNS} turns (stuck at ${state.run.currentCardId}, act ${state.run.currentAct})`);
@@ -330,6 +337,26 @@ for (const [name, strategy] of Object.entries(strategies)) {
           .reduce((sum, obligation) => sum + obligation.weight, 0),
       );
       if (bankrupt) strategyStats[name].bankrupt++;
+      // The Record
+      const promises = state.promises ?? [];
+      recordStats[name].made += promises.length;
+      recordStats[name].broken += promises.filter((p) => p.status === 'broken').length;
+      recordStats[name].honored += promises.filter((p) => p.status === 'honored_under_pressure').length;
+      recordStats[name].echo += state.seenCards['act_echo_inaugural'] ?? 0;
+      recordStats[name].vote052b += state.seenCards['act3_authority_vote_betrayal'] ?? 0;
+      const witnessed = state.history.some((h) => (h.promisesBroken ?? []).length > 0);
+      if (promises.length === 0 && witnessed) zeroPromiseRunsWithWitness++;
+      // Controlled investigation + a still-unbroken transparency/independence
+      // pledge is only reachable through 052b (abstain).
+      const controlled = state.flags.includes('flag_investigation_politically_controlled');
+      const saw052b = (state.seenCards['act3_authority_vote_betrayal'] ?? 0) > 0;
+      const stillKept = promises.some(
+        (p) => (p.id === 'promise_transparency' || p.id === 'promise_independence') && p.status !== 'broken',
+      );
+      if (controlled && stillKept && !saw052b) {
+        recordInvariantViolations++;
+        console.error(`RECORD [${name}#${i}] controlled investigation with an unbroken pledge and no 052b`);
+      }
     } catch (err) {
       console.error(`FAIL [${name}#${i}] turn ${state.run.turn}, card ${state.run.currentCardId}: ${(err as Error).message}`);
       failures++;
@@ -378,6 +405,10 @@ console.log('Standing/Power story visits:');
 for (const [id, visits] of Object.entries(statusStoryVisits)) console.log(`  ${id}: ${visits}`);
 console.log('Public Trust story visits:');
 for (const [id, visits] of Object.entries(trustStoryVisits)) console.log(`  ${id}: ${visits}`);
+console.log('The Record by strategy (witnesses / made / broken / honored / 016b / 052b):');
+for (const [name, r] of Object.entries(recordStats)) {
+  console.log(`  ${name}: ${r.witnesses} / ${r.made} / ${r.broken} / ${r.honored} / ${r.echo} / ${r.vote052b}`);
+}
 console.log('Ending distribution:');
 for (const [id, n] of Object.entries(endingCounts).sort((a, b) => b[1] - a[1])) {
   console.log(`  ${id}: ${n}`);
@@ -414,6 +445,18 @@ if (cleanMoney < 100_000 || cleanMoney > 200_000) {
 }
 if (corruptMoney < 1_000_000_000) {
   console.error(`ERROR: optimized corruption should exceed $1B (median $${Math.round(corruptMoney).toLocaleString('en-US')})`);
+  process.exit(1);
+}
+if (recordInvariantViolations > 0) {
+  console.error(`ERROR: ${recordInvariantViolations} run(s) reached the controlled investigation while keeping a pledge without passing 052b`);
+  process.exit(1);
+}
+if (zeroPromiseRunsWithWitness > 0) {
+  console.error(`ERROR: ${zeroPromiseRunsWithWitness} zero-promise run(s) recorded a broken promise`);
+  process.exit(1);
+}
+if (Object.values(recordStats).every((r) => r.witnesses === 0)) {
+  console.error('ERROR: no strategy ever triggered a witness — The Record is unreachable');
   process.exit(1);
 }
 if ((strategyEndings.collapseArchitect.ending_collapse ?? 0) === 0) {

@@ -1,0 +1,1280 @@
+[
+  {
+    "id": "dil_queue_setup",
+    "act": "rise",
+    "type": "contextual",
+    "interaction": "continue",
+    "speaker": "aide",
+    "text": "card.dil_queue_setup.text",
+    "once": true,
+    "weight": 7,
+    "minActTurn": 3,
+    "tags": [
+      "dilemma"
+    ],
+    "left": {
+      "text": "card.dil_queue_setup.continue",
+      "next": {
+        "type": "card",
+        "cardId": "dil_queue_decision"
+      }
+    },
+    "metadata": {
+      "designIntent": "AMBIGUITY Template 1 — Individual Compassion vs Equal Procedure (Act I: fairness vs compassion). Setup beat: one coherent idea (a father, a list, a call that would work), then the decision. The influence option is deliberately on the LEFT so the swipe direction stops being a morality tell."
+    }
+  },
+  {
+    "id": "dil_queue_decision",
+    "act": "rise",
+    "type": "story",
+    "speaker": "aide",
+    "text": "card.dil_queue_decision.text",
+    "once": true,
+    "tags": [
+      "dilemma"
+    ],
+    "left": {
+      "text": "card.dil_queue_decision.left",
+      "preview": {
+        "standing": 1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_queue_intervention",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_queue_call_made",
+          "action": "add"
+        }
+      ],
+      "delayedEffects": [
+        {
+          "delay": {
+            "type": "turn_range",
+            "min": 3,
+            "max": 6
+          },
+          "eventId": "event_queue_callback",
+          "onConditionFail": "discard"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.dil_queue_decision.right",
+      "preview": {
+        "standing": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -1
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_queue_letter_sent",
+          "action": "add"
+        }
+      ],
+      "delayedEffects": [
+        {
+          "delay": {
+            "type": "turn_range",
+            "min": 3,
+            "max": 6
+          },
+          "eventId": "event_queue_callback",
+          "onConditionFail": "discard"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "Both options harm someone: the call moves an unnamed fourteenth patient down; the letter leaves a real father waiting. No hidden morality score — the call records a precedent (the state remembers that influence moved a queue), the letter records a flag. Both return: the callback varies by which was chosen."
+    }
+  },
+  {
+    "id": "dil_queue_callback",
+    "act": "rise",
+    "type": "consequence",
+    "interaction": "continue",
+    "speaker": "aide",
+    "text": "card.dil_queue_callback.text",
+    "textVariants": [
+      {
+        "conditions": {
+          "type": "flag",
+          "flag": "flag_queue_call_made",
+          "exists": true
+        },
+        "text": "card.dil_queue_callback.text.v_called"
+      }
+    ],
+    "once": true,
+    "tags": [
+      "dilemma"
+    ],
+    "left": {
+      "text": "card.dil_queue_callback.continue",
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": -1
+        }
+      ],
+      "variants": [
+        {
+          "conditions": {
+            "type": "flag",
+            "flag": "flag_queue_call_made",
+            "exists": true
+          },
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "publicTrustActual",
+              "add": -2
+            }
+          ]
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "Moral inversion. Called: the director's office returns with a councillor's mother and a supplier's son — 'somebody moved' — and the queue's integrity erodes where the player cannot see it. Refused: the father was treated late and the daughter's letter does not quite forgive. Neither is the 'right answer' arriving; both are the world remembering."
+    }
+  },
+  {
+    "id": "dil_witness_setup",
+    "act": "network",
+    "type": "contextual",
+    "interaction": "continue",
+    "speaker": "investigator",
+    "text": "card.dil_witness_setup.text",
+    "once": true,
+    "weight": 7,
+    "minActTurn": 4,
+    "tags": [
+      "dilemma"
+    ],
+    "conditions": {
+      "all": [
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_interference",
+          "op": "==",
+          "value": 0
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_media_suppression",
+          "op": "==",
+          "value": 0
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "op": ">=",
+          "value": 40
+        }
+      ]
+    },
+    "left": {
+      "text": "card.dil_witness_setup.continue",
+      "next": {
+        "type": "card",
+        "cardId": "dil_witness_complication"
+      }
+    },
+    "metadata": {
+      "designIntent": "AMBIGUITY Type A — Transparency vs Witness Safety (late Act II). Three cards because the second beat genuinely changes the moral problem: publication protects the case; publication exposes the people who made the case possible."
+    }
+  },
+  {
+    "id": "dil_witness_complication",
+    "act": "network",
+    "type": "story",
+    "interaction": "continue",
+    "speaker": "investigator",
+    "text": "card.dil_witness_complication.text",
+    "once": true,
+    "tags": [
+      "dilemma"
+    ],
+    "left": {
+      "text": "card.dil_witness_complication.continue",
+      "next": {
+        "type": "card",
+        "cardId": "dil_witness_decision"
+      }
+    }
+  },
+  {
+    "id": "dil_witness_decision",
+    "act": "network",
+    "type": "story",
+    "speaker": "investigator",
+    "text": "card.dil_witness_decision.text",
+    "once": true,
+    "tags": [
+      "dilemma"
+    ],
+    "left": {
+      "text": "card.dil_witness_decision.left",
+      "preview": {
+        "standing": 1,
+        "power": -1,
+        "publicTrust": "up"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 4
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 1
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -2
+        },
+        {
+          "type": "flag",
+          "flag": "flag_case_public",
+          "action": "add"
+        }
+      ],
+      "delayedEffects": [
+        {
+          "delay": {
+            "type": "turn_range",
+            "min": 3,
+            "max": 6
+          },
+          "eventId": "event_witness_aftermath",
+          "onConditionFail": "discard"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.dil_witness_decision.right",
+      "preview": {
+        "money": -1,
+        "publicTrust": "down_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "money",
+          "add": -8000
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 1
+        },
+        {
+          "type": "relationship",
+          "character": "reformist",
+          "add": 1
+        },
+        {
+          "type": "relationship",
+          "character": "investigator",
+          "add": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_information_withholding",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_witness_protection_started",
+          "action": "add"
+        }
+      ],
+      "delayedEffects": [
+        {
+          "delay": {
+            "type": "turn_range",
+            "min": 3,
+            "max": 6
+          },
+          "eventId": "event_witness_aftermath",
+          "onConditionFail": "discard"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "Is transparency still virtuous when disclosure endangers the people providing the truth? Publish: perceived trust and standing up, power down, witnesses at the mercy of protection capacity. Seal: money and headlines lost, a withholding precedent set (the state remembers that this office once decided what the public may see), witnesses protected — unless the custody is captured. Neither is scored."
+    }
+  },
+  {
+    "id": "dil_witness_aftermath",
+    "act": "network",
+    "type": "consequence",
+    "interaction": "continue",
+    "speaker": "investigator",
+    "text": "card.dil_witness_aftermath.text.v_sealed_safe",
+    "textVariants": [
+      {
+        "conditions": {
+          "all": [
+            {
+              "type": "flag",
+              "flag": "flag_case_public",
+              "exists": true
+            },
+            {
+              "type": "relationship",
+              "character": "reformist",
+              "op": ">=",
+              "value": 2
+            }
+          ]
+        },
+        "text": "card.dil_witness_aftermath.text.v_published_safe"
+      },
+      {
+        "conditions": {
+          "type": "flag",
+          "flag": "flag_case_public",
+          "exists": true
+        },
+        "text": "card.dil_witness_aftermath.text.v_published_exposed"
+      },
+      {
+        "conditions": {
+          "all": [
+            {
+              "type": "flag",
+              "flag": "flag_witness_protection_started",
+              "exists": true
+            },
+            {
+              "any": [
+                {
+                  "type": "precedent",
+                  "precedent": "precedent_investigation_interference",
+                  "op": ">=",
+                  "value": 1
+                },
+                {
+                  "type": "relationship",
+                  "character": "minister",
+                  "op": ">=",
+                  "value": 4
+                }
+              ]
+            }
+          ]
+        },
+        "text": "card.dil_witness_aftermath.text.v_sealed_lost"
+      }
+    ],
+    "once": true,
+    "tags": [
+      "dilemma"
+    ],
+    "left": {
+      "text": "card.dil_witness_aftermath.continue",
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 2
+        }
+      ],
+      "variants": [
+        {
+          "conditions": {
+            "all": [
+              {
+                "type": "flag",
+                "flag": "flag_case_public",
+                "exists": true
+              },
+              {
+                "type": "relationship",
+                "character": "reformist",
+                "op": ">=",
+                "value": 2
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "publicTrustActual",
+              "add": 2
+            }
+          ]
+        },
+        {
+          "conditions": {
+            "type": "flag",
+            "flag": "flag_case_public",
+            "exists": true
+          },
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "publicTrustActual",
+              "add": -2
+            },
+            {
+              "type": "flag",
+              "flag": "flag_whistleblowers_wary",
+              "action": "add"
+            }
+          ]
+        },
+        {
+          "conditions": {
+            "all": [
+              {
+                "type": "flag",
+                "flag": "flag_witness_protection_started",
+                "exists": true
+              },
+              {
+                "any": [
+                  {
+                    "type": "precedent",
+                    "precedent": "precedent_investigation_interference",
+                    "op": ">=",
+                    "value": 1
+                  },
+                  {
+                    "type": "relationship",
+                    "character": "minister",
+                    "op": ">=",
+                    "value": 4
+                  }
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "publicTrustActual",
+              "add": -1
+            },
+            {
+              "type": "relationship",
+              "character": "investigator",
+              "add": -1
+            },
+            {
+              "type": "flag",
+              "flag": "flag_sealed_material_lost",
+              "action": "add"
+            }
+          ]
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "Four outcomes from state, all reconstructable: published + protection capacity (Reformist ≥ 2) → safe; published without it → a witness reassigned, a retraction, future whistleblowers wary; sealed under clean custody → published whole a month later; sealed while the investigation is interfered with or the Minister is close → annexes go missing. The surprise is allowed; the randomness is not."
+    }
+  },
+  {
+    "id": "dil_reform_setup",
+    "act": "power",
+    "type": "contextual",
+    "interaction": "continue",
+    "speaker": "reformist",
+    "text": "card.dil_reform_setup.text",
+    "once": true,
+    "weight": 7,
+    "minActTurn": 3,
+    "tags": [
+      "dilemma"
+    ],
+    "conditions": {
+      "all": [
+        {
+          "type": "precedent",
+          "precedent": "precedent_loyalty_appointments",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "op": ">=",
+          "value": 45
+        },
+        {
+          "not": {
+            "type": "flag",
+            "flag": "flag_reformist_removed",
+            "exists": true
+          }
+        }
+      ]
+    },
+    "left": {
+      "text": "card.dil_reform_setup.continue",
+      "next": {
+        "type": "card",
+        "cardId": "dil_reform_decision"
+      }
+    },
+    "metadata": {
+      "designIntent": "AMBIGUITY Type B — Immediate Reform vs Transitional Harm (Act III). Available to the player with a real mandate and few loyalty appointments — i.e. the one whose reform is credible enough for the retroactivity question to be live."
+    }
+  },
+  {
+    "id": "dil_reform_decision",
+    "act": "power",
+    "type": "story",
+    "speaker": "reformist",
+    "text": "card.dil_reform_decision.text",
+    "once": true,
+    "tags": [
+      "dilemma"
+    ],
+    "left": {
+      "text": "card.dil_reform_decision.left",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_transition_exception",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_grandfathered_appointments",
+          "action": "add"
+        }
+      ],
+      "delayedEffects": [
+        {
+          "delay": {
+            "type": "turn_range",
+            "min": 3,
+            "max": 6
+          },
+          "eventId": "event_reform_callback",
+          "onConditionFail": "discard"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.dil_reform_decision.right",
+      "preview": {
+        "standing": -1,
+        "power": -2,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -6
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_no_appointment_exceptions",
+          "action": "add"
+        }
+      ],
+      "delayedEffects": [
+        {
+          "delay": {
+            "type": "turn_range",
+            "min": 3,
+            "max": 6
+          },
+          "eventId": "event_reform_callback",
+          "onConditionFail": "discard"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "Should a fair reform impose retrospective harm on people who benefited from an unfair system without personally committing wrongdoing? The transition (LEFT — the Power-positive option sits on the left on purpose) keeps services running and leaves a window; retroactivity (RIGHT) costs Power and Standing now and empties wards for a season. Both create a real cost; both return."
+    }
+  },
+  {
+    "id": "dil_reform_callback",
+    "act": "power",
+    "type": "consequence",
+    "interaction": "continue",
+    "speaker": "aide",
+    "text": "card.dil_reform_callback.text.v_retroactive",
+    "textVariants": [
+      {
+        "conditions": {
+          "type": "flag",
+          "flag": "flag_grandfathered_appointments",
+          "exists": true
+        },
+        "text": "card.dil_reform_callback.text.v_transition"
+      }
+    ],
+    "once": true,
+    "tags": [
+      "dilemma"
+    ],
+    "left": {
+      "text": "card.dil_reform_callback.continue",
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": -3
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -1
+        }
+      ],
+      "variants": [
+        {
+          "conditions": {
+            "type": "flag",
+            "flag": "flag_grandfathered_appointments",
+            "exists": true
+          },
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "publicTrustActual",
+              "add": -3
+            },
+            {
+              "type": "stat",
+              "stat": "standing",
+              "add": -1
+            }
+          ]
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "Transition: the ministries read the ruling as a closing window and hire forty-one exceptions through it — 'technically it's yours.' Retroactive: the district hospital loses eleven staff to re-competition and a flood-week teacher who is nobody's relative writes in. Precedent from a good intention; harm from a fair rule."
+    }
+  },
+  {
+    "id": "dil_clinics_setup",
+    "act": "power",
+    "type": "contextual",
+    "interaction": "continue",
+    "speaker": "aide",
+    "text": "card.dil_clinics_setup.text",
+    "once": true,
+    "weight": 7,
+    "minActTurn": 6,
+    "tags": [
+      "dilemma"
+    ],
+    "conditions": {
+      "type": "relationship",
+      "character": "minister",
+      "op": ">=",
+      "value": 3
+    },
+    "left": {
+      "text": "card.dil_clinics_setup.continue",
+      "next": {
+        "type": "card",
+        "cardId": "dil_clinics_decision"
+      }
+    },
+    "metadata": {
+      "designIntent": "AMBIGUITY Type D — Corrupt Institution Providing Real Services (late Act III). Reachable only on runs close to the Minister: the network is his, and so is the reaction. Setup beat carries two ideas in two paragraphs — credible corruption, real patients — and nothing else."
+    }
+  },
+  {
+    "id": "dil_clinics_decision",
+    "act": "power",
+    "type": "story",
+    "speaker": "aide",
+    "text": "card.dil_clinics_decision.text",
+    "once": true,
+    "tags": [
+      "dilemma"
+    ],
+    "left": {
+      "text": "card.dil_clinics_decision.left",
+      "preview": {
+        "standing": 1,
+        "power": 1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 1
+        },
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": 1
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": 1
+        },
+        {
+          "type": "precedent",
+          "precedent": "precedent_operational_exception",
+          "add": 1
+        },
+        {
+          "type": "flag",
+          "flag": "flag_health_transition_period",
+          "action": "add"
+        }
+      ],
+      "delayedEffects": [
+        {
+          "delay": {
+            "type": "turn_range",
+            "min": 3,
+            "max": 5
+          },
+          "eventId": "event_clinics_callback",
+          "onConditionFail": "discard"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "right": {
+      "text": "card.dil_clinics_decision.right",
+      "preview": {
+        "standing": -1,
+        "power": -2,
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "power",
+          "add": -4
+        },
+        {
+          "type": "stat",
+          "stat": "standing",
+          "add": -2
+        },
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 2
+        },
+        {
+          "type": "relationship",
+          "character": "minister",
+          "add": -3
+        },
+        {
+          "type": "flag",
+          "flag": "flag_health_network_suspended",
+          "action": "add"
+        },
+        {
+          "type": "flag",
+          "flag": "flag_financial_records_frozen",
+          "action": "add"
+        }
+      ],
+      "delayedEffects": [
+        {
+          "delay": {
+            "type": "turn_range",
+            "min": 3,
+            "max": 5
+          },
+          "eventId": "event_clinics_callback",
+          "onConditionFail": "discard"
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "Should a corrupt institution be destroyed immediately when innocent people depend on it? Keep operating (LEFT — the Power-positive option on the left) protects patients and sets an operational-exception precedent the network will read as permission; suspend (RIGHT) preserves the records, closes clinics, and turns the Minister hostile. Neither is a lock; neither is scored."
+    }
+  },
+  {
+    "id": "dil_clinics_callback",
+    "act": "power",
+    "type": "consequence",
+    "interaction": "continue",
+    "speaker": "aide",
+    "text": "card.dil_clinics_callback.text.v_suspended",
+    "textVariants": [
+      {
+        "conditions": {
+          "all": [
+            {
+              "type": "flag",
+              "flag": "flag_health_transition_period",
+              "exists": true
+            },
+            {
+              "type": "flag",
+              "flag": "flag_investigation_independent",
+              "exists": true
+            }
+          ]
+        },
+        "text": "card.dil_clinics_callback.text.v_supervised_kept"
+      },
+      {
+        "conditions": {
+          "type": "flag",
+          "flag": "flag_health_transition_period",
+          "exists": true
+        },
+        "text": "card.dil_clinics_callback.text.v_supervised_lost"
+      },
+      {
+        "conditions": {
+          "all": [
+            {
+              "type": "flag",
+              "flag": "flag_health_network_suspended",
+              "exists": true
+            },
+            {
+              "type": "precedent",
+              "precedent": "*",
+              "op": ">=",
+              "value": 6
+            }
+          ]
+        },
+        "text": "card.dil_clinics_callback.text.v_suspended_retaliation"
+      }
+    ],
+    "once": true,
+    "tags": [
+      "dilemma"
+    ],
+    "left": {
+      "text": "card.dil_clinics_callback.continue",
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustPerceived",
+          "add": -3
+        },
+        {
+          "type": "relationship",
+          "character": "minister",
+          "add": -1
+        }
+      ],
+      "variants": [
+        {
+          "conditions": {
+            "all": [
+              {
+                "type": "flag",
+                "flag": "flag_health_transition_period",
+                "exists": true
+              },
+              {
+                "type": "flag",
+                "flag": "flag_investigation_independent",
+                "exists": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "publicTrustActual",
+              "add": 1
+            },
+            {
+              "type": "relationship",
+              "character": "minister",
+              "add": -2
+            }
+          ]
+        },
+        {
+          "conditions": {
+            "type": "flag",
+            "flag": "flag_health_transition_period",
+            "exists": true
+          },
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "publicTrustActual",
+              "add": -2
+            },
+            {
+              "type": "relationship",
+              "character": "minister",
+              "add": 1
+            },
+            {
+              "type": "flag",
+              "flag": "flag_records_consolidated",
+              "action": "add"
+            }
+          ]
+        },
+        {
+          "conditions": {
+            "all": [
+              {
+                "type": "flag",
+                "flag": "flag_health_network_suspended",
+                "exists": true
+              },
+              {
+                "type": "precedent",
+                "precedent": "*",
+                "op": ">=",
+                "value": 6
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "publicTrustPerceived",
+              "add": -3
+            },
+            {
+              "type": "stat",
+              "stat": "publicTrustActual",
+              "add": -3
+            },
+            {
+              "type": "relationship",
+              "character": "minister",
+              "add": -1
+            }
+          ]
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "Supervised + independent authority: the ledgers were copied on day two and the case holds. Supervised + no independent authority: 'under supervision' became 'under his supervision' and the schedules were consolidated into nothing. Suspended: two clinics closed and the Minister wants a meeting; on runs with a heavy precedent footprint he hands a journalist the exemptions the player's own office signed — the scapegoat risk, sourced from the player's own record."
+    }
+  },
+  {
+    "id": "dil_privacy_setup",
+    "act": "aftermath",
+    "type": "aftermath",
+    "interaction": "continue",
+    "speaker": "journalist",
+    "text": "card.dil_privacy_setup.text",
+    "textVariants": [
+      {
+        "conditions": {
+          "type": "flag",
+          "flag": "flag_investigation_politically_controlled",
+          "exists": true
+        },
+        "text": "card.dil_privacy_setup.text.v_controlled"
+      }
+    ],
+    "once": true,
+    "tags": [
+      "dilemma"
+    ],
+    "left": {
+      "text": "card.dil_privacy_setup.continue",
+      "next": {
+        "type": "card",
+        "cardId": "dil_privacy_decision"
+      }
+    },
+    "metadata": {
+      "designIntent": "AMBIGUITY Type E — Victim Privacy vs Public Accountability (shared Aftermath, beat at act-turn 4). When the investigation is politically controlled, the setup says so out loud — the sealed sections would sit with the ministry's appointee — so the later loss is foreseeable, never a trap."
+    }
+  },
+  {
+    "id": "dil_privacy_decision",
+    "act": "aftermath",
+    "type": "aftermath",
+    "speaker": "family_rep",
+    "text": "card.dil_privacy_decision.text",
+    "once": true,
+    "tags": [
+      "dilemma"
+    ],
+    "left": {
+      "text": "card.dil_privacy_decision.left",
+      "preview": {
+        "publicTrust": "up_uncertain"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "publicTrustActual",
+          "add": 2
+        },
+        {
+          "type": "relationship",
+          "character": "family_rep",
+          "add": -3
+        },
+        {
+          "type": "flag",
+          "flag": "flag_full_file_public",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "dil_privacy_consequence"
+      }
+    },
+    "right": {
+      "text": "card.dil_privacy_decision.right",
+      "preview": {
+        "money": -1,
+        "publicTrust": "unknown"
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "money",
+          "add": -20000
+        },
+        {
+          "type": "relationship",
+          "character": "family_rep",
+          "add": 2
+        },
+        {
+          "type": "flag",
+          "flag": "flag_private_records_sealed",
+          "action": "add"
+        }
+      ],
+      "next": {
+        "type": "card",
+        "cardId": "dil_privacy_consequence"
+      }
+    },
+    "metadata": {
+      "designIntent": "How much does the public have a right to know when accountability requires victims to surrender their privacy? Publish (LEFT) makes the record impossible to erase and turns the family's street into content; seal (RIGHT) honors the family and trusts whoever holds the sealed box. The consequence beat follows immediately — the Aftermath compresses time and ends on ending_check, so a delayed event could never land."
+    }
+  },
+  {
+    "id": "dil_privacy_consequence",
+    "act": "aftermath",
+    "type": "aftermath",
+    "interaction": "continue",
+    "speaker": "journalist",
+    "text": "card.dil_privacy_consequence.text.v_sealed_kept",
+    "textVariants": [
+      {
+        "conditions": {
+          "type": "flag",
+          "flag": "flag_full_file_public",
+          "exists": true
+        },
+        "text": "card.dil_privacy_consequence.text.v_public"
+      },
+      {
+        "conditions": {
+          "all": [
+            {
+              "type": "flag",
+              "flag": "flag_private_records_sealed",
+              "exists": true
+            },
+            {
+              "type": "flag",
+              "flag": "flag_investigation_politically_controlled",
+              "exists": true
+            }
+          ]
+        },
+        "text": "card.dil_privacy_consequence.text.v_sealed_lost"
+      }
+    ],
+    "once": true,
+    "tags": [
+      "dilemma"
+    ],
+    "left": {
+      "text": "card.dil_privacy_consequence.continue",
+      "effects": [
+        {
+          "type": "relationship",
+          "character": "family_rep",
+          "add": 1
+        }
+      ],
+      "variants": [
+        {
+          "conditions": {
+            "type": "flag",
+            "flag": "flag_full_file_public",
+            "exists": true
+          },
+          "effects": [
+            {
+              "type": "relationship",
+              "character": "family_rep",
+              "add": -2
+            },
+            {
+              "type": "flag",
+              "flag": "flag_records_preserved",
+              "action": "add"
+            }
+          ]
+        },
+        {
+          "conditions": {
+            "all": [
+              {
+                "type": "flag",
+                "flag": "flag_private_records_sealed",
+                "exists": true
+              },
+              {
+                "type": "flag",
+                "flag": "flag_investigation_politically_controlled",
+                "exists": true
+              }
+            ]
+          },
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "publicTrustActual",
+              "add": -2
+            },
+            {
+              "type": "flag",
+              "flag": "flag_records_preserved",
+              "action": "remove"
+            },
+            {
+              "type": "flag",
+              "flag": "flag_sealed_material_lost",
+              "action": "add"
+            }
+          ]
+        }
+      ],
+      "next": {
+        "type": "scheduler"
+      }
+    },
+    "metadata": {
+      "designIntent": "Published: the record cannot be deleted now (flag_records_preserved) — Break the Chain stays reachable — and strangers stand on the family's street with phones. Sealed under an independent investigator: the private parts stay private, in writing. Sealed under a politically controlled one: the coordination emails, never private, only in the same box, are 'not located' — a humane decision enabling suppression, foreseeable from the setup line."
+    }
+  }
+]

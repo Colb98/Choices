@@ -7,6 +7,7 @@ import type {
   GameState,
   NotCondition,
   ObligationCondition,
+  PromiseCondition,
 } from './types';
 
 function cmp(op: CompareOp, a: number, b: number): boolean {
@@ -67,7 +68,10 @@ function evaluatePrimitive(state: GameState, c: Condition, explain?: string[]): 
       return r;
     }
     case 'precedent': {
-      const v = state.precedents[c.precedent] ?? 0;
+      const v =
+        c.precedent === '*'
+          ? Object.values(state.precedents).reduce((sum, n) => sum + Math.max(0, n), 0)
+          : state.precedents[c.precedent] ?? 0;
       const r = cmp(c.op, v, c.value);
       explain?.push(`pre ${c.precedent} ${c.op} ${c.value}: ${r ? 'PASS' : 'FAIL'} (${v})`);
       return r;
@@ -112,7 +116,25 @@ function evaluatePrimitive(state: GameState, c: Condition, explain?: string[]): 
       explain?.push(`seen ${c.cardId}: ${r ? 'PASS' : 'FAIL'} (${n})`);
       return r;
     }
+    case 'promise': {
+      const n = matchingPromises(state, c).length;
+      const r = n >= (c.minCount ?? 1);
+      explain?.push(
+        `promise ${c.promise ?? '*'}/${c.status ?? 'kept'} >= ${c.minCount ?? 1}: ${r ? 'PASS' : 'FAIL'} (${n})`,
+      );
+      return r;
+    }
   }
+}
+
+export function matchingPromises(state: GameState, c: PromiseCondition) {
+  const status = c.status ?? 'kept';
+  return (state.promises ?? []).filter((p) => {
+    if (c.promise && p.id !== c.promise) return false;
+    if (status === 'any') return true;
+    if (status === 'kept') return p.status !== 'broken';
+    return p.status === status;
+  });
 }
 
 export function evaluateCondition(

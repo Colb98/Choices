@@ -9,12 +9,14 @@ import type {
   EventDefinition,
   FlagDefinition,
   PrecedentDefinition,
+  PromiseDefinition,
   RegistryFragment,
   StoryBeatDefinition,
 } from './types';
 
 import actsJson from '../data/acts.json';
 import balanceJson from '../data/config/balance.json';
+import { normalizeCard } from './cards';
 import endingsJson from '../data/endings.json';
 
 // Vite eagerly bundles every pack fragment; packs are merged here so the rest
@@ -27,7 +29,7 @@ export function loadContent(): ContentBundle {
   for (const mod of Object.values(cardModules)) {
     for (const card of mod.default) {
       if (cards[card.id]) throw new Error(`Duplicate card id: ${card.id}`);
-      cards[card.id] = card;
+      cards[card.id] = normalizeCard(card);
     }
   }
 
@@ -37,9 +39,14 @@ export function loadContent(): ContentBundle {
   const flags: Record<string, FlagDefinition> = {};
   const precedents: Record<string, PrecedentDefinition> = {};
   const articles: Record<string, ArticleDefinition> = {};
+  const promises: Record<string, PromiseDefinition> = {};
 
   for (const mod of Object.values(registryModules)) {
     const frag = mod.default;
+    for (const p of frag.promises ?? []) {
+      if (promises[p.id]) throw new Error(`Duplicate promise id: ${p.id}`);
+      promises[p.id] = p;
+    }
     for (const e of frag.events ?? []) {
       if (events[e.id]) throw new Error(`Duplicate event id: ${e.id}`);
       events[e.id] = e;
@@ -63,6 +70,7 @@ export function loadContent(): ContentBundle {
     characters,
     flags,
     precedents,
+    promises,
     acts: actsJson as unknown as ActDefinition[],
     balance: balanceJson as unknown as BalanceConfig,
   };
