@@ -383,7 +383,7 @@ All cards: `act: "network"`. Event-resolved consequence cards (022, 025, 028, 03
 - `card.act2_reformist_strong_bill.text`
   - EN: "The disclosure bill has grown teeth," the Reformist says. "Full contract publication, subcontractors included, no exemptions for 'strategic' projects. Last time, you supported the idea. This is the idea — without the escape hatches."
   - VI: "Dự luật công khai giờ đã mọc răng," Nhà Cải Cách nói. "Công bố toàn bộ hợp đồng, tính cả nhà thầu phụ, không ngoại lệ cho các dự án 'chiến lược.' Lần trước anh ủng hộ ý tưởng này. Còn đây chính là ý tưởng đó — nhưng đã bịt hết các lối thoát hiểm."
-  - ES: «El proyecto de divulgación ya tiene dientes», dice el Reformista. «Publicación completa de contratos, subcontratistas incluidos, sin exenciones para proyectos "estratégicos". La última vez apoyaste la idea. Esta es la idea — sin las salidas de emergencia.»
+  - ES: «El proyecto de divulgación ya tiene dientes», dice la Reformista. «Publicación completa de contratos, subcontratistas incluidos, sin exenciones para proyectos "estratégicos". La última vez apoyaste la idea. Esta es la idea — sin las salidas de emergencia.»
   - ZH: "公开法案这回长出牙齿了，"改革派说。"合同全文公示，分包商也算在内，'战略'项目不设豁免。上次你支持的是这个想法。现在摆在这里的就是这个想法——只是堵死了所有逃生口。"
 - `card.act2_reformist_strong_bill.left`
   - EN: Support full disclosure. · VI: Ủng hộ công khai toàn bộ. · ES: Apoyar la divulgación completa. · ZH: 支持全面公开。
@@ -596,7 +596,7 @@ All cards: `act: "network"`. Event-resolved consequence cards (022, 025, 028, 03
 - `card.act2_investigation_independence.text`
   - EN: "Last one," the Reformist says. "Investigators appointed to fixed terms, removable only by court order. It means no office can reach into an inquiry again. Including yours."
   - VI: "Điều cuối cùng," Nhà Cải Cách nói. "Điều tra viên được bổ nhiệm theo nhiệm kỳ cố định, chỉ toà án mới có quyền bãi nhiệm. Nghĩa là từ nay không văn phòng nào với tay vào được một cuộc điều tra nữa. Kể cả văn phòng của anh."
-  - ES: «La última», dice el Reformista. «Investigadores nombrados por períodos fijos, removibles solo por orden judicial. Significa que ninguna oficina podrá volver a meter la mano en una investigación. Incluida la tuya.»
+  - ES: «La última», dice la Reformista. «Investigadores nombrados por períodos fijos, removibles solo por orden judicial. Significa que ninguna oficina podrá volver a meter la mano en una investigación. Incluida la tuya.»
   - ZH: "最后一条，"改革派说。"调查员实行固定任期，只有法院才能将其免职。这意味着从此没有任何一个办公室能再把手伸进调查里。包括你的。"
 - `card.act2_investigation_independence.left`
   - EN: Back the proposal. · VI: Ủng hộ đề xuất. · ES: Respaldar la propuesta. · ZH: 支持这项提案。

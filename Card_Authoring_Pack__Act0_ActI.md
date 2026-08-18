@@ -68,8 +68,8 @@ Magnitude bands used in this pack: small = 2–3, medium = 4–6, large = 7+ (la
 | `mentor` | The Mentor | Người Đỡ Đầu | El Mentor | 导师 |
 | `businessman` | The Businessman | Doanh Nhân | El Empresario | 商人 |
 | `editor` | The Editor | Tổng Biên Tập | El Editor | 总编 |
-| `reformist` | The Reformist | Nhà Cải Cách | El Reformista | 改革派 |
-| `aide` | The Aide | Trợ Lý | El Asistente | 助理 |
+| `reformist` | The Reformist | Nhà Cải Cách | La Reformista | 改革派 |
+| `aide` | The Aide | Trợ Lý | La Asesora | 助理 |
 
 (`minister` first appears in Act II — not used in this pack.)
 
@@ -459,10 +459,10 @@ All Act I cards: `act: "rise"`. Cards 007 and 021 are beats (`type: "story"`); 0
 
 **Strings**
 - `card.act1_constituent_case_callback.text`
-  - EN: The complete file arrives, heavier than expected. The audit confirms it: three valuations, two signatures that don't match, and one official who has since been promoted. Your aide waits by the door.
-  - VI: Bộ hồ sơ đầy đủ được chuyển đến, dày hơn dự đoán. Kết quả rà soát xác nhận: ba mức định giá, hai chữ ký không khớp, và một cán bộ liên quan thì vừa mới được thăng chức. Trợ lý của bạn đứng chờ bên cửa.
-  - ES: El expediente completo llega, más pesado de lo esperado. La revisión lo confirma: tres avalúos, dos firmas que no coinciden y un funcionario que desde entonces fue ascendido. Tu asistente espera junto a la puerta.
-  - ZH: 完整的案卷送到了，比想象中更厚。核查结果证实：三种估价、两处对不上的签名，还有一位事后升了职的官员。你的助理在门边等着。
+  - EN: The complete file arrives, heavier than expected. The audit confirms it: three valuations, two signatures that don't match, and one official who has since been promoted. Your aide waits by the door, her notes already clipped to the cover.
+  - VI: Bộ hồ sơ đầy đủ được chuyển đến, dày hơn dự đoán. Kết quả rà soát xác nhận: ba mức định giá, hai chữ ký không khớp, và một cán bộ liên quan thì vừa mới được thăng chức. Trợ lý của bạn đứng chờ bên cửa, ghi chú của cô ấy đã được kẹp sẵn trên bìa.
+  - ES: El expediente completo llega, más pesado de lo esperado. La revisión lo confirma: tres avalúos, dos firmas que no coinciden y un funcionario que desde entonces fue ascendido. Tu asesora espera junto a la puerta, con sus notas ya sujetas a la portada.
+  - ZH: 完整的案卷送到了，比想象中更厚。核查结果证实：三种估价、两处对不上的签名，还有一位事后升了职的官员。你的助理在门边等着，她的笔记已经夹在封面上。
 - `card.act1_constituent_case_callback.left`
   - EN: Publish the findings. · VI: Công bố kết quả. · ES: Publicar los hallazgos. · ZH: 公布核查结果。
 - `card.act1_constituent_case_callback.right`
@@ -516,7 +516,7 @@ All Act I cards: `act: "rise"`. Cards 007 and 021 are beats (`type: "story"`); 0
 - `card.act1_reformist_bill_intro.text`
   - EN: "Procurement disclosure," the Reformist says, sliding a draft across your desk. "Every contract above the threshold, published within thirty days. Half the chamber will hate it — the important half."
   - VI: "Công khai mua sắm công," Nhà Cải Cách nói, đẩy bản thảo qua mặt bàn. "Mọi hợp đồng trên ngưỡng quy định đều phải công bố trong vòng ba mươi ngày. Nửa nghị trường sẽ ghét dự luật này — cái nửa quan trọng."
-  - ES: «Divulgación de contrataciones públicas», dice el Reformista, deslizando un borrador sobre tu escritorio. «Todo contrato por encima del umbral, publicado en treinta días. La mitad de la cámara lo odiará — la mitad importante.»
+  - ES: «Divulgación de contrataciones públicas», dice la Reformista, deslizando un borrador sobre tu escritorio. «Todo contrato por encima del umbral, publicado en treinta días. La mitad de la cámara lo odiará — la mitad importante.»
   - ZH: "公共采购公开，"改革派把草案推过桌面。"超过限额的合同，三十天内一律公示。半个议会会恨这个法案——是重要的那一半。"
 - `card.act1_reformist_bill_intro.left`
   - EN: Co-sponsor it publicly. · VI: Công khai đồng bảo trợ. · ES: Copatrocinarlo públicamente. · ZH: 公开联署。
@@ -797,7 +797,7 @@ All Act I cards: `act: "rise"`. Cards 007 and 021 are beats (`type: "story"`); 0
 - `card.act1_reformist_warning.text`
   - EN: The Reformist falls into step beside you. "You get things done. I've noticed — everyone has. Efficiency is useful. It also becomes a habit very quickly, and habits get inherited by people worse than you."
   - VI: Nhà Cải Cách sải bước song song với bạn. "Anh làm được việc. Tôi để ý rồi — mà ai cũng để ý cả. Sự hiệu quả rất hữu ích. Nhưng nó cũng thành thói quen rất nhanh, và thói quen thì sẽ được kế thừa bởi những kẻ tệ hơn anh."
-  - ES: El Reformista se pone a caminar a tu lado. «Consigues resultados. Lo he notado — todos lo han notado. La eficiencia es útil. También se vuelve hábito muy rápido, y los hábitos los heredan personas peores que tú.»
+  - ES: La Reformista se pone a caminar a tu lado. «Consigues resultados. Lo he notado — todos lo han notado. La eficiencia es útil. También se vuelve hábito muy rápido, y los hábitos los heredan personas peores que tú.»
   - ZH: 改革派与你并肩而行。"你办事很有效率。我注意到了——所有人都注意到了。效率很有用，但它也会很快变成习惯，而习惯，会被比你更糟的人继承下去。"
 - `card.act1_reformist_warning.left`
   - EN: Acknowledge the concern. · VI: Ghi nhận lời nhắc. · ES: Reconocer la preocupación. · ZH: 接受这份提醒。

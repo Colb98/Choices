@@ -29,7 +29,7 @@ export class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    // Card art = the man the player is talking to; scenes only for key moments.
+    // Card art = the character the player is talking to; scenes only for key moments.
     for (const id of Object.keys(content.characters)) {
       this.load.image(`portrait:${id}`, `art/portraits/${id}.webp`);
     }

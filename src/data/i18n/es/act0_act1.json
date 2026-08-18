@@ -2,8 +2,8 @@
   "char.mentor.name": "El Mentor",
   "char.businessman.name": "El Empresario",
   "char.editor.name": "El Editor",
-  "char.reformist.name": "El Reformista",
-  "char.aide.name": "El Asistente",
+  "char.reformist.name": "La Reformista",
+  "char.aide.name": "La Asesora",
 
   "card.act0_appointment_day.text": "Tu mentor te encuentra justo después del juramento, con una mano en tu hombro. «Felicidades. A partir de ahora la gente espera cosas de alguien en tu posición — empezando por tus primeras palabras a la prensa.»",
   "card.act0_appointment_day.left": "Un discurso modesto.",
@@ -45,7 +45,7 @@
   "card.act1_business_permit.left": "Que el trámite siga su curso.",
   "card.act1_business_permit.right": "«Haré una llamada.»",
 
-  "card.act1_constituent_case_callback.text": "El expediente completo llega, más pesado de lo esperado. La revisión lo confirma: tres avalúos, dos firmas que no coinciden y un funcionario que desde entonces fue ascendido. Tu asistente espera junto a la puerta.",
+  "card.act1_constituent_case_callback.text": "El expediente completo llega, más pesado de lo esperado. La revisión lo confirma: tres avalúos, dos firmas que no coinciden y un funcionario que desde entonces fue ascendido. Tu asesora espera junto a la puerta, con sus notas ya sujetas a la portada.",
   "card.act1_constituent_case_callback.left": "Publicar los hallazgos.",
   "card.act1_constituent_case_callback.right": "Resolverlo discretamente.",
 
@@ -53,7 +53,7 @@
   "card.act1_editor_profile_offer.left": "Sin trato preferencial.",
   "card.act1_editor_profile_offer.right": "Aceptar el reportaje.",
 
-  "card.act1_reformist_bill_intro.text": "«Divulgación de contrataciones públicas», dice el Reformista, deslizando un borrador sobre tu escritorio. «Todo contrato por encima del umbral, publicado en treinta días. La mitad de la cámara lo odiará — la mitad importante.»",
+  "card.act1_reformist_bill_intro.text": "«Divulgación de contrataciones públicas», dice la Reformista, deslizando un borrador sobre tu escritorio. «Todo contrato por encima del umbral, publicado en treinta días. La mitad de la cámara lo odiará — la mitad importante.»",
   "card.act1_reformist_bill_intro.left": "Copatrocinarlo públicamente.",
   "card.act1_reformist_bill_intro.right": "Apoyarlo en privado.",
 
@@ -89,7 +89,7 @@
   "card.act1_committee_result_refused.left": "Presentar una objeción formal.",
   "card.act1_committee_result_refused.right": "Dejarlo pasar.",
 
-  "card.act1_reformist_warning.text": "El Reformista se pone a caminar a tu lado. «Consigues resultados. Lo he notado — todos lo han notado. La eficiencia es útil. También se vuelve hábito muy rápido, y *los hábitos los heredan personas peores que tú.*»",
+  "card.act1_reformist_warning.text": "La Reformista se pone a caminar a tu lado. «Consigues resultados. Lo he notado — todos lo han notado. La eficiencia es útil. También se vuelve hábito muy rápido, y *los hábitos los heredan personas peores que tú.*»",
   "card.act1_reformist_warning.left": "Reconocer la preocupación.",
   "card.act1_reformist_warning.right": "Defender la política práctica.",
 

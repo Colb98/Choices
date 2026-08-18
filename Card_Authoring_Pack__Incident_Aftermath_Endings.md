@@ -153,7 +153,7 @@ Entry beat condition: `PLAYER_CAUSED` (drank ∧ self-driving).
   - ES: Tus manos están más firmes de lo que tienen derecho a estar. Dos nombres encabezan tus llamadas recientes: la línea de emergencias, y la persona que arregla las cosas.
   - ZH: 你的双手稳得有些不该。最近通话的最上面是两个名字：急救专线，和那个专门摆平事情的人。
 - `card.incident_stay.left` — EN: Call the emergency line. Now. · VI: Gọi cấp cứu. Ngay. · ES: Llamar a emergencias. Ya. · ZH: 打急救电话。马上。
-- `card.incident_stay.right` — EN: Call the Aide first. · VI: Gọi Trợ lý trước. · ES: Llamar primero al Asistente. · ZH: 先打给助理。
+- `card.incident_stay.right` — EN: Call the Aide first. · VI: Gọi Trợ lý trước. · ES: Llamar primero a la Asesora. · ZH: 先打给助理。
 
 ---
 
@@ -170,7 +170,7 @@ Entry beat condition: `PLAYER_CAUSED` (drank ∧ self-driving).
 - `card.incident_leave.text`
   - EN: Four kilometers later, the phone. The Aide, in the voice kept for real things: "Where are you right now? Something's coming over the police channel — the villa road."
   - VI: Bốn cây số sau, điện thoại reo. Trợ lý, bằng chất giọng chỉ dành cho những chuyện hệ trọng: "Sếp đang ở đâu ngay lúc này? Kênh bộ đàm cảnh sát đang báo có chuyện — đoạn đường khu biệt thự."
-  - ES: Cuatro kilómetros después, el teléfono. El Asistente, con la voz reservada para las cosas reales: «¿Dónde estás ahora mismo? Algo está saliendo por la frecuencia policial — la carretera de la villa.»
+  - ES: Cuatro kilómetros después, el teléfono. La Asesora, con la voz reservada para las cosas reales: «¿Dónde estás ahora mismo? Algo está saliendo por la frecuencia policial — la carretera de la villa.»
   - ZH: 四公里之后，电话响了。助理，用那种只留给要紧事的声音："您现在在哪儿？警用频道里正在报什么——别墅那条路。"
 - `card.incident_leave.left` — EN: Tell the truth. · VI: Nói thật. · ES: Decir la verdad. · ZH: 说实话。
 - `card.incident_leave.right` — EN: "I'm home. Why?" · VI: "Tôi ở nhà. Sao thế?" · ES: «Estoy en casa. ¿Por qué?» · ZH: "我在家。怎么了？"
@@ -194,7 +194,7 @@ Entry beat condition: `ALLY_CAUSED`. The driver is **the Mentor** — the man fr
 - `card.incident_call_b.text`
   - EN: You are home, shoes still on, when the phone rings. The Aide, in the voice kept for real things: "There's been an accident on the villa road. It's ours."
   - VI: Bạn đang ở nhà, giày còn chưa kịp cởi, thì điện thoại reo. Trợ lý, bằng chất giọng chỉ dành cho những chuyện hệ trọng: "Có tai nạn trên đoạn đường khu biệt thự. Là người của chúng ta."
-  - ES: Estás en casa, todavía con los zapatos puestos, cuando suena el teléfono. El Asistente, con la voz reservada para las cosas reales: «Hubo un accidente en la carretera de la villa. Es de los nuestros.»
+  - ES: Estás en casa, todavía con los zapatos puestos, cuando suena el teléfono. La Asesora, con la voz reservada para las cosas reales: «Hubo un accidente en la carretera de la villa. Es de los nuestros.»
   - ZH: 你到了家，鞋还没来得及脱，电话就响了。助理，用那种只留给要紧事的声音："别墅那条路上出事故了。是我们的人。"
 - `card.incident_call_b.left` — EN: "Details. Now." · VI: "Chi tiết. Ngay." · ES: «Detalles. Ya.» · ZH: "细节。马上。"
 - `card.incident_call_b.right` — EN: "Come to the office." · VI: "Đến văn phòng." · ES: «Ven a la oficina.» · ZH: "来办公室。"
@@ -214,7 +214,7 @@ Entry beat condition: `ALLY_CAUSED`. The driver is **the Mentor** — the man fr
 - `card.incident_identity_b.text`
   - EN: "The Mentor's car," the Aide says. "The riverside stretch. A young woman who was walking home." A breath. "He didn't stay. He was at your table two hours ago."
   - VI: "Xe của Người Đỡ Đầu," trợ lý nói. "Đoạn đường ven sông. Một cô gái trẻ đang trên đường đi bộ về nhà." Một hơi thở. "Ông ấy đã không ở lại. Hai tiếng trước ông ấy còn ngồi cùng bàn với sếp."
-  - ES: «El coche del Mentor», dice el Asistente. «El tramo junto al río. Una joven que iba caminando a casa.» Una respiración. «No se quedó. Hace dos horas estaba en tu mesa.»
+  - ES: «El coche del Mentor», dice la Asesora. «El tramo junto al río. Una joven que iba caminando a casa.» Una respiración. «No se quedó. Hace dos horas estaba en tu mesa.»
   - ZH: "是导师的车，"助理说。"沿河那一段。一个正走路回家的年轻女子。"一次呼吸。"他没有留在现场。两个小时前，他还和您坐在同一张桌上。"
 - `card.incident_identity_b.left` — EN: "Where is he now?" · VI: "Ông ấy giờ đang ở đâu?" · ES: «¿Dónde está él ahora?» · ZH: "他现在在哪儿？"
 - `card.incident_identity_b.right` — EN: "Where is she now?" · VI: "Cô ấy giờ đang ở đâu?" · ES: «¿Dónde está ella ahora?» · ZH: "她现在在哪儿？"
@@ -336,10 +336,10 @@ Both routes converge. Beat ladder per §1.3. Texts stay short; the temperature k
 - `card.aftermath_investigator_independent.left` — EN: Give the statement in full. · VI: Khai đầy đủ. · ES: Dar la declaración completa. · ZH: 完整陈述。
 - `card.aftermath_investigator_independent.right` — EN: Refer her to your lawyer. · VI: Bảo cô ấy làm việc với luật sư. · ES: Remitirla a tu abogado. · ZH: 让她去找你的律师。
 - `card.aftermath_investigator_controlled.text`
-  - EN: The investigator waits to be invited in. You appointed his director's director. "We'll need guidance on scope," he says, to the carpet. "Whenever convenient."
-  - VI: Điều tra viên đứng chờ được mời vào. Cấp trên của cấp trên anh ta là do bạn bổ nhiệm. "Chúng tôi sẽ cần được định hướng về phạm vi," anh ta nói, mắt nhìn xuống thảm. "Lúc nào tiện cho ngài cũng được."
-  - ES: El investigador espera a que lo inviten a pasar. Tú nombraste al director de su director. «Necesitaremos orientación sobre el alcance», dice, mirando la alfombra. «Cuando le resulte conveniente.»
-  - ZH: 调查员等着被请进门。他上司的上司是你任命的。"我们需要就调查范围听取指导，"他对着地毯说。"您什么时候方便都行。"
+  - EN: The investigator waits to be invited in. You appointed her director's director. "We'll need guidance on scope," she says, to the carpet. "Whenever convenient."
+  - VI: Điều tra viên đứng chờ được mời vào. Cấp trên của cấp trên cô ấy là do bạn bổ nhiệm. "Chúng tôi sẽ cần được định hướng về phạm vi," cô nói, mắt nhìn xuống thảm. "Lúc nào tiện cho ngài cũng được."
+  - ES: La investigadora espera a que la inviten a pasar. Tú nombraste a quien dirige a su superior. «Necesitaremos orientación sobre el alcance», dice, mirando la alfombra. «Cuando le resulte conveniente.»
+  - ZH: 调查员等着被请进门。她上司的上司是你任命的。“我们需要就调查范围听取指导，”她对着地毯说。“您什么时候方便都行。”
 - `card.aftermath_investigator_controlled.left` — EN: "No guidance. Full scope." · VI: "Không định hướng gì cả. Điều tra toàn diện." · ES: «Sin orientación. Alcance completo.» · ZH: "不需要指导。全面查。"
 - `card.aftermath_investigator_controlled.right` — EN: "Keep the scope focused." · VI: "Giữ phạm vi cho... tập trung." · ES: «Mantengan el alcance acotado.» · ZH: "范围嘛……集中一点。"
 
@@ -357,7 +357,7 @@ Both routes converge. Beat ladder per §1.3. Texts stay short; the temperature k
 - `card.aftermath_records.text`
   - EN: "They've asked for the calendar, the call logs, the gathering's guest list," the Aide says. The drawer with the other list — the one from before — is not mentioned, and is very loud about it.
   - VI: "Họ yêu cầu lịch làm việc, nhật ký cuộc gọi, danh sách khách của buổi tiệc," trợ lý nói. Ngăn kéo đựng cái danh sách kia — cái danh sách từ dạo trước — không được nhắc đến, và sự im lặng ấy vang rất to.
-  - ES: «Pidieron la agenda, el registro de llamadas, la lista de invitados de la velada», dice el Asistente. El cajón con la otra lista — la de antes — no se menciona, y hace mucho ruido al respecto.
+  - ES: «Pidieron la agenda, el registro de llamadas, la lista de invitados de la velada», dice la Asesora. El cajón con la otra lista — la de antes — no se menciona, y hace mucho ruido al respecto.
   - ZH: "他们要日程表、通话记录、那晚聚会的宾客名单，"助理说。装着另一份清单的那个抽屉——之前那份——没有被提起，而这份沉默响得很。
 - `card.aftermath_records.left` — EN: Provide all records. · VI: Giao nộp toàn bộ hồ sơ. · ES: Entregar todos los registros. · ZH: 提交全部记录。
 - `card.aftermath_records.right` — EN: Provide what is requested. · VI: Chỉ giao những gì được yêu cầu. · ES: Entregar solo lo solicitado. · ZH: 只交他们要的。
@@ -401,14 +401,14 @@ Both routes converge. Beat ladder per §1.3. Texts stay short; the temperature k
 - `card.aftermath_responsibility_a.text`
   - EN: Your statement is due at nine. The Aide has drafted three versions and placed only one on top. It is the shortest. It is also the only one written in the first person.
   - VI: Chín giờ là hạn nộp bản tường trình. Trợ lý đã soạn ba phiên bản và chỉ đặt một bản lên trên cùng. Đó là bản ngắn nhất. Và cũng là bản duy nhất được viết ở ngôi thứ nhất.
-  - ES: Tu declaración vence a las nueve. El Asistente redactó tres versiones y puso solo una encima. Es la más corta. También es la única escrita en primera persona.
+  - ES: Tu declaración vence a las nueve. La Asesora redactó tres versiones y puso solo una encima. Es la más corta. También es la única escrita en primera persona.
   - ZH: 陈述书九点前要交。助理起草了三个版本，只把一份放在最上面。那是最短的一份。也是唯一一份用第一人称写的。
 - `card.aftermath_responsibility_a.left` — EN: Confess. All of it. · VI: Nhận tội. Toàn bộ. · ES: Confesar. Todo. · ZH: 认罪。全部。
 - `card.aftermath_responsibility_a.right` — EN: Remain silent on the details. · VI: Giữ im lặng về các chi tiết. · ES: Guardar silencio sobre los detalles. · ZH: 对细节保持沉默。
 - `card.aftermath_responsibility_b.text`
   - EN: "The prosecutor's file is ready," the Aide says. "It needs one thing to move: your office declining to intervene." A pause. "And it needs one thing to stop: the opposite."
   - VI: "Hồ sơ của viện kiểm sát đã sẵn sàng," trợ lý nói. "Nó chỉ cần một điều để tiến: văn phòng mình từ chối can thiệp." Ngừng một nhịp. "Và nó cũng chỉ cần một điều để dừng: điều ngược lại."
-  - ES: «El expediente del fiscal está listo», dice el Asistente. «Necesita una cosa para avanzar: que tu oficina decline intervenir.» Una pausa. «Y necesita una cosa para detenerse: lo contrario.»
+  - ES: «El expediente del fiscal está listo», dice la Asesora. «Necesita una cosa para avanzar: que tu oficina decline intervenir.» Una pausa. «Y necesita una cosa para detenerse: lo contrario.»
   - ZH: "检方的卷宗已经齐了，"助理说。"它往前走，只需要一件事：您的办公室拒绝干预。"停顿。"它停下来，也只需要一件事：反过来。"
 - `card.aftermath_responsibility_b.left` — EN: Let the charges proceed. · VI: Để việc truy tố được tiến hành. · ES: Dejar que los cargos procedan. · ZH: 让起诉照常进行。
 - `card.aftermath_responsibility_b.right` — EN: Protect him. · VI: Che cho ông ấy. · ES: Protegerlo. · ZH: 保他。
@@ -462,21 +462,21 @@ Both choices: effects `standing +4 · power +4 · trustActual -4`
 - `card.aftermath_reformist_steady.text`
   - EN: The Reformist calls, and for once has nothing to argue. "Then let the process continue," she says. "That's all. That was always all."
   - VI: Nhà Cải Cách gọi đến, và lần đầu tiên không tranh luận gì cả. "Vậy thì hãy để quy trình tiếp tục," bà nói. "Chỉ vậy thôi. Từ đầu đến cuối cũng chỉ cần vậy thôi."
-  - ES: El Reformista llama, y por una vez no tiene nada que discutir. «Entonces deja que el proceso continúe», dice. «Eso es todo. Siempre fue solo eso.»
+  - ES: La Reformista llama, y por una vez no tiene nada que discutir. «Entonces deja que el proceso continúe», dice. «Eso es todo. Siempre fue solo eso.»
   - ZH: 改革派打来电话，头一次没有任何要争论的。"那就让程序继续走下去，"她说。"就这样。从始至终，要的也只是这样。"
 - `card.aftermath_reformist_steady.left` — EN: "Hold." · VI: "Giữ vững." · ES: «Sostener.» · ZH: "守住。"
 - `card.aftermath_reformist_steady.right` — EN: Say nothing. · VI: Không nói gì. · ES: No decir nada. · ZH: 什么也不说。
 - `card.aftermath_reformist_plea.text`
   - EN: "You still have time to stop this," the Reformist says from the doorway, not coming in. "Not to fix it. To stop adding to it. Those are different things, and you know which one is still yours."
   - VI: "Anh vẫn còn kịp dừng chuyện này lại," Nhà Cải Cách nói từ ngưỡng cửa, không bước vào. "Không phải để sửa nó. Mà để thôi chất chồng thêm lên nó. Hai điều đó khác nhau — và anh biết điều nào vẫn còn nằm trong tay anh."
-  - ES: «Todavía tienes tiempo de detener esto», dice el Reformista desde el umbral, sin entrar. «No de arreglarlo. De dejar de sumarle. Son cosas distintas, y sabes cuál de las dos sigue siendo tuya.»
+  - ES: «Todavía tienes tiempo de detener esto», dice la Reformista desde el umbral, sin entrar. «No de arreglarlo. De dejar de sumarle. Son cosas distintas, y sabes cuál de las dos sigue siendo tuya.»
   - ZH: "你还来得及让这件事停下来，"改革派站在门口说，没有进来。"不是去弥补它。是别再往上面加了。这是两回事——而你知道，哪一件还在你手里。"
 - `card.aftermath_reformist_plea.left` — EN: Close the door. · VI: Đóng cửa lại. · ES: Cerrar la puerta. · ZH: 关上门。
 - `card.aftermath_reformist_plea.right` — EN: Let her in. · VI: Mời bà ấy vào. · ES: Dejarla entrar. · ZH: 请她进来。
 - `card.aftermath_aide_substitute.text`
   - EN: The Aide stays after hours again, the old list somewhere in a drawer. "I'm not the person who was supposed to say this to you. That person isn't here anymore." A breath. "So: you can still stop adding to it."
   - VI: Trợ lý lại nán lại sau giờ làm, bản danh sách cũ nằm đâu đó trong ngăn kéo. "Tôi không phải là người lẽ ra phải nói với sếp điều này. Người đó không còn ở đây nữa." Một hơi thở. "Vậy nên: sếp vẫn có thể thôi chất chồng thêm lên nó."
-  - ES: El Asistente se queda otra vez fuera de horario, la vieja lista en algún cajón. «No soy la persona que debía decirte esto. Esa persona ya no está.» Una respiración. «Así que: todavía puedes dejar de sumarle.»
+  - ES: La Asesora se queda otra vez fuera de horario, la vieja lista en algún cajón. «No soy la persona que debía decirte esto. Esa persona ya no está.» Una respiración. «Así que: todavía puedes dejar de sumarle.»
   - ZH: 助理又一次留到了下班之后，那份旧清单还在某个抽屉里。"本来该对您说这些话的，不是我。那个人已经不在了。"一次呼吸。"所以：您还可以别再往上面加了。"
 - `card.aftermath_aide_substitute.left` — EN: "Say it anyway." · VI: "Cứ nói đi." · ES: «Dilo de todos modos.» · ZH: "你说吧。"
 - `card.aftermath_aide_substitute.right` — EN: "That will be all." · VI: "Vậy thôi. Cậu về đi." · ES: «Eso es todo.» · ZH: "没你的事了。"

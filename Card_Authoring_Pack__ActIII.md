@@ -265,7 +265,7 @@ All cards: `act: "power"`. Consequence cards (048-tier resolution is by conditio
 - `card.act3_reformist_confrontation.text`
   - EN: "You used to argue that rules mattered even when they were inconvenient," the Reformist says — on the record, microphones live. "I'm quoting your first speech. I'll keep quoting it, every session, until one of us stops being here."
   - VI: "Anh từng lập luận rằng luật lệ vẫn quan trọng ngay cả khi nó gây bất tiện," Nhà Cải Cách nói — công khai, trước micro đang thu. "Tôi đang trích lại bài phát biểu đầu tiên của anh đấy. Và tôi sẽ tiếp tục trích nó, kỳ họp nào cũng trích, cho đến khi một trong hai ta không còn ngồi ở đây nữa."
-  - ES: «Antes sostenías que las reglas importaban incluso cuando eran inconvenientes», dice el Reformista — en actas, con los micrófonos abiertos. «Estoy citando tu primer discurso. Seguiré citándolo, sesión tras sesión, hasta que uno de los dos deje de estar aquí.»
+  - ES: «Antes sostenías que las reglas importaban incluso cuando eran inconvenientes», dice la Reformista — en actas, con los micrófonos abiertos. «Estoy citando tu primer discurso. Seguiré citándolo, sesión tras sesión, hasta que uno de los dos deje de estar aquí.»
   - ZH: "你曾经主张，规则即使不方便，也依然重要，"改革派说——记录在案，麦克风开着。"我引用的是你的第一次演讲。我会一直引用下去，每一次会议都引用，直到我们两个人中有一个不再坐在这里。"
 - `card.act3_reformist_confrontation.left`
   - EN: Let the criticism continue. · VI: Cứ để họ chỉ trích. · ES: Dejar que la crítica continúe. · ZH: 让批评继续。
@@ -293,7 +293,7 @@ All cards: `act: "power"`. Consequence cards (048-tier resolution is by conditio
 - `card.act3_reformist_cooperation.text`
   - EN: "The independence bill is ready," the Reformist says. "Every month we wait, someone new owes someone something. Timing won't get better. It only gets more owed."
   - VI: "Dự luật độc lập điều tra đã sẵn sàng," Nhà Cải Cách nói. "Mỗi tháng chúng ta chờ thêm là lại có thêm người mới nợ một ai đó điều gì đó. Thời điểm sẽ không tốt lên đâu. Nó chỉ ngày càng nhiều nợ hơn thôi."
-  - ES: «El proyecto de independencia está listo», dice el Reformista. «Cada mes que esperamos, alguien nuevo le debe algo a alguien. El momento no va a mejorar. Solo se va a deber más.»
+  - ES: «El proyecto de independencia está listo», dice la Reformista. «Cada mes que esperamos, alguien nuevo le debe algo a alguien. El momento no va a mejorar. Solo se va a deber más.»
   - ZH: "独立调查法案已经准备好了，"改革派说。"我们每多等一个月，就多一个新的人欠下另一个人什么。时机不会变得更好。只会欠得更多。"
 - `card.act3_reformist_cooperation.left`
   - EN: Push it now. · VI: Thúc đẩy ngay bây giờ. · ES: Impulsarlo ahora. · ZH: 现在就推进。
@@ -653,14 +653,14 @@ Both: speaker: `reformist` · weight: 6 · once: true · minTurn (act): 11. **If
 - `card.act3_reformist_farewell_ally.text`
   - EN: The Reformist catches you on the chamber steps. "The authority exists now, or it doesn't — either way, my part is done." A hand briefly on your arm. "If something ever happens near you, let the process hold. That's all any of it was for."
   - VI: Nhà Cải Cách bắt kịp bạn trên bậc thềm nghị trường. "Cơ quan độc lập giờ hoặc đã tồn tại, hoặc không — đằng nào thì phần việc của tôi cũng xong rồi." Một bàn tay đặt thoáng lên cánh tay bạn. "Nếu một ngày nào đó có chuyện xảy ra sát bên anh, hãy để quy trình đứng vững. Mọi thứ chúng ta làm là vì đúng khoảnh khắc ấy thôi."
-  - ES: El Reformista te alcanza en las escalinatas de la cámara. «La autoridad existe ahora, o no existe — de cualquier modo, mi parte está hecha.» Una mano breve en tu brazo. «Si algún día pasa algo cerca de ti, deja que el proceso se sostenga. Para eso era todo.»
+  - ES: La Reformista te alcanza en las escalinatas de la cámara. «La autoridad existe ahora, o no existe — de cualquier modo, mi parte está hecha.» Una mano breve en tu brazo. «Si algún día pasa algo cerca de ti, deja que el proceso se sostenga. Para eso era todo.»
   - ZH: 改革派在议会台阶上赶上了你。"独立机构现在要么已经存在，要么不存在——无论哪样，我的部分都做完了。"一只手在你手臂上短暂停留。"如果有一天，什么事发生在你身边，让程序自己站住。我们做的这一切，就是为了那一刻。"
 - `card.act3_reformist_farewell_ally.left` — EN: "Whatever happens — hold the line." · VI: "Dù có chuyện gì — hãy giữ vững phòng tuyến." · ES: «Pase lo que pase — mantén la línea.» · ZH: "无论发生什么——守住底线。"
 - `card.act3_reformist_farewell_ally.right` — EN: Say nothing. · VI: Không nói gì. · ES: No decir nada. · ZH: 什么也不说。
 - `card.act3_reformist_farewell_opposition.text`
   - EN: "I'm moving to the opposition benches," the Reformist says. "I'll vote against you on everything now. It isn't personal." A pause at the door. "That's the problem I've been trying to explain. Nothing here is personal anymore. Not even you."
   - VI: "Tôi sẽ chuyển sang hàng ghế đối lập," Nhà Cải Cách nói. "Từ giờ tôi sẽ bỏ phiếu chống lại anh trong mọi việc. Không phải chuyện cá nhân đâu." Một nhịp dừng nơi khung cửa. "Đó chính là vấn đề tôi cố giải thích bấy lâu. Ở đây chẳng còn gì là cá nhân nữa cả. Kể cả chính anh."
-  - ES: «Me paso a la bancada de oposición», dice el Reformista. «Votaré contra ti en todo desde ahora. No es personal.» Una pausa en la puerta. «Ese es el problema que he intentado explicar. Aquí ya nada es personal. Ni siquiera tú.»
+  - ES: «Me paso a la bancada de oposición», dice la Reformista. «Votaré contra ti en todo desde ahora. No es personal.» Una pausa en la puerta. «Ese es el problema que he intentado explicar. Aquí ya nada es personal. Ni siquiera tú.»
   - ZH: "我要转去反对派席位了，"改革派说。"从现在起，任何议题我都会投票反对你。这不是针对个人。"在门口停了一下。"这正是我一直想说明的问题。这里已经没有任何东西是'个人'的了。连你也不是。"
 - `card.act3_reformist_farewell_opposition.left` — EN: "Understood." · VI: "Tôi hiểu." · ES: «Entendido.» · ZH: "明白了。"
 - `card.act3_reformist_farewell_opposition.right` — EN: "You'll lose." · VI: "Anh sẽ thua thôi." · ES: «Vas a perder.» · ZH: "你会输的。"
