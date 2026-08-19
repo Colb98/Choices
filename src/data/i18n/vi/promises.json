@@ -11,14 +11,14 @@
   "record.kept_costly": "đã giữ, khi phải trả giá",
   "record.broken": "đã bội",
   "record.empty": "Bạn chưa từng nói ra điều có thể bị bội.",
-  "card.act_echo_inaugural.text": "Vẫn nghị trường đó, một năm sau. Vẫn bục phát biểu ấy, bộ vest tươm tất hơn, và một bài diễn văn mà văn phòng soạn sẵn chẳng buồn hỏi bạn tin điều gì. Đọc đến nửa trang, có một câu mâu thuẫn với điều chính bạn từng nói ở đúng chỗ này, trong tuần đầu tiên. Cả phòng không ai nhớ. Bạn thì nhớ.",
-  "card.act_echo_inaugural.left": "Nói lại lần nữa, và nói thật lòng.",
-  "card.act_echo_inaugural.right": "Đọc bài diễn văn mà giờ họ trông đợi.",
-  "card.act3_authority_vote_betrayal.text": "Bảng biểu quyết đã sáng đèn, chờ chiếc chìa của bạn. Bỏ phiếu theo ý căn phòng không giống với việc để nó tự thông qua — một bên là bàn tay giơ lên, một bên là bàn tay giữ lại. Bạn biết sự khác nhau đó. Và bạn là người duy nhất ở đây sẽ nhớ mình đã chọn bên nào.",
-  "card.act3_authority_vote_betrayal.left": "Bỏ phiếu trắng.",
-  "card.act3_authority_vote_betrayal.right": "Bỏ lá phiếu đó.",
+  "card.act_echo_inaugural.text": "Vẫn nghị trường đó, một năm sau. Vẫn bục đó, bộ vest đẹp hơn, và một bài diễn văn văn phòng soạn sẵn mà không hỏi bạn tin gì. Đọc đến giữa trang, có một câu ngược lại với điều bạn từng nói ở đúng chỗ này, tuần đầu tiên. Cả phòng không ai nhớ. Bạn thì nhớ.",
+  "card.act_echo_inaugural.left": "Nói lại câu đó, và nói thật lòng.",
+  "card.act_echo_inaugural.right": "Đọc bài họ đã soạn.",
+  "card.act3_authority_vote_betrayal.text": "Bảng biểu quyết đã sáng đèn, chờ phiếu của bạn. Bỏ phiếu theo ý căn phòng khác với việc để nó tự qua: một bên là giơ tay, một bên là không giơ. Bạn biết sự khác nhau đó. Và chỉ mình bạn sẽ nhớ mình đã chọn bên nào.",
+  "card.act3_authority_vote_betrayal.left": "Bỏ phiếu trắng thay vì chống.",
+  "card.act3_authority_vote_betrayal.right": "Vẫn bỏ phiếu chống dự luật.",
   "card.act3_reformist_confrontation.text.v_equality": "\"'Luật đúng với tất cả, hoặc không đúng với ai cả,'\" Nhà Cải Cách nói — công khai, trước micro đang thu. \"Lời của anh. Tuần đầu tiên của anh. Tôi sẽ còn trích lại nó, kỳ họp nào cũng trích, cho đến khi một trong hai ta không còn ngồi ở đây nữa.\"",
-  "card.act3_reformist_confrontation.text.v_transparency": "\"'Không điều gì liên quan đến dân được phép làm trong bóng tối,'\" Nhà Cải Cách nói — công khai, trước micro đang thu. \"Đó là bài phát biểu đầu tiên của anh. Tôi sẽ còn trích lại nó, kỳ họp nào cũng trích, cho đến khi một trong hai ta không còn ngồi ở đây nữa.\"",
-  "card.act3_reformist_confrontation.text.v_independence": "\"'Tôi chịu trách nhiệm trước nhân dân, không phải trước căn phòng,'\" Nhà Cải Cách nói — công khai, trước micro đang thu. \"Anh nói câu đó trước tất cả những chuyện này. Tôi sẽ còn nhắc lại nó với anh, kỳ họp nào cũng nhắc, cho đến khi một trong hai ta không còn ngồi ở đây nữa.\"",
-  "card.act3_reformist_confrontation.text.v_none": "\"Tôi cứ chờ mãi cái phiên bản của anh biết cãi lại vì nguyên tắc,\" Nhà Cải Cách nói. \"Nhưng không có phiên bản đó. Anh chưa từng nói ra điều gì để tôi có thể buộc anh vào. Hoá ra chính điều đó cũng là một câu trả lời.\""
+  "card.act3_reformist_confrontation.text.v_transparency": "\"'Không điều gì liên quan đến dân được phép làm trong bóng tối,'\" Nhà Cải Cách nói, công khai, trước micro. \"Bài phát biểu đầu tiên của anh đấy. Tôi sẽ trích lại nó mỗi kỳ họp, cho đến khi một trong hai ta không còn ở đây.\"",
+  "card.act3_reformist_confrontation.text.v_independence": "\"'Tôi chịu trách nhiệm trước dân, không phải trước căn phòng này,'\" Nhà Cải Cách nói, công khai, trước micro. \"Anh nói câu đó trước tất cả những chuyện này. Tôi sẽ nhắc lại nó mỗi kỳ họp, cho đến khi một trong hai ta không còn ở đây.\"",
+  "card.act3_reformist_confrontation.text.v_none": "\"Tôi cứ chờ có lúc anh cãi lại tôi vì nguyên tắc,\" Nhà Cải Cách nói. \"Nhưng không có lúc đó. Anh chưa từng nói ra điều gì để tôi có thể bắt anh giữ lời. Hoá ra đó cũng là một câu trả lời.\""
 }
